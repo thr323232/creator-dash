@@ -28,22 +28,36 @@ const difficultyColor: Record<string, string> = {
 export type Stage = "saved" | "creating" | "listed" | "earning";
 
 export const STAGES: { key: Stage; label: string; color: string; bg: string; border: string }[] = [
-  { key: "saved",    label: "Saved",    color: "text-gray-300",   bg: "bg-gray-700",        border: "border-gray-600" },
-  { key: "creating", label: "Creating", color: "text-amber-300",  bg: "bg-amber-500/20",    border: "border-amber-500/40" },
-  { key: "listed",   label: "Listed",   color: "text-blue-300",   bg: "bg-blue-500/20",     border: "border-blue-500/40" },
-  { key: "earning",  label: "Earning",  color: "text-green-300",  bg: "bg-green-500/20",    border: "border-green-500/40" },
+  { key: "saved",    label: "Saved",    color: "text-gray-300",  bg: "bg-gray-700",     border: "border-gray-600" },
+  { key: "creating", label: "Creating", color: "text-amber-300", bg: "bg-amber-500/20", border: "border-amber-500/40" },
+  { key: "listed",   label: "Listed",   color: "text-blue-300",  bg: "bg-blue-500/20",  border: "border-blue-500/40" },
+  { key: "earning",  label: "Earning",  color: "text-green-300", bg: "bg-green-500/20", border: "border-green-500/40" },
 ];
+
+export type TrackerEntry = { stage: Stage; sales?: number };
+export type TrackerData = Record<string, TrackerEntry>;
 
 export const STORAGE_KEY = "creator-dash-tracker";
 
-export function useTracker() {
-  const [tracker, setTracker] = useState<Record<string, Stage>>(() => {
-    try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-    } catch {
-      return {};
+function parseTracker(raw: string | null): TrackerData {
+  try {
+    const parsed = JSON.parse(raw ?? "{}");
+    const result: TrackerData = {};
+    for (const [id, val] of Object.entries(parsed)) {
+      result[id] = typeof val === "string"
+        ? { stage: val as Stage }
+        : (val as TrackerEntry);
     }
-  });
+    return result;
+  } catch {
+    return {};
+  }
+}
+
+export function useTracker() {
+  const [tracker, setTracker] = useState<TrackerData>(() =>
+    parseTracker(localStorage.getItem(STORAGE_KEY))
+  );
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(tracker));
@@ -52,13 +66,24 @@ export function useTracker() {
   const setStage = (id: string, stage: Stage | null) => {
     setTracker((prev) => {
       const next = { ...prev };
-      if (stage === null) delete next[id];
-      else next[id] = stage;
+      if (stage === null) {
+        delete next[id];
+      } else {
+        next[id] = { ...next[id], stage };
+      }
       return next;
     });
   };
 
-  return { tracker, setStage };
+  const setSales = (id: string, sales: number) => {
+    setTracker((prev) => {
+      const entry = prev[id];
+      if (!entry) return prev;
+      return { ...prev, [id]: { ...entry, sales } };
+    });
+  };
+
+  return { tracker, setStage, setSales };
 }
 
 const PLATFORM_CONFIG = [
@@ -91,11 +116,11 @@ export function DemandStars({ rating }: { rating: number }) {
 
 function IdeaCard({
   idea,
-  stage,
+  entry,
   onClick,
 }: {
   idea: DigitalDownloadIdea;
-  stage: Stage | undefined;
+  entry: TrackerEntry | undefined;
   onClick: () => void;
 }) {
   const accent = CATEGORY_ACCENT[idea.category] ?? "border-t-gray-700";
@@ -106,7 +131,7 @@ function IdeaCard({
     >
       <div className="flex items-start justify-between gap-2">
         <h3 className="text-white font-semibold text-sm leading-snug">{idea.name}</h3>
-        {stage && <StagePill stage={stage} />}
+        {entry && <StagePill stage={entry.stage} />}
       </div>
       <p className="text-gray-400 text-xs leading-relaxed line-clamp-2">{idea.description}</p>
       <div className="flex items-center justify-between text-xs text-gray-500">
@@ -116,16 +141,10 @@ function IdeaCard({
         <span>£{idea.pricingRange.min}–£{idea.pricingRange.max}</span>
         <DemandStars rating={getDemandRating(idea)} />
       </div>
+      {entry?.stage === "earning" && entry.sales != null && entry.sales > 0 && (
+        <span className="text-xs text-green-400 font-medium">{entry.sales} sold</span>
+      )}
     </button>
-  );
-}
-
-function SectionHeader({ label }: { label: string }) {
-  return (
-    <div className="flex items-center gap-3 py-1">
-      <span className="text-xs font-bold uppercase tracking-widest text-gray-500">{label}</span>
-      <div className="flex-1 h-px bg-gray-800" />
-    </div>
   );
 }
 
@@ -139,13 +158,15 @@ function PlaceholderBox({ message }: { message: string }) {
 
 function IdeaDetail({
   idea,
-  stage,
+  entry,
   onStageChange,
+  onSalesChange,
   onClose,
 }: {
   idea: DigitalDownloadIdea;
-  stage: Stage | undefined;
+  entry: TrackerEntry | undefined;
   onStageChange: (stage: Stage | null) => void;
+  onSalesChange: (sales: number) => void;
   onClose: () => void;
 }) {
   const workflow = workflowGuides[idea.id];
@@ -161,6 +182,7 @@ function IdeaDetail({
 
   const checklist = idea.launchChecklist ?? [];
   const completedCount = checklist.filter((_, i) => checkedSteps.has(i)).length;
+  const stage = entry?.stage;
 
   return (
     <div
@@ -209,6 +231,26 @@ function IdeaDetail({
                 );
               })}
             </div>
+
+            {/* Sales input — only visible when earning */}
+            {stage === "earning" && (
+              <div className="flex items-center gap-3 pt-1">
+                <label className="text-xs text-gray-500 shrink-0">Units sold</label>
+                <input
+                  type="number"
+                  min={0}
+                  step={1}
+                  value={entry?.sales ?? ""}
+                  placeholder="0"
+                  onChange={(e) => {
+                    const n = parseInt(e.target.value, 10);
+                    onSalesChange(isNaN(n) ? 0 : Math.max(0, n));
+                  }}
+                  className="w-24 bg-gray-900 border border-gray-700 rounded-lg px-3 py-1.5 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-green-500 min-h-[36px]"
+                />
+              </div>
+            )}
+
             {stage && (
               <button
                 onClick={() => onStageChange(null)}
@@ -308,7 +350,10 @@ function IdeaDetail({
 
           {/* Workflow Guide */}
           <div className="flex flex-col gap-3">
-            <SectionHeader label="Workflow Guide" />
+            <div className="flex items-center gap-3 py-1">
+              <span className="text-xs font-bold uppercase tracking-widest text-gray-500">Workflow Guide</span>
+              <div className="flex-1 h-px bg-gray-800" />
+            </div>
             {workflow && workflow.steps.length > 0 ? (
               <div className="flex flex-col gap-2">
                 {workflow.steps.map((step, i) => (
@@ -327,7 +372,10 @@ function IdeaDetail({
 
           {/* Market It */}
           <div className="flex flex-col gap-3">
-            <SectionHeader label="Market It" />
+            <div className="flex items-center gap-3 py-1">
+              <span className="text-xs font-bold uppercase tracking-widest text-gray-500">Market It</span>
+              <div className="flex-1 h-px bg-gray-800" />
+            </div>
             {marketing ? (
               <div className="flex flex-col gap-3">
                 {PLATFORM_CONFIG.map(({ key, label, color, border, bg }) => {
@@ -365,7 +413,15 @@ export default function DigitalDownloadIdeas() {
   const [selectedSort, setSelectedSort] = useState<SortOption>("default");
   const [myListOnly, setMyListOnly] = useState(false);
   const [selectedIdea, setSelectedIdea] = useState<DigitalDownloadIdea | null>(null);
-  const { tracker, setStage } = useTracker();
+  const [collapsedCats, setCollapsedCats] = useState<Set<string>>(new Set());
+  const { tracker, setStage, setSales } = useTracker();
+
+  const toggleCat = (cat: string) =>
+    setCollapsedCats((prev) => {
+      const next = new Set(prev);
+      next.has(cat) ? next.delete(cat) : next.add(cat);
+      return next;
+    });
 
   const clearFilters = () => {
     setSearch("");
@@ -506,26 +562,39 @@ export default function DigitalDownloadIdeas() {
           </div>
         ) : grouped ? (
           // Grouped by category (default sort)
-          <div className="flex flex-col gap-8">
-            {grouped.map(({ category, ideas }) => (
-              <div key={category} className="flex flex-col gap-3">
-                <div className="flex items-center gap-2">
-                  <span className={`w-2 h-2 rounded-full shrink-0 ${CATEGORY_DOT[category]}`} />
-                  <h2 className="text-sm font-semibold text-gray-300">{category}</h2>
-                  <span className="text-xs text-gray-600">{ideas.length}</span>
+          <div className="flex flex-col gap-6">
+            {grouped.map(({ category, ideas }) => {
+              const collapsed = collapsedCats.has(category);
+              return (
+                <div key={category} className="flex flex-col gap-3">
+                  <button
+                    onClick={() => toggleCat(category)}
+                    className="flex items-center gap-2 group w-full text-left"
+                  >
+                    <span className={`w-2 h-2 rounded-full shrink-0 ${CATEGORY_DOT[category]}`} />
+                    <h2 className="text-sm font-semibold text-gray-300 group-hover:text-white transition-colors">
+                      {category}
+                    </h2>
+                    <span className="text-xs text-gray-600">{ideas.length}</span>
+                    <span className={`ml-auto text-gray-600 group-hover:text-gray-400 transition-all duration-200 text-xs ${collapsed ? "-rotate-90" : ""}`}>
+                      ▾
+                    </span>
+                  </button>
+                  {!collapsed && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                      {ideas.map((idea) => (
+                        <IdeaCard
+                          key={idea.id}
+                          idea={idea}
+                          entry={tracker[idea.id]}
+                          onClick={() => setSelectedIdea(idea)}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-                  {ideas.map((idea) => (
-                    <IdeaCard
-                      key={idea.id}
-                      idea={idea}
-                      stage={tracker[idea.id]}
-                      onClick={() => setSelectedIdea(idea)}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ) : (
           // Flat grid (sorted)
@@ -534,7 +603,7 @@ export default function DigitalDownloadIdeas() {
               <IdeaCard
                 key={idea.id}
                 idea={idea}
-                stage={tracker[idea.id]}
+                entry={tracker[idea.id]}
                 onClick={() => setSelectedIdea(idea)}
               />
             ))}
@@ -545,8 +614,9 @@ export default function DigitalDownloadIdeas() {
       {selectedIdea && (
         <IdeaDetail
           idea={selectedIdea}
-          stage={tracker[selectedIdea.id]}
+          entry={tracker[selectedIdea.id]}
           onStageChange={(stage) => setStage(selectedIdea.id, stage)}
+          onSalesChange={(sales) => setSales(selectedIdea.id, sales)}
           onClose={() => setSelectedIdea(null)}
         />
       )}
