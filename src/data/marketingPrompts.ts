@@ -25,14 +25,6 @@ export interface MarketingPrompts {
   videoPrompt: string
 }
 
-const empty: MarketingPrompts = {
-  etsy:      { title: "", description: "", tags: "" },
-  tiktok:    { caption: "", hashtags: "" },
-  instagram: { caption: "", hashtags: "" },
-  pinterest: { title: "", description: "", keywords: "" },
-  gptImagePrompt: "",
-  videoPrompt: "",
-}
 
 export const marketingPrompts: Record<string, MarketingPrompts> = {
   "plan-001": {
