@@ -1135,16 +1135,226 @@ export const marketingPrompts: Record<string, MarketingPrompts> = {
     gptImagePrompt: "stem activity cards on table kids science experiment setup bright colours educational tools soft lighting",
     videoPrompt: "Hook: kids find learning boring. Show STEM cards. Show activity. CTA: make learning exciting.",
   },
-  "journal-001": { ...empty },
-  "journal-002": { ...empty },
-  "journal-003": { ...empty },
-  "journal-004": { ...empty },
-  "journal-005": { ...empty },
-  "journal-006": { ...empty },
-  "journal-007": { ...empty },
-  "journal-008": { ...empty },
-  "journal-009": { ...empty },
-  "journal-010": { ...empty },
+  "journal-001": {
+    etsy: {
+      title: "Gratitude Journal Printable Daily Gratitude Prompts Mindfulness Journal Self Care Journal PDF",
+      description: "Build a positive mindset with a printable gratitude journal designed to encourage daily reflection and mindfulness. Simple prompts help you focus on what matters and improve overall wellbeing.",
+      tags: "gratitude journal,self care journal,mindfulness journal,daily journal,printable journal,wellbeing journal,mental wellness,positive mindset,journaling prompts,self reflection,habit building,printablesuk,self care routine",
+    },
+    tiktok: {
+      caption: "Feeling stuck in negative thoughts? This changes your mindset fast.",
+      hashtags: "#gratitudejournal #mindfulnessuk #selfcareuk #mentalwellbeing #journaling #positivemindset #dailyhabits #wellnessjourney #printables #selfgrowth",
+    },
+    instagram: {
+      caption: "A few minutes of gratitude each day can shift everything. This journal helps you slow down, reflect and focus on the positives in your life. Simple, powerful and easy to stick with.",
+      hashtags: "#gratitudepractice #selfcareuk #mindfulnessuk #journaling #mentalwellbeing #dailyhabits #wellnessjourney #positivemindset #printablesuk #selfgrowth #routinebuilding #wellbeingtools",
+    },
+    pinterest: {
+      title: "Gratitude Journal Printable for Daily Mindfulness",
+      description: "Printable gratitude journal with daily prompts to improve mindset and wellbeing.",
+      keywords: "gratitude journal,mindfulness journal,self care journal,daily reflection,mental wellbeing,journaling prompts,positive mindset,printable journal",
+    },
+    gptImagePrompt: "gratitude journal pages on desk neutral tones coffee cup candle soft natural light calm aesthetic minimal setup",
+    videoPrompt: "Hook: negative mindset taking over. Show journaling prompts. Show calm routine. CTA: start your gratitude habit.",
+  },
+  "journal-002": {
+    etsy: {
+      title: "Shadow Work Journal Printable Guided Prompts Self Reflection Healing Journal PDF",
+      description: "Explore deeper self-awareness with a printable shadow work journal featuring guided prompts. Designed to support reflection, healing and personal growth in a structured way.",
+      tags: "shadow work journal,self reflection journal,healing journal,journaling prompts,mental wellness,printable journal,self discovery,therapy journal,personal growth,wellbeing tools,mindfulness,printablesuk,inner work",
+    },
+    tiktok: {
+      caption: "Avoiding your thoughts? This journal helps you face them safely.",
+      hashtags: "#shadowwork #selfreflection #mentalhealthuk #healingjourney #journaling #selfgrowth #mindfulness #innerwork #wellnessjourney #printables",
+    },
+    instagram: {
+      caption: "Growth starts with understanding yourself. This journal gives you guided prompts to explore your thoughts, patterns and emotions in a safe, structured way. A powerful tool for real change.",
+      hashtags: "#shadowwork #selfreflection #mentalhealthuk #healingjourney #journaling #selfgrowth #mindfulnessuk #innerwork #wellnessjourney #printablesuk #personaldevelopment #mentalwellbeing",
+    },
+    pinterest: {
+      title: "Shadow Work Journal Printable for Self Reflection",
+      description: "Guided shadow work journal prompts to support healing and personal growth.",
+      keywords: "shadow work journal,self reflection,healing journal,journaling prompts,mental health tools,self discovery,personal growth,printable journal",
+    },
+    gptImagePrompt: "shadow work journal on desk candle notebook dim soft lighting calm neutral tones reflective aesthetic",
+    videoPrompt: "Hook: avoiding difficult thoughts. Show prompts. Show journaling. CTA: start your self reflection journey.",
+  },
+  "journal-003": {
+    etsy: {
+      title: "Goal Setting Workbook Printable Goal Planner Productivity Planner Life Goals PDF",
+      description: "Turn your ideas into action with a printable goal setting workbook designed to help you plan, track and achieve your goals. Perfect for building clarity, focus and long-term success.",
+      tags: "goal setting planner,goal workbook,productivity planner,life planner,printable planner,goal tracker,personal development,habit tracker,planning tools,self improvement,organisation,printablesuk,goal planning",
+    },
+    tiktok: {
+      caption: "Setting goals but never achieving them? This fixes that.",
+      hashtags: "#goalsetting #productivityuk #selfgrowth #planningtools #successmindset #organisation #printables #lifeplanning #habitbuilding #motivation",
+    },
+    instagram: {
+      caption: "Clear goals lead to real progress. This workbook helps you break down your ideas into actionable steps so you can stay focused and actually achieve them. Simple structure, real results.",
+      hashtags: "#goalsetting #productivityuk #selfgrowth #planningtools #successmindset #organisation #printablesuk #lifeplanning #habitbuilding #motivation #personaldevelopment #goalplanner",
+    },
+    pinterest: {
+      title: "Goal Setting Workbook Printable for Productivity and Planning",
+      description: "Printable workbook to help you set, plan and achieve your goals effectively.",
+      keywords: "goal setting,productivity planner,goal workbook,life planner,planning tools,self improvement,habit tracker,printable planner",
+    },
+    gptImagePrompt: "goal setting workbook pages on desk laptop coffee neutral tones organised workspace aesthetic",
+    videoPrompt: "Hook: goals not happening. Show workbook pages. Show planning steps. CTA: achieve your goals.",
+  },
+  "journal-004": {
+    etsy: {
+      title: "Self Care Journal Printable Wellness Tracker Daily Self Care Planner Mental Health PDF",
+      description: "Prioritise your wellbeing with a printable self care journal designed to track habits, routines and mental health. A simple way to stay consistent and take better care of yourself.",
+      tags: "self care journal,wellness tracker,mental health journal,printable journal,self care planner,wellbeing tools,habit tracker,daily routine,personal care,mental wellness,self improvement,printablesuk,wellness planner",
+    },
+    tiktok: {
+      caption: "Always putting yourself last? This helps you reset.",
+      hashtags: "#selfcareuk #wellnessjourney #mentalhealthuk #journaling #habittracker #selfgrowth #mindfulness #dailyhabits #printables #wellbeing",
+    },
+    instagram: {
+      caption: "Taking care of yourself shouldn't feel complicated. This journal helps you track habits, reflect and stay consistent with your wellbeing routine. Small steps that make a big difference.",
+      hashtags: "#selfcareuk #wellnessjourney #mentalhealthuk #journaling #habittracker #selfgrowth #mindfulnessuk #dailyhabits #printablesuk #wellbeingtools #routinebuilding #personaldevelopment",
+    },
+    pinterest: {
+      title: "Self Care Journal Printable Wellness and Habit Tracker",
+      description: "Printable self care journal to track habits and improve wellbeing daily.",
+      keywords: "self care journal,wellness tracker,mental health journal,habit tracker,printable journal,wellbeing tools,self improvement,daily routine",
+    },
+    gptImagePrompt: "self care journal on desk candle tea soft lighting cosy setup neutral tones calm aesthetic",
+    videoPrompt: "Hook: neglecting self care. Show journal. Show tracking habits. CTA: prioritise yourself.",
+  },
+  "journal-005": {
+    etsy: {
+      title: "Mental Health Workbook Printable Anxiety Journal Self Help Journal Guided Prompts PDF",
+      description: "Support your mental wellbeing with a printable anxiety and mental health workbook featuring guided prompts and exercises. Designed to help you reflect, manage stress and build healthier habits.",
+      tags: "mental health journal,anxiety workbook,self help journal,wellbeing journal,printable journal,mental wellness,therapy tools,journaling prompts,stress management,self reflection,personal growth,printablesuk,wellness tools",
+    },
+    tiktok: {
+      caption: "Feeling overwhelmed all the time? This helps you manage it.",
+      hashtags: "#mentalhealthuk #anxietyhelp #wellnessjourney #journaling #selfcareuk #mindfulness #stressrelief #selfgrowth #printables #mentalwellbeing",
+    },
+    instagram: {
+      caption: "Looking after your mental health starts with understanding it. This workbook gives you simple prompts and exercises to help you reflect, process and feel more in control. A gentle step towards better wellbeing.",
+      hashtags: "#mentalhealthuk #anxietyhelp #wellnessjourney #journaling #selfcareuk #mindfulnessuk #stressrelief #selfgrowth #printablesuk #mentalwellbeing #personaldevelopment #healingtools",
+    },
+    pinterest: {
+      title: "Mental Health Workbook Printable for Anxiety and Wellbeing",
+      description: "Printable workbook with guided prompts to support mental health and reduce anxiety.",
+      keywords: "mental health journal,anxiety workbook,self help journal,wellbeing tools,journaling prompts,stress relief,personal growth,printable journal",
+    },
+    gptImagePrompt: "mental health workbook on desk candle soft blanket warm lighting calm neutral tones cosy environment",
+    videoPrompt: "Hook: feeling overwhelmed. Show workbook. Show prompts. CTA: support your mental health.",
+  },
+  "journal-006": {
+    etsy: {
+      title: "Morning Routine Journal Printable Mindfulness Journal Daily Routine Planner PDF",
+      description: "Start your day with intention using a printable morning routine journal designed to build positive habits and mindfulness. Perfect for creating structure and a calm start to your day.",
+      tags: "morning routine journal,mindfulness journal,daily planner,printable journal,habit tracker,self care planner,wellbeing tools,productivity planner,positive habits,daily routine,self improvement,printablesuk,wellness planner",
+    },
+    tiktok: {
+      caption: "Your mornings feel chaotic? This helps you reset.",
+      hashtags: "#morningroutine #mindfulnessuk #selfcareuk #dailyhabits #productivity #wellnessjourney #printables #routinebuilding #selfgrowth #organisation",
+    },
+    instagram: {
+      caption: "How you start your morning shapes your entire day. This journal helps you create a calm, structured routine that sets you up for success. Simple habits that make a difference.",
+      hashtags: "#morningroutine #mindfulnessuk #selfcareuk #dailyhabits #productivity #wellnessjourney #printablesuk #routinebuilding #selfgrowth #organisationtools #personaldevelopment #wellbeing",
+    },
+    pinterest: {
+      title: "Morning Routine Journal Printable for Mindfulness and Productivity",
+      description: "Printable morning journal to build positive habits and start your day with intention.",
+      keywords: "morning routine,mindfulness journal,daily habits,productivity planner,self care journal,printable planner,wellbeing tools,routine planner",
+    },
+    gptImagePrompt: "morning journal on desk coffee sunlight minimal aesthetic calm workspace neutral tones",
+    videoPrompt: "Hook: chaotic mornings. Show journal routine. Show calm setup. CTA: start your day right.",
+  },
+  "journal-007": {
+    etsy: {
+      title: "Manifestation Journal Printable Vision Board Workbook Law of Attraction Planner PDF",
+      description: "Manifest your goals with a printable journal designed to help you visualise, plan and align your mindset. Includes prompts and exercises to support clarity and intention.",
+      tags: "manifestation journal,vision board workbook,law of attraction,goal journal,printable journal,self development,mindset planner,positive thinking,personal growth,wellbeing tools,affirmations,printablesuk,goal setting",
+    },
+    tiktok: {
+      caption: "Your goals feel out of reach? Start manifesting them properly.",
+      hashtags: "#manifestation #lawofattraction #selfgrowth #mindsetshift #goalsetting #wellnessjourney #journaling #printables #personaldevelopment #motivation",
+    },
+    instagram: {
+      caption: "Clarity and intention are everything when it comes to your goals. This journal helps you visualise, plan and stay aligned with what you want to achieve. Turn ideas into reality step by step.",
+      hashtags: "#manifestation #lawofattraction #selfgrowth #mindsetshift #goalsetting #wellnessjourney #journaling #printablesuk #personaldevelopment #motivation #visionboard #successmindset",
+    },
+    pinterest: {
+      title: "Manifestation Journal Printable Vision Board and Goal Planner",
+      description: "Printable manifestation journal to help you visualise goals and build a positive mindset.",
+      keywords: "manifestation journal,vision board,law of attraction,goal planner,mindset journal,self development,positive thinking,printable journal",
+    },
+    gptImagePrompt: "manifestation journal on desk crystals candle soft light neutral tones aesthetic setup",
+    videoPrompt: "Hook: goals feel far away. Show journaling prompts. Show vision board. CTA: manifest your goals.",
+  },
+  "journal-008": {
+    etsy: {
+      title: "Pregnancy Journal Printable Pregnancy Tracker Milestone Journal Baby Planning PDF",
+      description: "Capture every moment with a printable pregnancy journal designed to track milestones, thoughts and experiences. A beautiful way to document your journey and create lasting memories.",
+      tags: "pregnancy journal,pregnancy tracker,baby journal,milestone tracker,printable journal,mum to be,baby planning,journal prompts,wellbeing journal,personal memories,printablesuk,parenting tools,baby journey",
+    },
+    tiktok: {
+      caption: "Don't forget these special moments… this helps you capture them.",
+      hashtags: "#pregnancyjourney #mumtobe #babyplanning #parentinguk #journaling #memorykeeping #printables #wellbeing #pregnancytracker #familylife",
+    },
+    instagram: {
+      caption: "Pregnancy is a journey you'll want to remember forever. This journal helps you capture milestones, thoughts and special moments in a simple and meaningful way. A keepsake you'll always value.",
+      hashtags: "#pregnancyjournal #mumtobe #babyplanning #parentinguk #journaling #memorykeeping #printablesuk #wellbeing #pregnancytracker #familylife #motherhood #babyjourney",
+    },
+    pinterest: {
+      title: "Pregnancy Journal Printable for Tracking Milestones",
+      description: "Printable pregnancy journal to capture memories and track milestones throughout your journey.",
+      keywords: "pregnancy journal,baby journal,pregnancy tracker,milestone tracker,mum to be,printable journal,parenting tools,baby planning",
+    },
+    gptImagePrompt: "pregnancy journal on desk baby items soft neutral tones cosy lighting calm aesthetic",
+    videoPrompt: "Hook: forgetting pregnancy moments. Show journal. Show milestone tracking. CTA: capture your journey.",
+  },
+  "journal-009": {
+    etsy: {
+      title: "Retirement Planning Workbook Printable Financial Planning Journal Future Planner PDF",
+      description: "Plan your future with confidence using a printable retirement planning workbook. Designed to help you organise finances, set goals and prepare for a secure and fulfilling retirement.",
+      tags: "retirement planner,financial planning,retirement workbook,future planning,printable planner,finance tracker,goal setting,organisation tools,money planning,life planning,printablesuk,financial goals,retirement journal",
+    },
+    tiktok: {
+      caption: "Not sure if you're ready for retirement? Start planning properly.",
+      hashtags: "#retirementplanning #financialplanning #moneygoals #futureplanning #personalfinanceuk #printables #organisation #goalsetting #lifeplanning #finance",
+    },
+    instagram: {
+      caption: "Planning for the future doesn't have to feel overwhelming. This workbook helps you organise your finances, set clear goals and feel more confident about what's ahead. A practical step towards peace of mind.",
+      hashtags: "#retirementplanning #financialplanning #moneygoals #futureplanning #personalfinanceuk #printablesuk #organisationtools #goalsetting #lifeplanning #finance #financialwellbeing #planningtools",
+    },
+    pinterest: {
+      title: "Retirement Planning Workbook Printable for Financial Goals",
+      description: "Printable workbook to help you plan finances and prepare for retirement with confidence.",
+      keywords: "retirement planning,financial planning,retirement workbook,money goals,future planning,printable planner,finance tracker,goal setting",
+    },
+    gptImagePrompt: "retirement planning workbook on desk calculator notebook coffee neutral tones organised workspace",
+    videoPrompt: "Hook: unsure about retirement. Show workbook. Show planning steps. CTA: plan your future.",
+  },
+  "journal-010": {
+    etsy: {
+      title: "Creative Writing Journal Printable Writing Prompts Story Ideas Journal PDF",
+      description: "Unlock creativity with a printable writing journal filled with prompts and ideas. Perfect for writers looking to build consistency, overcome blocks and develop their storytelling skills.",
+      tags: "writing journal,creative writing prompts,story ideas,printable journal,writing practice,author tools,creative writing,writing prompts,journal prompts,writing inspiration,self expression,printablesuk,writing habit",
+    },
+    tiktok: {
+      caption: "Writer's block stopping you? This gets ideas flowing again.",
+      hashtags: "#writingprompts #creativewriting #writersblock #authorlife #journaling #selfexpression #writingcommunity #printables #writingtips #creativity",
+    },
+    instagram: {
+      caption: "Creativity grows when you show up consistently. This journal gives you prompts and ideas to help you write more, think deeper and stay inspired. Perfect for building a writing habit.",
+      hashtags: "#creativewriting #writingprompts #writersblock #authorlife #journaling #selfexpression #writingcommunity #printablesuk #writingtips #creativity #writinghabit #storytelling",
+    },
+    pinterest: {
+      title: "Creative Writing Journal Printable with Prompts and Ideas",
+      description: "Printable writing journal to spark creativity and build consistent writing habits.",
+      keywords: "writing journal,creative writing prompts,story ideas,writing practice,author tools,printable journal,writing inspiration,creativity",
+    },
+    gptImagePrompt: "writing journal on desk notebook pen coffee soft lighting cosy creative workspace",
+    videoPrompt: "Hook: writer's block frustration. Show prompts. Show writing flow. CTA: start writing today.",
+  },
   "notion-001": { ...empty },
   "notion-002": { ...empty },
   "notion-003": { ...empty },
