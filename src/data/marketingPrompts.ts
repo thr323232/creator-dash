@@ -2015,14 +2015,224 @@ export const marketingPrompts: Record<string, MarketingPrompts> = {
     gptImagePrompt: "retirement party setup with printables balloons banner neutral tones celebration decor soft lighting",
     videoPrompt: "Hook: stressful party planning. Show decor pack. Show setup. CTA: plan your retirement party easily.",
   },
-  "sheet-001": { ...empty },
-  "sheet-002": { ...empty },
-  "sheet-003": { ...empty },
-  "sheet-004": { ...empty },
-  "sheet-005": { ...empty },
-  "sheet-006": { ...empty },
-  "sheet-007": { ...empty },
-  "sheet-008": { ...empty },
-  "sheet-009": { ...empty },
-  "sheet-010": { ...empty },
+  "sheet-001": {
+    etsy: {
+      title: "Google Sheets Budget Template Monthly Budget Planner Finance Tracker Spreadsheet",
+      description: "Take control of your finances with a Google Sheets budget template designed to track income, expenses and savings. Simple to use and perfect for building better money habits.",
+      tags: "budget spreadsheet,google sheets budget,monthly budget planner,finance tracker,expense tracker,money management,budget template,personal finance,financial planner,spreadsheet template,savings tracker,budgeting tools,finance uk",
+    },
+    tiktok: {
+      caption: "No idea where your money goes each month? This shows everything.",
+      hashtags: "#budgetinguk #googlesheets #moneytracker #personalfinance #financialgoals #spreadsheet #organisation #productivity #moneymanagement #financetips",
+    },
+    instagram: {
+      caption: "Managing your money becomes easier when everything is clear. This spreadsheet helps you track spending, plan budgets and stay organised without stress. A simple system that actually works.",
+      hashtags: "#budgetinguk #personalfinance #moneymanagement #spreadsheet #financialplanning #organisationtools #productivitytools #financeuk #savingmoney #digitaltools #budgetplanner #moneygoals",
+    },
+    pinterest: {
+      title: "Google Sheets Budget Template for Monthly Finance Tracking",
+      description: "Track income, expenses and savings with this easy-to-use budget spreadsheet.",
+      keywords: "budget spreadsheet,google sheets budget,finance tracker,money management,expense tracker,personal finance,budget planner,savings tracker",
+    },
+    gptImagePrompt: "budget spreadsheet on laptop screen calculator notebook coffee clean desk neutral tones minimal workspace aesthetic",
+    videoPrompt: "Hook: money disappears each month. Show spreadsheet. Show categories. CTA: take control of your budget.",
+  },
+  "sheet-002": {
+    etsy: {
+      title: "Etsy Seller Profit Calculator Spreadsheet Fee Calculator Sales Tracker Google Sheets",
+      description: "Track your Etsy profits accurately with a spreadsheet designed to calculate fees, costs and earnings. Perfect for sellers looking to improve pricing and maximise profit.",
+      tags: "etsy calculator,profit calculator,etsy fees tracker,sales tracker spreadsheet,etsy seller tools,google sheets etsy,business finance,profit tracker,etsy shop tools,pricing calculator,small business tools,spreadsheet template,etsy uk",
+    },
+    tiktok: {
+      caption: "Not sure if you're actually making profit on Etsy? This shows it clearly.",
+      hashtags: "#etsyseller #smallbusinessuk #profitcalculator #onlineshop #googlesheets #businessfinance #entrepreneuruk #pricingstrategy #digitaltools #etsyshop",
+    },
+    instagram: {
+      caption: "Running an Etsy shop without tracking profit can cost you. This spreadsheet helps you calculate fees, track sales and understand your real earnings. Make smarter business decisions.",
+      hashtags: "#etsyselleruk #smallbusinessuk #profitcalculator #onlineshop #googlesheets #businessfinance #entrepreneuruk #pricingstrategy #digitaltools #etsyshop #businessgrowth #financialplanning",
+    },
+    pinterest: {
+      title: "Etsy Profit Calculator Spreadsheet for Sellers",
+      description: "Calculate fees, track sales and understand your profits with this Etsy spreadsheet.",
+      keywords: "etsy calculator,profit tracker,etsy fees,sales tracker,small business tools,pricing calculator,google sheets,business finance",
+    },
+    gptImagePrompt: "etsy profit spreadsheet on laptop calculator notebook small business desk neutral tones clean setup",
+    videoPrompt: "Hook: not making profit. Show calculator. Show breakdown. CTA: track your Etsy income properly.",
+  },
+  "sheet-003": {
+    etsy: {
+      title: "Small Business Bookkeeping Spreadsheet Income Expense Tracker Google Sheets Template",
+      description: "Stay organised with a bookkeeping spreadsheet designed for small businesses to track income and expenses. Perfect for simplifying finances and keeping accurate records.",
+      tags: "bookkeeping spreadsheet,small business finance,income tracker,expense tracker,google sheets bookkeeping,finance template,business accounting,financial records,business tools,spreadsheet template,money management,business organisation,finance uk",
+    },
+    tiktok: {
+      caption: "Business finances feel messy? This organises everything.",
+      hashtags: "#smallbusinessuk #bookkeeping #financeorganisation #googlesheets #businesstools #entrepreneurlife #productivity #moneymanagement #digitaltools #businessgrowth",
+    },
+    instagram: {
+      caption: "Keeping track of your business finances doesn't have to be complicated. This spreadsheet helps you stay organised, track income and manage expenses with ease. A simple solution that saves time.",
+      hashtags: "#smallbusinessuk #bookkeeping #financeorganisation #googlesheets #businesstools #entrepreneurlife #productivitytools #moneymanagement #digitaltools #businessgrowth #financialplanning #organisationtools",
+    },
+    pinterest: {
+      title: "Small Business Bookkeeping Spreadsheet for Income and Expenses",
+      description: "Track business income and expenses easily with this bookkeeping spreadsheet.",
+      keywords: "bookkeeping spreadsheet,small business finance,income tracker,expense tracker,google sheets,financial records,business tools,money management",
+    },
+    gptImagePrompt: "bookkeeping spreadsheet on laptop calculator notebook coffee organised desk neutral tones",
+    videoPrompt: "Hook: messy business finances. Show spreadsheet. Show tracking. CTA: organise your accounts.",
+  },
+  "sheet-004": {
+    etsy: {
+      title: "Inventory Tracker Spreadsheet Small Business Stock Tracker Google Sheets Template",
+      description: "Manage your stock easily with an inventory tracker spreadsheet designed for small businesses. Keep track of products, quantities and restocking in one place.",
+      tags: "inventory tracker,stock tracker spreadsheet,small business inventory,google sheets tracker,product inventory,stock management,business tools,inventory template,warehouse tracker,organisation tools,spreadsheet template,retail tools,inventory uk",
+    },
+    tiktok: {
+      caption: "Losing track of stock? This fixes your inventory instantly.",
+      hashtags: "#inventorymanagement #smallbusinessuk #stocktracker #googlesheets #businesstools #organisation #retailbusiness #productmanagement #digitaltools #businessgrowth",
+    },
+    instagram: {
+      caption: "Stock management becomes simple when everything is organised. This spreadsheet helps you track inventory, monitor stock levels and avoid running out of products.",
+      hashtags: "#inventorymanagement #smallbusinessuk #stocktracker #googlesheets #businesstools #organisationtools #retailbusiness #productmanagement #digitaltools #businessgrowth #logistics #workflow",
+    },
+    pinterest: {
+      title: "Inventory Tracker Spreadsheet for Small Business Stock",
+      description: "Track stock levels, products and inventory with this easy-to-use spreadsheet.",
+      keywords: "inventory tracker,stock tracker,small business tools,google sheets,product inventory,stock management,business organisation,spreadsheet template",
+    },
+    gptImagePrompt: "inventory spreadsheet on laptop products boxes organised workspace neutral tones clean layout",
+    videoPrompt: "Hook: losing track of stock. Show tracker. Show organisation. CTA: manage inventory easily.",
+  },
+  "sheet-005": {
+    etsy: {
+      title: "Debt Payoff Tracker Spreadsheet Debt Snowball Planner Finance Tracker Google Sheets",
+      description: "Take control of your debt with a spreadsheet designed to track repayments and progress. Perfect for staying motivated and working towards financial freedom.",
+      tags: "debt tracker,debt payoff planner,finance tracker,google sheets debt,personal finance,money management,debt snowball,savings goals,financial planning,budget tools,spreadsheet template,finance uk,debt free journey",
+    },
+    tiktok: {
+      caption: "Debt feels overwhelming? This shows your progress clearly.",
+      hashtags: "#debtfreejourney #personalfinanceuk #moneygoals #googlesheets #budgetinguk #financialfreedom #debttracker #organisation #productivity #financetips",
+    },
+    instagram: {
+      caption: "Paying off debt becomes easier when you can see your progress. This tracker helps you stay motivated, organised and focused on your financial goals step by step.",
+      hashtags: "#debtfreejourney #personalfinanceuk #moneygoals #googlesheets #budgetinguk #financialfreedom #debttracker #organisationtools #productivitytools #financetips #moneyplanning #financialwellbeing",
+    },
+    pinterest: {
+      title: "Debt Payoff Tracker Spreadsheet for Financial Planning",
+      description: "Track repayments and stay motivated with this debt payoff spreadsheet.",
+      keywords: "debt tracker,debt payoff,finance tracker,personal finance,google sheets,money management,financial goals,budget planner",
+    },
+    gptImagePrompt: "debt tracker spreadsheet on laptop calculator notebook coffee clean minimal desk setup",
+    videoPrompt: "Hook: debt feels overwhelming. Show tracker. Show progress. CTA: take control of your debt.",
+  },
+  "sheet-006": {
+    etsy: {
+      title: "Savings Challenge Spreadsheet Money Saving Tracker Google Sheets Finance Planner",
+      description: "Build your savings with a spreadsheet designed for tracking challenges and goals. Perfect for staying motivated and reaching your financial targets.",
+      tags: "savings tracker,savings challenge,money saving,finance planner,google sheets savings,personal finance,goal tracker,money goals,financial planning,spreadsheet template,budget tools,finance uk,savings plan",
+    },
+    tiktok: {
+      caption: "Struggling to save money? This makes it easier to stay consistent.",
+      hashtags: "#savingmoney #budgetinguk #financialgoals #googlesheets #moneytracker #personalfinance #savingschallenge #organisation #productivity #financetips",
+    },
+    instagram: {
+      caption: "Saving money becomes easier when you have a clear plan. This spreadsheet helps you track progress, stay consistent and actually reach your goals. Simple, motivating and effective.",
+      hashtags: "#savingmoney #budgetinguk #financialgoals #googlesheets #moneytracker #personalfinance #savingschallenge #organisationtools #productivitytools #financetips #moneyplanning #financialwellbeing",
+    },
+    pinterest: {
+      title: "Savings Challenge Spreadsheet for Money Goals",
+      description: "Track your savings and stay motivated with this easy-to-use spreadsheet.",
+      keywords: "savings tracker,savings challenge,money saving,finance planner,google sheets,financial goals,budget tools,money management",
+    },
+    gptImagePrompt: "savings tracker spreadsheet on laptop coins notebook coffee minimal desk neutral tones",
+    videoPrompt: "Hook: can't save money. Show tracker. Show progress. CTA: reach your savings goals.",
+  },
+  "sheet-007": {
+    etsy: {
+      title: "Side Hustle Income Tracker Spreadsheet Business Income Tracker Google Sheets Template",
+      description: "Track your side hustle income with a spreadsheet designed to monitor earnings and growth. Perfect for freelancers and entrepreneurs managing multiple income streams.",
+      tags: "income tracker,side hustle tracker,business income,google sheets income,freelancer tools,small business finance,earnings tracker,financial planning,spreadsheet template,productivity tools,online income,finance uk,side hustle",
+    },
+    tiktok: {
+      caption: "Making money but not tracking it? You're missing this.",
+      hashtags: "#sidehustleuk #income #googlesheets #businessgrowth #entrepreneurlife #moneymanagement #productivity #digitaltools #onlineincome #financetips",
+    },
+    instagram: {
+      caption: "Tracking your income helps you grow faster. This spreadsheet gives you a clear view of your earnings so you can stay organised and make better decisions. Perfect for side hustles and freelancers.",
+      hashtags: "#sidehustleuk #income #googlesheets #businessgrowth #entrepreneurlife #moneymanagement #productivitytools #digitaltools #onlineincome #financetips #financialplanning #organisationtools",
+    },
+    pinterest: {
+      title: "Side Hustle Income Tracker Spreadsheet for Earnings",
+      description: "Track your income and growth with this side hustle spreadsheet template.",
+      keywords: "income tracker,side hustle,business income,google sheets,earnings tracker,financial planning,online income,spreadsheet template",
+    },
+    gptImagePrompt: "income tracker spreadsheet on laptop notebook coffee clean workspace neutral tones",
+    videoPrompt: "Hook: not tracking income. Show tracker. Show earnings. CTA: manage your money better.",
+  },
+  "sheet-008": {
+    etsy: {
+      title: "Rental Property Expense Tracker Spreadsheet Landlord Finance Tracker Google Sheets",
+      description: "Manage rental finances with a spreadsheet designed to track expenses, income and property costs. Perfect for landlords and property investors.",
+      tags: "rental tracker,property expenses,landlord tools,finance tracker,google sheets property,real estate finance,expense tracker,property management,spreadsheet template,investment tracker,financial planning,property uk,rental income",
+    },
+    tiktok: {
+      caption: "Tracking rental expenses manually? This simplifies everything.",
+      hashtags: "#propertyinvestment #landlorduk #realestate #googlesheets #finance #propertymanagement #investment #organisation #digitaltools #financetips",
+    },
+    instagram: {
+      caption: "Managing rental finances becomes easier when everything is organised. This spreadsheet helps you track expenses, income and stay on top of your property investments.",
+      hashtags: "#propertyinvestment #landlorduk #realestate #googlesheets #finance #propertymanagement #investment #organisationtools #digitaltools #financetips #financialplanning #propertybusiness",
+    },
+    pinterest: {
+      title: "Rental Property Expense Tracker Spreadsheet for Landlords",
+      description: "Track rental income and expenses with this property finance spreadsheet.",
+      keywords: "rental tracker,property expenses,landlord tools,finance tracker,real estate,investment tracker,google sheets,property management",
+    },
+    gptImagePrompt: "property finance spreadsheet on laptop keys notebook coffee minimal desk neutral tones",
+    videoPrompt: "Hook: rental finances messy. Show tracker. Show organisation. CTA: manage your property better.",
+  },
+  "sheet-009": {
+    etsy: {
+      title: "Wedding Budget Spreadsheet Planner Wedding Finance Tracker Google Sheets Template",
+      description: "Plan your wedding finances with a spreadsheet designed to track budgets, expenses and payments. Perfect for staying organised and avoiding overspending.",
+      tags: "wedding budget,wedding planner spreadsheet,wedding finance tracker,google sheets wedding,event planning budget,wedding costs,bridal planning,expense tracker,financial planning,spreadsheet template,wedding uk,budget planner,wedding organisation",
+    },
+    tiktok: {
+      caption: "Wedding costs getting out of control? This keeps everything organised.",
+      hashtags: "#weddingplanning #weddingbudget #brideuk #eventplanning #googlesheets #budgetinguk #weddingideas #organisation #finance #planningtools",
+    },
+    instagram: {
+      caption: "Weddings can get expensive quickly. This spreadsheet helps you track every cost, stay organised and plan your budget with confidence. Stress less and enjoy the process.",
+      hashtags: "#weddingplanninguk #weddingbudget #brideuk #eventplanning #googlesheets #budgetinguk #weddingideas #organisationtools #finance #planningtools #weddingorganisation #bridetobe",
+    },
+    pinterest: {
+      title: "Wedding Budget Spreadsheet Planner for Costs and Expenses",
+      description: "Track wedding expenses and stay on budget with this easy-to-use spreadsheet.",
+      keywords: "wedding budget,wedding planner,expense tracker,google sheets wedding,event planning,budget planner,wedding costs,bridal planning",
+    },
+    gptImagePrompt: "wedding budget spreadsheet on laptop flowers notebook coffee soft lighting elegant desk setup",
+    videoPrompt: "Hook: wedding costs rising. Show spreadsheet. Show tracking. CTA: stay on budget.",
+  },
+  "sheet-010": {
+    etsy: {
+      title: "Content Calendar Spreadsheet Analytics Tracker Social Media Planner Google Sheets",
+      description: "Plan and track your content with a spreadsheet designed for social media scheduling and analytics. Perfect for creators and businesses looking to stay consistent and grow.",
+      tags: "content calendar,social media planner,content tracker,google sheets planner,analytics tracker,content strategy,posting schedule,marketing tools,spreadsheet template,productivity tools,creator tools,content planning,social media uk",
+    },
+    tiktok: {
+      caption: "Posting randomly and seeing no growth? This fixes your strategy.",
+      hashtags: "#contentcreator #socialmediaplanner #contentstrategy #googlesheets #marketingtips #growthtips #digitalplanning #productivity #notionalternative #contentplanning",
+    },
+    instagram: {
+      caption: "Consistency is key to growth. This spreadsheet helps you plan, track and analyse your content so you can improve results and stay organised. A simple system that works.",
+      hashtags: "#contentcreatoruk #socialmediaplanner #contentstrategy #googlesheets #marketingtools #growthtips #digitalplanning #productivitytools #contentplanning #analytics #onlinebusinessuk #socialmedia",
+    },
+    pinterest: {
+      title: "Content Calendar Spreadsheet with Analytics Tracker",
+      description: "Plan, track and grow your content with this social media spreadsheet.",
+      keywords: "content calendar,social media planner,analytics tracker,content strategy,google sheets,marketing tools,content planning,growth tools",
+    },
+    gptImagePrompt: "content calendar spreadsheet on laptop social media icons notebook coffee modern workspace clean aesthetic",
+    videoPrompt: "Hook: no content strategy. Show calendar. Show tracking. CTA: grow your content.",
+  },
 }
