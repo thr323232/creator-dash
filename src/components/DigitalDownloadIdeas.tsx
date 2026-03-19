@@ -190,7 +190,7 @@ function IdeaDetail({
       onClick={onClose}
     >
       <div
-        className="bg-[#0d0118] border border-purple-900 rounded-t-2xl sm:rounded-2xl w-full sm:max-w-lg max-h-[92vh] overflow-y-auto flex flex-col"
+        className="bg-[#0d0118] border border-purple-900 rounded-t-2xl sm:rounded-2xl w-full sm:max-w-lg max-h-[92vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -217,6 +217,7 @@ function IdeaDetail({
           </button>
         </div>
 
+        <div className="overflow-y-auto flex-1">
         <div className="px-4 py-5 flex flex-col gap-6">
 
           {/* Progress tracker */}
@@ -414,6 +415,7 @@ function IdeaDetail({
           </button>
 
           <div className="h-4" />
+        </div>
         </div>
       </div>
     </div>
