@@ -1,7 +1,8 @@
 import { useMemo } from "react";
 import { digitalDownloadIdeas } from "../data/digitalDownloadIdeas";
 import { getDemandRating, CATEGORY_BAR } from "../data/ideaUtils";
-import { CATEGORIES, STAGES, STORAGE_KEY, DemandStars, type Stage, type TrackerData } from "./DigitalDownloadIdeas";
+import { CATEGORIES, STAGES, STORAGE_KEY, type Stage, type TrackerData } from "../data/tracker";
+import { DemandStars } from "./DigitalDownloadIdeas";
 
 function readTracker(): TrackerData {
   try {
@@ -29,7 +30,7 @@ function StatPill({ label, value, accent }: { label: string; value: number; acce
 }
 
 export default function Dashboard() {
-  const tracker = useMemo(readTracker, []);
+  const tracker = useMemo(() => readTracker(), []);
 
   const trackerEntries = Object.entries(tracker);
   const totalTracked = trackerEntries.length;
