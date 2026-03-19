@@ -70,9 +70,9 @@ function StagePill({ stage }: { stage: Stage }) {
 
 export function DemandStars({ rating }: { rating: number }) {
   return (
-    <div className="flex items-center gap-0.5">
+    <div className="flex items-center gap-1">
       {Array.from({ length: 5 }, (_, i) => (
-        <span key={i} className={`text-[10px] ${i < rating ? "text-amber-400" : "text-purple-900"}`}>●</span>
+        <span key={i} className={`text-sm ${i < rating ? "text-amber-400" : "text-purple-800"}`}>●</span>
       ))}
     </div>
   );
@@ -91,23 +91,25 @@ function IdeaCard({
   return (
     <button
       onClick={onClick}
-      className={`text-left bg-[#160028] border border-purple-900 border-t-2 ${accent} rounded-xl p-4 hover:border-amber-500/50 hover:bg-[#2a0050]/60 hover:-translate-y-px transition-all duration-200 flex flex-col gap-3 active:scale-[0.98]`}
+      className={`text-left bg-[#160028] border border-purple-900 border-t-4 ${accent} rounded-xl p-5 hover:border-amber-500/60 hover:bg-[#1e003a] hover:-translate-y-0.5 hover:shadow-lg hover:shadow-purple-950 transition-all duration-200 flex flex-col gap-4 active:scale-[0.98]`}
     >
       <div className="flex items-start justify-between gap-2">
-        <h3 className="text-white font-semibold text-sm leading-snug">{idea.name}</h3>
+        <h3 className="text-white font-bold text-base leading-snug">{idea.name}</h3>
         {entry && <StagePill stage={entry.stage} />}
       </div>
-      <p className="text-purple-300 text-xs leading-relaxed line-clamp-2">{idea.description}</p>
-      <div className="flex items-center justify-between text-xs text-purple-400">
-        <span className={`px-2 py-0.5 rounded-full border ${difficultyColor[getDifficulty(idea)]}`}>
+      <p className="text-purple-300 text-sm leading-relaxed line-clamp-2">{idea.description}</p>
+      <div className="flex items-center justify-between mt-auto">
+        <span className={`text-xs px-2.5 py-1 rounded-full border font-medium ${difficultyColor[getDifficulty(idea)]}`}>
           {getDifficulty(idea)}
         </span>
-        <span>£{idea.pricingRange.min}–£{idea.pricingRange.max}</span>
-        <DemandStars rating={getDemandRating(idea)} />
+        <span className="text-green-400 font-bold text-sm">£{idea.pricingRange.min}–£{idea.pricingRange.max}</span>
       </div>
-      {entry?.stage === "earning" && entry.sales != null && entry.sales > 0 && (
-        <span className="text-xs text-green-400 font-medium">{entry.sales} sold</span>
-      )}
+      <div className="flex items-center justify-between">
+        <DemandStars rating={getDemandRating(idea)} />
+        {entry?.stage === "earning" && entry.sales != null && entry.sales > 0 && (
+          <span className="text-xs text-green-400 font-semibold bg-green-500/10 border border-green-500/20 px-2 py-0.5 rounded-full">{entry.sales} sold</span>
+        )}
+      </div>
     </button>
   );
 }
@@ -575,39 +577,50 @@ export default function DigitalDownloadIdeas() {
 
         {/* Header */}
         <div>
-          <h1 className="text-2xl font-bold text-white">Digital Downloads</h1>
-          <p className="text-purple-300 text-sm mt-1">
-            {digitalDownloadIdeas.length} ideas across {CATEGORIES.length} categories
+          <h1 className="text-3xl font-bold text-white tracking-tight">
+            Digital Downloads
+          </h1>
+          <p className="text-purple-400 text-sm mt-1.5">
+            <span className="text-purple-200 font-medium">{digitalDownloadIdeas.length} ideas</span> across <span className="text-purple-200 font-medium">{CATEGORIES.length} categories</span>
             {myListCount > 0 && (
-              <span className="ml-2 text-amber-400">· {myListCount} in your list</span>
+              <span className="ml-2 text-amber-400 font-semibold">· {myListCount} in your list</span>
             )}
           </p>
         </div>
 
         {/* Filters */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-4">
           <input
             type="text"
             placeholder="Search by name, description, or niche..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-[#160028] border border-purple-800 rounded-xl px-4 py-3 text-sm text-white placeholder-purple-500 focus:outline-none focus:border-amber-500 min-h-[44px]"
+            className="w-full bg-[#160028] border border-purple-800 rounded-xl px-4 py-3.5 text-sm text-white placeholder-purple-500 focus:outline-none focus:border-amber-500"
           />
 
-          <div className="flex flex-wrap gap-2 items-center">
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value as Category | "All")}
-              className="bg-[#160028] border border-purple-800 text-sm text-white rounded-xl px-3 min-h-[44px] focus:outline-none focus:border-amber-500 flex-1 min-w-[140px]"
-            >
-              <option value="All">All Categories</option>
-              {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
-            </select>
+          {/* Category pill row */}
+          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+            {(["All", ...CATEGORIES] as (Category | "All")[]).map((c) => (
+              <button
+                key={c}
+                onClick={() => setSelectedCategory(c)}
+                className={`shrink-0 text-sm px-4 py-2 rounded-full border font-medium transition-all duration-150 ${
+                  selectedCategory === c
+                    ? "bg-amber-500 border-amber-400 text-white shadow-md shadow-amber-900/40"
+                    : "bg-[#160028] border-purple-800 text-purple-300 hover:border-purple-600 hover:text-white"
+                }`}
+              >
+                {c === "All" ? "All" : c}
+              </button>
+            ))}
+          </div>
 
+          {/* Secondary controls row */}
+          <div className="flex flex-wrap gap-2 items-center">
             <select
               value={selectedDifficulty}
               onChange={(e) => setSelectedDifficulty(e.target.value)}
-              className="bg-[#160028] border border-purple-800 text-sm text-white rounded-xl px-3 min-h-[44px] focus:outline-none focus:border-amber-500 flex-1 min-w-[130px]"
+              className="bg-[#160028] border border-purple-800 text-sm text-white rounded-xl px-3 py-2.5 min-h-[44px] focus:outline-none focus:border-amber-500 flex-1 min-w-[140px]"
             >
               <option value="All">All Difficulties</option>
               {DIFFICULTIES.map((d) => (
@@ -618,7 +631,7 @@ export default function DigitalDownloadIdeas() {
             <select
               value={selectedSort}
               onChange={(e) => setSelectedSort(e.target.value as SortOption)}
-              className="bg-[#160028] border border-purple-800 text-sm text-white rounded-xl px-3 min-h-[44px] focus:outline-none focus:border-amber-500 flex-1 min-w-[130px]"
+              className="bg-[#160028] border border-purple-800 text-sm text-white rounded-xl px-3 py-2.5 min-h-[44px] focus:outline-none focus:border-amber-500 flex-1 min-w-[150px]"
             >
               <option value="default">Default Order</option>
               <option value="demand">Demand: High first</option>
@@ -628,17 +641,17 @@ export default function DigitalDownloadIdeas() {
 
             <button
               onClick={() => setMyListOnly((v) => !v)}
-              className={`text-sm px-4 min-h-[44px] rounded-xl border transition-colors ${
+              className={`text-sm px-5 py-2.5 min-h-[44px] rounded-xl border font-medium transition-all duration-150 ${
                 myListOnly
-                  ? "bg-amber-500 border-amber-400 text-white"
-                  : "bg-[#160028] border-purple-800 text-purple-400 hover:text-white"
+                  ? "bg-amber-500 border-amber-400 text-white shadow-md shadow-amber-900/40"
+                  : "bg-[#160028] border-purple-800 text-purple-300 hover:border-purple-600 hover:text-white"
               }`}
             >
               My List{myListCount > 0 ? ` (${myListCount})` : ""}
             </button>
           </div>
 
-          <p className="text-purple-400 text-sm">
+          <p className="text-purple-500 text-sm">
             {filtered.length} result{filtered.length !== 1 ? "s" : ""}
           </p>
         </div>
@@ -668,26 +681,28 @@ export default function DigitalDownloadIdeas() {
           </div>
         ) : grouped ? (
           // Grouped by category (default sort)
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-8">
             {grouped.map(({ category, ideas }) => {
               const collapsed = collapsedCats.has(category);
               return (
-                <div key={category} className="flex flex-col gap-3">
+                <div key={category} className="flex flex-col gap-4">
                   <button
                     onClick={() => toggleCat(category)}
-                    className="flex items-center gap-2 group w-full text-left"
+                    className="flex items-center gap-3 group w-full text-left"
                   >
-                    <span className={`w-2 h-2 rounded-full shrink-0 ${CATEGORY_DOT[category]}`} />
-                    <h2 className="text-sm font-semibold text-purple-200 group-hover:text-white transition-colors">
+                    <span className={`w-3 h-3 rounded-full shrink-0 ${CATEGORY_DOT[category]}`} />
+                    <h2 className="text-base font-bold text-purple-100 group-hover:text-white transition-colors">
                       {category}
                     </h2>
-                    <span className="text-xs text-purple-700">{ideas.length}</span>
-                    <span className={`ml-auto text-purple-700 group-hover:text-purple-400 transition-all duration-200 text-xs ${collapsed ? "-rotate-90" : ""}`}>
+                    <span className="text-xs font-semibold text-purple-600 bg-purple-900/40 border border-purple-800 px-2 py-0.5 rounded-full">
+                      {ideas.length}
+                    </span>
+                    <span className={`ml-auto text-purple-600 group-hover:text-purple-400 transition-all duration-200 text-sm ${collapsed ? "-rotate-90" : ""}`}>
                       ▾
                     </span>
                   </button>
                   {!collapsed && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                       {ideas.map((idea) => (
                         <IdeaCard
                           key={idea.id}
@@ -704,7 +719,7 @@ export default function DigitalDownloadIdeas() {
           </div>
         ) : (
           // Flat grid (sorted)
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {filtered.map((idea) => (
               <IdeaCard
                 key={idea.id}
