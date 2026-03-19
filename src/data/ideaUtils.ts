@@ -1,7 +1,7 @@
 import type { DigitalDownloadIdea, Category } from "./digitalDownloadIdeas";
 
 export const CATEGORY_ACCENT: Record<Category, string> = {
-  "Planners & Organizers":      "border-t-violet-500",
+  "Planners & Organizers":      "border-t-amber-500",
   "Wall Art & Prints":          "border-t-pink-500",
   "Social Media Templates":     "border-t-sky-500",
   "Business & Branding":        "border-t-amber-500",
@@ -15,7 +15,7 @@ export const CATEGORY_ACCENT: Record<Category, string> = {
 
 // Dot colour used for category labels (matches accent bar colour)
 export const CATEGORY_DOT: Record<Category, string> = {
-  "Planners & Organizers":      "bg-violet-500",
+  "Planners & Organizers":      "bg-amber-500",
   "Wall Art & Prints":          "bg-pink-500",
   "Social Media Templates":     "bg-sky-500",
   "Business & Branding":        "bg-amber-500",
@@ -29,7 +29,7 @@ export const CATEGORY_DOT: Record<Category, string> = {
 
 // Bar fill colour for dashboard category chart
 export const CATEGORY_BAR: Record<Category, string> = {
-  "Planners & Organizers":      "bg-violet-500",
+  "Planners & Organizers":      "bg-amber-500",
   "Wall Art & Prints":          "bg-pink-500",
   "Social Media Templates":     "bg-sky-500",
   "Business & Branding":        "bg-amber-500",
