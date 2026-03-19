@@ -11,6 +11,8 @@ export interface DigitalDownloadIdea {
   demandRating: 1 | 2 | 3 | 4 | 5;
   trending: boolean;
   launchChecklist: string[];
+  creationTool?: "claude" | "chatgpt";
+  creationPrompt?: string;
 }
 
 export type Category =
@@ -38,7 +40,9 @@ export const digitalDownloadIdeas: DigitalDownloadIdea[] = [
     difficulty: "beginner",
     demandRating: 5,
     trending: true,
-    launchChecklist: ["Design planner layouts in multiple sizes (A4, A5, Letter, Half Letter)", "Create both dated and undated versions", "Export as high-resolution PDF", "Create product mockups showing printed pages", "Write SEO-optimized listing with keywords", "Publish and promote on social media"]
+    launchChecklist: ["Design planner layouts in multiple sizes (A4, A5, Letter, Half Letter)", "Create both dated and undated versions", "Export as high-resolution PDF", "Create product mockups showing printed pages", "Write SEO-optimized listing with keywords", "Publish and promote on social media"],
+    creationTool: "claude",
+    creationPrompt: "You are creating a premium printable planner product for sale on Etsy. Generate a complete A4 printable planner bundle in UK English, fully structured so it can be copied directly into Canva or Word.\n\nCreate EXACTLY 12 pages:\n- 4 Daily Planner Pages\n- 4 Weekly Planner Pages\n- 2 Monthly Planner Pages\n- 1 Notes Page\n- 1 Cover Page\n\nDesign requirements:\n- Minimalist, modern, clean layout\n- Black text, soft beige section headers, thin grey divider lines\n- Plenty of white space for writing\n- Consistent typography hierarchy (clear headings, subheadings, body text)\n\nDaily page must include:\n- Date field\n- Top 3 priorities\n- Hourly schedule (6am–9pm)\n- To-do list (at least 10 lines)\n- Meals section\n- Water tracker (8 glasses)\n- Notes section\n\nWeekly page must include:\n- Monday to Sunday boxes\n- Weekly goals section\n- To-do list\n- Shopping list\n- Notes\n\nMonthly page must include:\n- Clean undated calendar grid (7 columns)\n- Section for goals, key dates, and bills\n\nOutput each page clearly labelled (e.g. \"PAGE 1: DAILY PLANNER\") and structured with spacing and headings so it can be directly recreated as a printable layout."
   },
   {
     id: "plan-002",
@@ -52,7 +56,9 @@ export const digitalDownloadIdeas: DigitalDownloadIdea[] = [
     difficulty: "beginner",
     demandRating: 4,
     trending: false,
-    launchChecklist: ["Design meal plan grid with space for breakfast, lunch, dinner, snacks", "Create matching grocery list organized by store section", "Include both color and ink-friendly versions", "Export as printable PDF", "Photograph or mock up printed versions", "List on Etsy with meal planning keywords"]
+    launchChecklist: ["Design meal plan grid with space for breakfast, lunch, dinner, snacks", "Create matching grocery list organized by store section", "Include both color and ink-friendly versions", "Export as printable PDF", "Photograph or mock up printed versions", "List on Etsy with meal planning keywords"],
+    creationTool: "claude",
+    creationPrompt: "Create a premium A4 printable meal planning bundle in UK English designed for Etsy buyers. Output must be structured and ready to copy into Canva or Word.\n\nCreate EXACTLY 7 pages:\n- 3 Weekly Meal Planner Pages\n- 2 Grocery List Pages\n- 1 Pantry Inventory Page\n- 1 Meal Prep Planner Page\n\nDesign style:\n- Clean kitchen aesthetic\n- Black text with soft sage green headers\n- Clear sections and practical spacing\n\nWeekly meal planner must include:\n- Monday to Sunday columns\n- Rows for breakfast, lunch, dinner, snacks\n- Notes section\n\nGrocery list must include pre-labelled categories:\n- Fruit & veg\n- Dairy & eggs\n- Meat & fish\n- Cupboard staples\n- Frozen\n- Bakery\n- Household\n\nPantry inventory must include:\n- Item name\n- Quantity\n- Use by / restock\n\nMeal prep page must include:\n- Batch cooking section\n- Ingredients to use up\n- Prep tasks checklist\n- Weekly prep plan\n\nLabel each page clearly and format with headings and spacing so it is easy to design visually."
   },
   {
     id: "plan-003",
@@ -66,7 +72,9 @@ export const digitalDownloadIdeas: DigitalDownloadIdea[] = [
     difficulty: "beginner",
     demandRating: 5,
     trending: true,
-    launchChecklist: ["Design monthly budget overview, expense tracker, and savings goal pages", "Include categories for common expenses", "Offer both printable PDF and editable spreadsheet versions", "Create clean mockups", "Write listing targeting budget and finance keywords", "Publish and share in personal finance communities"]
+    launchChecklist: ["Design monthly budget overview, expense tracker, and savings goal pages", "Include categories for common expenses", "Offer both printable PDF and editable spreadsheet versions", "Create clean mockups", "Write listing targeting budget and finance keywords", "Publish and share in personal finance communities"],
+    creationTool: "claude",
+    creationPrompt: "Create a complete UK-focused A4 printable budget planner bundle designed for Etsy. Output must be structured for Canva/Word formatting.\n\nCreate EXACTLY 12 pages:\n- 1 Monthly Budget Page\n- 4 Expense Log Pages\n- 1 Bill Tracker\n- 1 Savings Tracker\n- 1 Sinking Funds Page\n- 1 Debt Tracker\n- 1 No-Spend Challenge Page\n- 1 Notes Page\n- 1 Cover Page\n\nDesign style:\n- Minimalist finance layout\n- Black text, muted sage headings, clean tables\n\nMonthly budget must include categories:\n- Wages, side income, rent/mortgage, council tax, utilities, groceries, transport, subscriptions, debt, savings, personal spending\n\nExpense log must include columns:\n- Date, shop, category, payment method, amount\n\nBill tracker must include:\n- Bill name, due date, amount, paid checkbox\n\nSinking funds must include:\n- Emergency fund, holidays, Christmas, car, home, etc.\n\nEnsure all tables are clearly structured and usable."
   },
   {
     id: "plan-004",
@@ -80,7 +88,9 @@ export const digitalDownloadIdeas: DigitalDownloadIdea[] = [
     difficulty: "beginner",
     demandRating: 4,
     trending: false,
-    launchChecklist: ["Design workout log with fields for exercises, sets, reps, and weight", "Add body measurement tracker and progress photo log page", "Create both gym and home workout versions", "Export as printable PDF", "Mock up with fitness-themed photography", "List with fitness planner keywords"]
+    launchChecklist: ["Design workout log with fields for exercises, sets, reps, and weight", "Add body measurement tracker and progress photo log page", "Create both gym and home workout versions", "Export as printable PDF", "Mock up with fitness-themed photography", "List with fitness planner keywords"],
+    creationTool: "claude",
+    creationPrompt: "Create a professional A4 printable fitness and workout log bundle in UK English. Output must be structured for Canva or Word.\n\nCreate EXACTLY 7 pages:\n- 3 Workout Log Pages\n- 1 Weekly Workout Planner\n- 1 Progress Tracker\n- 1 Body Measurement Tracker\n- 1 Notes Page\n\nDesign style:\n- Clean, strong, fitness-focused layout\n- Black and dark grey headings\n\nWorkout log must include:\n- Date, exercise, sets, reps, weight, rest time, notes\n\nWeekly planner must include:\n- Monday to Sunday workout planning\n\nProgress tracker must include:\n- Personal bests\n- Weekly check-ins\n- Progress notes\n\nBody measurement tracker must include:\n- Waist, hips, chest, arms, thighs, weight, date\n\nEnsure clear table formatting and readability."
   },
   {
     id: "plan-005",
@@ -94,7 +104,9 @@ export const digitalDownloadIdeas: DigitalDownloadIdea[] = [
     difficulty: "beginner",
     demandRating: 4,
     trending: true,
-    launchChecklist: ["Design grid-based tracker with space for multiple habits", "Create 30-day and 90-day versions", "Add motivational design elements", "Export as PDF in multiple sizes", "Create appealing mockups", "Publish with habit tracking and productivity keywords"]
+    launchChecklist: ["Design grid-based tracker with space for multiple habits", "Create 30-day and 90-day versions", "Add motivational design elements", "Export as PDF in multiple sizes", "Create appealing mockups", "Publish with habit tracking and productivity keywords"],
+    creationTool: "claude",
+    creationPrompt: "Create a minimalist A4 printable habit tracker bundle in UK English. Output must be formatted for Canva or Word.\n\nCreate EXACTLY 6 pages:\n- 2 x 30-Day Habit Trackers\n- 2 x 90-Day Habit Trackers\n- 1 Weekly Habit Tracker\n- 1 Reflection Page\n\nDesign style:\n- Clean, calm, minimal layout\n- Soft neutral tones and simple grids\n\n30-day tracker must include:\n- 10 habit rows\n- Days 1–30 grid\n\n90-day tracker must include:\n- Extended tracking grid\n\nWeekly tracker must include:\n- Habit name\n- Target\n- Daily checkboxes\n\nReflection page must include prompts:\n- What worked\n- What didn't\n- What to improve\n- Next focus\n\nEnsure layouts are highly usable and easy to follow."
   },
   {
     id: "plan-006",
@@ -108,7 +120,9 @@ export const digitalDownloadIdeas: DigitalDownloadIdea[] = [
     difficulty: "intermediate",
     demandRating: 5,
     trending: true,
-    launchChecklist: ["Create 12-month countdown checklist", "Design vendor contact sheets and budget tracker", "Add seating chart template and guest list tracker", "Export as printable PDF bundle", "Style mockups with wedding-themed photography", "List with wedding planning keywords and seasonal tags"]
+    launchChecklist: ["Create 12-month countdown checklist", "Design vendor contact sheets and budget tracker", "Add seating chart template and guest list tracker", "Export as printable PDF bundle", "Style mockups with wedding-themed photography", "List with wedding planning keywords and seasonal tags"],
+    creationTool: "claude",
+    creationPrompt: "Create a complete A4 printable wedding planning bundle in UK English designed for Etsy. Output must be highly structured for Canva/Word.\n\nCreate EXACTLY 10 pages:\n- Master Checklist\n- 12-Month Timeline\n- Wedding Budget\n- Guest List Tracker\n- Vendor Tracker\n- Seating Notes\n- Bridal Party Checklist\n- Wedding Day Schedule\n- Gift Tracker\n- Cover Page\n\nDesign style:\n- Elegant, minimal, soft blush tones\n\nChecklist must include:\n- 12 months, 6 months, 3 months, 1 month, final week\n\nBudget must include:\n- Venue, catering, dress, suit, flowers, photographer, stationery, transport, entertainment, cake, décor\n\nGuest list must include RSVP and meal choice\n\nVendor tracker must include deposits and contact info"
   },
   {
     id: "plan-007",
@@ -122,7 +136,9 @@ export const digitalDownloadIdeas: DigitalDownloadIdea[] = [
     difficulty: "beginner",
     demandRating: 4,
     trending: false,
-    launchChecklist: ["Design itinerary pages with time slots, locations, and notes", "Create packing checklist organized by category", "Add travel budget tracker and emergency contacts page", "Export as PDF", "Create travel-themed mockups", "Publish with travel planner keywords"]
+    launchChecklist: ["Design itinerary pages with time slots, locations, and notes", "Create packing checklist organized by category", "Add travel budget tracker and emergency contacts page", "Export as PDF", "Create travel-themed mockups", "Publish with travel planner keywords"],
+    creationTool: "claude",
+    creationPrompt: "Create a complete A4 printable travel planner bundle in UK English. Output must be structured for Canva or Word.\n\nCreate EXACTLY 7 pages:\n- Trip Overview\n- Daily Itinerary\n- Packing List\n- Travel Budget\n- Booking Tracker\n- Travel Notes\n- Cover Page\n\nTrip overview must include:\n- Destination, dates, travellers, accommodation, contacts\n\nItinerary must include:\n- Morning, afternoon, evening, notes\n\nPacking list must include categories:\n- Clothing, toiletries, documents, electronics, essentials\n\nBudget must include:\n- Transport, accommodation, food, activities, spending\n\nEnsure clean structured formatting."
   },
   {
     id: "plan-008",
@@ -136,7 +152,9 @@ export const digitalDownloadIdeas: DigitalDownloadIdea[] = [
     difficulty: "beginner",
     demandRating: 3,
     trending: false,
-    launchChecklist: ["Design daily, weekly, and monthly cleaning checklists", "Create family chore assignment chart", "Include room-by-room deep cleaning guides", "Export as printable PDF", "Mock up in home setting", "List with cleaning and home organization keywords"]
+    launchChecklist: ["Design daily, weekly, and monthly cleaning checklists", "Create family chore assignment chart", "Include room-by-room deep cleaning guides", "Export as printable PDF", "Mock up in home setting", "List with cleaning and home organization keywords"],
+    creationTool: "claude",
+    creationPrompt: "Create a printable A4 cleaning schedule bundle in UK English. Output must be structured for Canva or Word.\n\nCreate EXACTLY 6 pages:\n- Daily Cleaning Checklist\n- Weekly Cleaning Planner\n- Monthly Deep Clean Checklist\n- Room-by-Room Checklist\n- Family Chore Chart\n- Cover Page\n\nDaily tasks must include:\n- Dishes, surfaces, laundry, tidying\n\nWeekly planner:\n- Monday to Sunday tasks\n\nMonthly:\n- Deep cleaning (oven, fridge, windows, skirting boards)\n\nChore chart must include:\n- Task, person, day, checkbox\n\nUse simple clean structure."
   },
   {
     id: "plan-009",
@@ -150,7 +168,9 @@ export const digitalDownloadIdeas: DigitalDownloadIdea[] = [
     difficulty: "intermediate",
     demandRating: 3,
     trending: false,
-    launchChecklist: ["Design project overview sheet with timeline and milestones", "Create renovation budget tracker with line items", "Add contractor and supplier contact pages", "Include before/after photo log template", "Export as PDF bundle", "List with home renovation and remodel keywords"]
+    launchChecklist: ["Design project overview sheet with timeline and milestones", "Create renovation budget tracker with line items", "Add contractor and supplier contact pages", "Include before/after photo log template", "Export as PDF bundle", "List with home renovation and remodel keywords"],
+    creationTool: "claude",
+    creationPrompt: "Create a complete A4 home renovation planner bundle in UK English. Output must be structured for Canva or Word.\n\nCreate EXACTLY 8 pages:\n- Project Overview\n- Renovation Budget\n- Timeline\n- Materials List\n- Contractor Tracker\n- Room Measurements\n- Shopping Checklist\n- Cover Page\n\nBudget must include:\n- Labour, materials, paint, flooring, fixtures, furniture, contingency\n\nTimeline must include stages:\n- Planning, buying, demolition, decorating, installation, finishing\n\nContractor tracker must include:\n- Quotes, contact details, status\n\nEnsure highly practical layout."
   },
   {
     id: "plan-010",
@@ -164,7 +184,9 @@ export const digitalDownloadIdeas: DigitalDownloadIdea[] = [
     difficulty: "beginner",
     demandRating: 3,
     trending: false,
-    launchChecklist: ["Design vet visit log with vaccination records", "Create feeding schedule and medication tracker", "Add grooming log and pet info summary page", "Export as printable PDF", "Create cute pet-themed mockups", "List with pet planner and pet care keywords"]
+    launchChecklist: ["Design vet visit log with vaccination records", "Create feeding schedule and medication tracker", "Add grooming log and pet info summary page", "Export as printable PDF", "Create cute pet-themed mockups", "List with pet planner and pet care keywords"],
+    creationTool: "claude",
+    creationPrompt: "Create a printable A4 pet care log bundle in UK English. Output must be structured for Canva or Word.\n\nCreate EXACTLY 7 pages:\n- Feeding Schedule\n- Medication Tracker\n- Vet Visit Record\n- Grooming Log\n- Daily Routine Checklist\n- Health Notes\n- Cover Page\n\nFeeding schedule must include:\n- Time, food type, portion\n\nMedication tracker:\n- Medicine, dose, frequency, dates\n\nVet record:\n- Date, reason, notes, next visit\n\nRoutine checklist:\n- Feeding, walking, grooming, cleaning\n\nUse friendly clean layout."
   },
   {
     id: "art-001",

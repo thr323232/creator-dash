@@ -431,6 +431,30 @@ function IdeaDetail({
             )}
           </div>
 
+          {/* Create It */}
+          {idea.creationPrompt && (
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-3 py-1">
+                <span className="text-xs font-bold uppercase tracking-widest text-purple-400">Create It</span>
+                <div className="flex-1 h-px bg-[#2a0050]" />
+              </div>
+              <div className="rounded-xl border border-violet-500/30 bg-violet-500/10 p-4 flex flex-col gap-3">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-xs font-semibold text-violet-300 uppercase tracking-wider">
+                    {idea.creationTool === "chatgpt" ? "ChatGPT Prompt" : "Claude Prompt"}
+                  </span>
+                  <button
+                    onClick={() => copyText(idea.creationPrompt!, "creationPrompt")}
+                    className="shrink-0 text-xs px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-purple-300 hover:text-white hover:border-white/20 transition-colors"
+                  >
+                    {copied === "creationPrompt" ? "✓ Copied" : "Copy"}
+                  </button>
+                </div>
+                <p className="text-purple-100 text-sm leading-relaxed whitespace-pre-line">{idea.creationPrompt}</p>
+              </div>
+            </div>
+          )}
+
           {/* Market It */}
           <div className="flex flex-col gap-3">
             <div className="flex items-center gap-3 py-1">
