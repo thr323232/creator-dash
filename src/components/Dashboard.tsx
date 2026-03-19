@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { digitalDownloadIdeas } from "../data/digitalDownloadIdeas";
-import { getDifficulty, getDemandRating, CATEGORY_BAR, CATEGORY_ACCENT } from "../data/ideaUtils";
+import { getDifficulty, getDemandRating, CATEGORY_ACCENT } from "../data/ideaUtils";
 import { CATEGORIES, STAGES, useTracker, type Stage } from "../data/tracker";
 import { DemandStars } from "./DigitalDownloadIdeas";
 
@@ -8,6 +8,14 @@ const difficultyColor: Record<string, string> = {
   beginner:     "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
   intermediate: "bg-amber-500/20 text-amber-400 border-amber-500/30",
   advanced:     "bg-red-500/20 text-red-400 border-red-500/30",
+};
+
+// Left border colour per stage for the subheading accent
+const stageBorderLeft: Record<Stage, string> = {
+  saved:    "border-l-purple-500",
+  creating: "border-l-amber-500",
+  listed:   "border-l-blue-500",
+  earning:  "border-l-green-500",
 };
 
 function StatCard({ label, value, accent, sub }: { label: string; value: string | number; accent: string; sub?: string }) {
@@ -35,12 +43,13 @@ function StageSection({
   if (ideas.length === 0) return null;
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-2">
+      {/* Stage subheading */}
       <button
         onClick={() => setCollapsed((v) => !v)}
-        className="flex items-center gap-3 group w-full text-left"
+        className={`flex items-center gap-3 group w-full text-left border-l-4 ${stageBorderLeft[stage.key]} pl-3 py-1`}
       >
-        <span className={`text-sm font-bold ${stage.color}`}>{stage.label}</span>
+        <span className={`text-base font-bold ${stage.color}`}>{stage.label}</span>
         <span className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${stage.color} ${stage.bg} ${stage.border}`}>
           {ideas.length}
         </span>
@@ -49,52 +58,50 @@ function StageSection({
         </span>
       </button>
 
+      {/* Compact rows */}
       {!collapsed && (
-        <div className="flex flex-col gap-2">
-          {ideas.map((idea) => {
-            const catAccent = CATEGORY_ACCENT[idea.category] ?? "border-t-gray-700";
-            return (
-              <div
-                key={idea.id}
-                className={`bg-[#160028] border border-purple-900 border-t-4 ${catAccent} rounded-xl p-4 flex flex-col gap-3`}
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0">
-                    <p className="text-white font-bold text-base leading-snug">{idea.name}</p>
-                    <p className="text-purple-400 text-xs mt-0.5">{idea.category}</p>
-                  </div>
-                  <span className={`shrink-0 text-xs px-2.5 py-1 rounded-full border font-medium ${difficultyColor[getDifficulty(idea)]}`}>
-                    {getDifficulty(idea)}
-                  </span>
+        <div className="flex flex-col divide-y divide-purple-900/60 rounded-xl border border-purple-900 bg-[#160028] overflow-hidden">
+          {ideas.map((idea) => (
+            <div key={idea.id} className="px-4 py-3 flex flex-col gap-2">
+              {/* Main row */}
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="flex-1 min-w-0">
+                  <span className="text-white font-semibold text-sm">{idea.name}</span>
+                  <span className="text-purple-500 text-xs"> · {idea.category}</span>
                 </div>
-
-                <p className="text-purple-300 text-sm leading-relaxed line-clamp-2">{idea.description}</p>
-
-                <div className="flex items-center justify-between">
+                <span className={`shrink-0 text-xs px-2 py-0.5 rounded-full border font-medium ${difficultyColor[getDifficulty(idea)]}`}>
+                  {getDifficulty(idea)}
+                </span>
+                <span className="shrink-0 text-green-400 font-bold text-sm">£{idea.pricingRange.min}–£{idea.pricingRange.max}</span>
+                <div className="shrink-0">
                   <DemandStars rating={getDemandRating(idea)} />
-                  <span className="text-green-400 font-bold text-sm">£{idea.pricingRange.min}–£{idea.pricingRange.max}</span>
                 </div>
-
-                {stage.key === "earning" && (
-                  <div className="flex items-center gap-3 pt-1 border-t border-purple-900">
-                    <label className="text-xs text-purple-400 shrink-0">Units sold</label>
-                    <input
-                      type="number"
-                      min={0}
-                      step={1}
-                      value={salesMap[idea.id] ?? ""}
-                      placeholder="0"
-                      onChange={(e) => {
-                        const n = parseInt(e.target.value, 10);
-                        onSalesChange(idea.id, isNaN(n) ? 0 : Math.max(0, n));
-                      }}
-                      className="w-24 bg-[#0d0118] border border-purple-800 rounded-lg px-3 py-1.5 text-sm text-white placeholder-purple-600 focus:outline-none focus:border-green-500"
-                    />
-                  </div>
-                )}
               </div>
-            );
-          })}
+              {/* Earning sales input — compact inline row */}
+              {stage.key === "earning" && (
+                <div className="flex items-center gap-2">
+                  <label className="text-xs text-purple-500 shrink-0">Units sold</label>
+                  <input
+                    type="number"
+                    min={0}
+                    step={1}
+                    value={salesMap[idea.id] ?? ""}
+                    placeholder="0"
+                    onChange={(e) => {
+                      const n = parseInt(e.target.value, 10);
+                      onSalesChange(idea.id, isNaN(n) ? 0 : Math.max(0, n));
+                    }}
+                    className="w-20 bg-[#0d0118] border border-purple-800 rounded-lg px-2.5 py-1 text-sm text-white placeholder-purple-700 focus:outline-none focus:border-green-500"
+                  />
+                  {(salesMap[idea.id] ?? 0) > 0 && (
+                    <span className="text-xs text-green-400 font-semibold">
+                      = £{Math.round((salesMap[idea.id] ?? 0) * (idea.pricingRange.min + idea.pricingRange.max) / 2)} est.
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       )}
     </div>
@@ -149,41 +156,24 @@ export default function Dashboard() {
     return groups;
   }, [trackerEntries, ideaById]);
 
-  // Category bar chart data
-  const categoryStats = useMemo(() => {
-    const counts: Record<string, number> = {};
-    const creating: Record<string, number> = {};
-    const listed: Record<string, number> = {};
-    const earningCount: Record<string, number> = {};
-    const earningSales: Record<string, number> = {};
-
-    for (const idea of digitalDownloadIdeas) {
-      counts[idea.category] = (counts[idea.category] ?? 0) + 1;
-    }
-    for (const [id, entry] of trackerEntries) {
-      const idea = ideaById[id];
-      if (!idea) continue;
-      const cat = idea.category;
-      if (entry.stage === "creating") creating[cat] = (creating[cat] ?? 0) + 1;
-      if (entry.stage === "listed")   listed[cat]   = (listed[cat]   ?? 0) + 1;
-      if (entry.stage === "earning") {
-        earningCount[cat] = (earningCount[cat] ?? 0) + 1;
-        earningSales[cat] = (earningSales[cat] ?? 0) + (entry.sales ?? 0);
-      }
-    }
-    return CATEGORIES
-      .map((cat) => ({
-        category: cat,
-        count: counts[cat] ?? 0,
-        creating: creating[cat] ?? 0,
-        listed: listed[cat] ?? 0,
-        earningCount: earningCount[cat] ?? 0,
-        earningSales: earningSales[cat] ?? 0,
-      }))
-      .sort((a, b) => b.count - a.count);
+  // Category opportunity grid
+  const categoryOpportunity = useMemo(() => {
+    return CATEGORIES.map((cat) => {
+      const ideas = digitalDownloadIdeas.filter((i) => i.category === cat);
+      const avgDemand = ideas.reduce((s, i) => s + i.demandRating, 0) / ideas.length;
+      const avgPrice  = Math.round(
+        ideas.reduce((s, i) => s + (i.pricingRange.min + i.pricingRange.max) / 2, 0) / ideas.length
+      );
+      const tracked = trackerEntries.filter(([id]) => ideaById[id]?.category === cat);
+      const stages: Record<Stage, number> = { saved: 0, creating: 0, listed: 0, earning: 0 };
+      for (const [, e] of tracked) stages[e.stage]++;
+      return { category: cat, total: ideas.length, avgDemand, avgPrice, trackedCount: tracked.length, stages };
+    }).sort((a, b) => b.trackedCount - a.trackedCount || b.avgDemand - a.avgDemand);
   }, [trackerEntries, ideaById]);
 
-  const maxCategoryCount = categoryStats[0]?.count ?? 1;
+  // Stage labels for the activity breakdown
+  const stageLabels: Record<Stage, string> = { saved: "Saved", creating: "Creating", listed: "Listed", earning: "Earning" };
+  const stageColors: Record<Stage, string> = { saved: "text-purple-300", creating: "text-amber-400", listed: "text-blue-400", earning: "text-green-400" };
 
   return (
     <div className="min-h-screen bg-[#0d0118] text-white">
@@ -197,10 +187,10 @@ export default function Dashboard() {
 
         {/* Stat cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <StatCard label="Tracked"    value={totalTracked} accent="text-white"      sub="ideas in your list" />
+          <StatCard label="Tracked"     value={totalTracked} accent="text-white"      sub="ideas in your list" />
           <StatCard label="In Progress" value={inProgress}   accent="text-amber-400" sub="creating or listed" />
-          <StatCard label="Earning"    value={earning}      accent="text-green-400" sub="active listings" />
-          <StatCard label="Total Sold" value={totalSales}   accent="text-green-300" sub="units across all" />
+          <StatCard label="Earning"     value={earning}      accent="text-green-400" sub="active listings" />
+          <StatCard label="Total Sold"  value={totalSales}   accent="text-green-300" sub="units across all" />
         </div>
 
         {/* My List */}
@@ -218,7 +208,7 @@ export default function Dashboard() {
               </p>
             </div>
           ) : (
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-5">
               {STAGES.map((s) => (
                 <StageSection
                   key={s.key}
@@ -232,70 +222,47 @@ export default function Dashboard() {
           )}
         </div>
 
-        {/* Stage pipeline bar */}
-        {totalTracked > 0 && (
-          <div className="flex flex-col gap-3">
-            <h2 className="text-base font-bold text-purple-100">Pipeline</h2>
-            <div className="bg-[#160028] border border-purple-900 rounded-xl p-5 flex flex-col gap-4">
-              {STAGES.map((s) => {
-                const count = stageCounts[s.key] ?? 0;
-                const pct = totalTracked > 0 ? (count / totalTracked) * 100 : 0;
-                return (
-                  <div key={s.key} className="flex items-center gap-4">
-                    <span className={`text-sm font-semibold w-20 shrink-0 ${s.color}`}>{s.label}</span>
-                    <div className="flex-1 h-3 bg-[#2a0050] rounded-full overflow-hidden">
-                      <div
-                        className={`h-full rounded-full transition-all duration-500 ${s.bg.replace("/20", "")}`}
-                        style={{ width: `${pct}%` }}
-                      />
-                    </div>
-                    <span className="text-sm font-bold text-purple-300 w-6 text-right shrink-0">{count}</span>
-                  </div>
-                );
-              })}
-            </div>
+        {/* Category Opportunity Grid */}
+        <div className="flex flex-col gap-4">
+          <div>
+            <h2 className="text-base font-bold text-purple-100">Category Opportunities</h2>
+            <p className="text-purple-500 text-xs mt-0.5">Sorted by your activity, then avg demand — use this to pick your next focus</p>
           </div>
-        )}
-
-        {/* Ideas by category */}
-        <div className="flex flex-col gap-3">
-          <h2 className="text-base font-bold text-purple-100">Ideas by Category</h2>
-          <div className="bg-[#160028] border border-purple-900 rounded-xl p-5 flex flex-col gap-4">
-            {categoryStats.map(({ category, count, creating, listed, earningCount, earningSales }) => {
-              const pct = (count / maxCategoryCount) * 100;
-              const bar = CATEGORY_BAR[category] ?? "bg-gray-600";
-              const hasActivity = creating > 0 || listed > 0 || earningCount > 0;
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {categoryOpportunity.map(({ category, total, avgDemand, avgPrice, trackedCount, stages }) => {
+              const accent = CATEGORY_ACCENT[category] ?? "border-t-gray-700";
+              const isActive = trackedCount > 0;
+              const activeStages = (Object.entries(stages) as [Stage, number][]).filter(([, n]) => n > 0);
               return (
-                <div key={category} className="flex flex-col gap-1.5">
-                  <div className="flex items-center gap-3">
-                    <span className="text-sm text-purple-300 w-48 shrink-0 truncate">{category}</span>
-                    <div className="flex-1 h-2.5 bg-[#2a0050] rounded-full overflow-hidden">
-                      <div className={`h-full rounded-full transition-all duration-500 ${bar}`} style={{ width: `${pct}%` }} />
-                    </div>
-                    <span className="text-sm text-purple-400 w-6 text-right shrink-0">{count}</span>
+                <div
+                  key={category}
+                  className={`border border-t-4 ${accent} rounded-xl p-4 flex flex-col gap-3 transition-colors ${
+                    isActive
+                      ? "bg-[#1e003a] border-amber-500/30"
+                      : "bg-[#160028] border-purple-900"
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <p className="text-white font-bold text-sm leading-snug">{category}</p>
+                    {isActive && (
+                      <span className="shrink-0 text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/30 text-amber-400">
+                        {trackedCount} tracked
+                      </span>
+                    )}
                   </div>
-                  {hasActivity && (
-                    <div className="flex items-center gap-3 pl-[12.5rem]">
-                      <div className="flex items-center gap-2 text-xs">
-                        {creating > 0 && (
-                          <span className="flex items-center gap-1 text-amber-400">
-                            <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                            {creating} creating
-                          </span>
-                        )}
-                        {listed > 0 && (
-                          <span className="flex items-center gap-1 text-blue-400">
-                            <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-                            {listed} listed
-                          </span>
-                        )}
-                        {earningCount > 0 && (
-                          <span className="flex items-center gap-1 text-green-400">
-                            <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
-                            {earningCount} earning{earningSales > 0 ? ` · ${earningSales} sold` : ""}
-                          </span>
-                        )}
-                      </div>
+                  <div className="flex items-center gap-3">
+                    <DemandStars rating={Math.round(avgDemand)} />
+                    <span className="text-purple-500 text-xs">·</span>
+                    <span className="text-green-400 font-semibold text-sm">avg £{avgPrice}</span>
+                    <span className="text-purple-600 text-xs ml-auto">{total} ideas</span>
+                  </div>
+                  {isActive && activeStages.length > 0 && (
+                    <div className="flex flex-wrap gap-2">
+                      {activeStages.map(([stage, n]) => (
+                        <span key={stage} className={`text-xs font-medium ${stageColors[stage]}`}>
+                          {n} {stageLabels[stage]}
+                        </span>
+                      ))}
                     </div>
                   )}
                 </div>
