@@ -1,39 +1,125 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { digitalDownloadIdeas } from "../data/digitalDownloadIdeas";
-import { getDemandRating, CATEGORY_BAR } from "../data/ideaUtils";
-import { CATEGORIES, STAGES, STORAGE_KEY, type Stage, type TrackerData } from "../data/tracker";
+import { getDifficulty, getDemandRating, CATEGORY_BAR, CATEGORY_ACCENT } from "../data/ideaUtils";
+import { CATEGORIES, STAGES, useTracker, type Stage } from "../data/tracker";
 import { DemandStars } from "./DigitalDownloadIdeas";
 
-function readTracker(): TrackerData {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    const parsed = JSON.parse(raw ?? "{}");
-    const result: TrackerData = {};
-    for (const [id, val] of Object.entries(parsed)) {
-      result[id] = typeof val === "string"
-        ? { stage: val as Stage }
-        : (val as TrackerData[string]);
-    }
-    return result;
-  } catch {
-    return {};
-  }
+const difficultyColor: Record<string, string> = {
+  beginner:     "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+  intermediate: "bg-amber-500/20 text-amber-400 border-amber-500/30",
+  advanced:     "bg-red-500/20 text-red-400 border-red-500/30",
+};
+
+function StatCard({ label, value, accent, sub }: { label: string; value: string | number; accent: string; sub?: string }) {
+  return (
+    <div className="bg-[#160028] border border-purple-900 rounded-xl p-5 flex flex-col gap-1">
+      <span className={`text-3xl font-bold ${accent}`}>{value}</span>
+      <span className="text-purple-300 text-sm font-medium">{label}</span>
+      {sub && <span className="text-purple-600 text-xs">{sub}</span>}
+    </div>
+  );
 }
 
-function StatPill({ label, value, accent }: { label: string; value: number; accent: string }) {
+function StageSection({
+  stage,
+  ideas,
+  salesMap,
+  onSalesChange,
+}: {
+  stage: typeof STAGES[number];
+  ideas: typeof digitalDownloadIdeas;
+  salesMap: Record<string, number>;
+  onSalesChange: (id: string, sales: number) => void;
+}) {
+  const [collapsed, setCollapsed] = useState(false);
+  if (ideas.length === 0) return null;
+
   return (
-    <div className="bg-[#160028] border border-purple-900 rounded-xl p-4 flex flex-col gap-1">
-      <span className={`text-2xl font-bold ${accent}`}>{value}</span>
-      <span className="text-purple-400 text-xs">{label}</span>
+    <div className="flex flex-col gap-3">
+      <button
+        onClick={() => setCollapsed((v) => !v)}
+        className="flex items-center gap-3 group w-full text-left"
+      >
+        <span className={`text-sm font-bold ${stage.color}`}>{stage.label}</span>
+        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${stage.color} ${stage.bg} ${stage.border}`}>
+          {ideas.length}
+        </span>
+        <span className={`ml-auto text-purple-600 group-hover:text-purple-400 transition-all duration-200 text-sm ${collapsed ? "-rotate-90" : ""}`}>
+          ▾
+        </span>
+      </button>
+
+      {!collapsed && (
+        <div className="flex flex-col gap-2">
+          {ideas.map((idea) => {
+            const catAccent = CATEGORY_ACCENT[idea.category] ?? "border-t-gray-700";
+            return (
+              <div
+                key={idea.id}
+                className={`bg-[#160028] border border-purple-900 border-t-4 ${catAccent} rounded-xl p-4 flex flex-col gap-3`}
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="text-white font-bold text-base leading-snug">{idea.name}</p>
+                    <p className="text-purple-400 text-xs mt-0.5">{idea.category}</p>
+                  </div>
+                  <span className={`shrink-0 text-xs px-2.5 py-1 rounded-full border font-medium ${difficultyColor[getDifficulty(idea)]}`}>
+                    {getDifficulty(idea)}
+                  </span>
+                </div>
+
+                <p className="text-purple-300 text-sm leading-relaxed line-clamp-2">{idea.description}</p>
+
+                <div className="flex items-center justify-between">
+                  <DemandStars rating={getDemandRating(idea)} />
+                  <span className="text-green-400 font-bold text-sm">£{idea.pricingRange.min}–£{idea.pricingRange.max}</span>
+                </div>
+
+                {stage.key === "earning" && (
+                  <div className="flex items-center gap-3 pt-1 border-t border-purple-900">
+                    <label className="text-xs text-purple-400 shrink-0">Units sold</label>
+                    <input
+                      type="number"
+                      min={0}
+                      step={1}
+                      value={salesMap[idea.id] ?? ""}
+                      placeholder="0"
+                      onChange={(e) => {
+                        const n = parseInt(e.target.value, 10);
+                        onSalesChange(idea.id, isNaN(n) ? 0 : Math.max(0, n));
+                      }}
+                      className="w-24 bg-[#0d0118] border border-purple-800 rounded-lg px-3 py-1.5 text-sm text-white placeholder-purple-600 focus:outline-none focus:border-green-500"
+                    />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
 
 export default function Dashboard() {
-  const tracker = useMemo(() => readTracker(), []);
+  const { tracker, setSales } = useTracker();
 
-  const trackerEntries = Object.entries(tracker);
+  const salesMap = useMemo(() => {
+    const m: Record<string, number> = {};
+    for (const [id, entry] of Object.entries(tracker)) {
+      if (entry.sales != null) m[id] = entry.sales;
+    }
+    return m;
+  }, [tracker]);
+
+  const trackerEntries = useMemo(() => Object.entries(tracker), [tracker]);
   const totalTracked = trackerEntries.length;
+
+  const ideaById = useMemo(() => {
+    const map: Record<string, (typeof digitalDownloadIdeas)[number]> = {};
+    for (const idea of digitalDownloadIdeas) map[idea.id] = idea;
+    return map;
+  }, []);
 
   const stageCounts = useMemo(() => {
     const counts: Record<string, number> = {};
@@ -43,28 +129,37 @@ export default function Dashboard() {
     return counts;
   }, [trackerEntries]);
 
+  const totalSales = useMemo(
+    () => trackerEntries.reduce((sum, [, e]) => sum + (e.sales ?? 0), 0),
+    [trackerEntries]
+  );
+
   const inProgress = (stageCounts["creating"] ?? 0) + (stageCounts["listed"] ?? 0);
   const earning = stageCounts["earning"] ?? 0;
 
-  // Build a lookup: ideaId → category
-  const ideaById = useMemo(() => {
-    const map: Record<string, (typeof digitalDownloadIdeas)[number]> = {};
-    for (const idea of digitalDownloadIdeas) map[idea.id] = idea;
-    return map;
-  }, []);
+  // Ideas per stage for My List
+  const ideasByStage = useMemo(() => {
+    const groups: Record<Stage, typeof digitalDownloadIdeas> = {
+      saved: [], creating: [], listed: [], earning: [],
+    };
+    for (const [id, entry] of trackerEntries) {
+      const idea = ideaById[id];
+      if (idea) groups[entry.stage].push(idea);
+    }
+    return groups;
+  }, [trackerEntries, ideaById]);
 
-  // Category idea counts + tracker stats per category
+  // Category bar chart data
   const categoryStats = useMemo(() => {
     const counts: Record<string, number> = {};
     const creating: Record<string, number> = {};
     const listed: Record<string, number> = {};
-    const earningSales: Record<string, number> = {};   // sum of sales per category
     const earningCount: Record<string, number> = {};
+    const earningSales: Record<string, number> = {};
 
     for (const idea of digitalDownloadIdeas) {
       counts[idea.category] = (counts[idea.category] ?? 0) + 1;
     }
-
     for (const [id, entry] of trackerEntries) {
       const idea = ideaById[id];
       if (!idea) continue;
@@ -76,7 +171,6 @@ export default function Dashboard() {
         earningSales[cat] = (earningSales[cat] ?? 0) + (entry.sales ?? 0);
       }
     }
-
     return CATEGORIES
       .map((cat) => ({
         category: cat,
@@ -91,73 +185,82 @@ export default function Dashboard() {
 
   const maxCategoryCount = categoryStats[0]?.count ?? 1;
 
-  // Top ideas: sort by sales (desc), pad with high-demand if needed
-  const topIdeas = useMemo(() => {
-    const withSales = digitalDownloadIdeas
-      .filter((i) => (tracker[i.id]?.sales ?? 0) > 0)
-      .sort((a, b) => (tracker[b.id]?.sales ?? 0) - (tracker[a.id]?.sales ?? 0));
-
-    const withSalesIds = new Set(withSales.map((i) => i.id));
-    const padded = [...digitalDownloadIdeas]
-      .filter((i) => !withSalesIds.has(i.id))
-      .sort((a, b) => getDemandRating(b) - getDemandRating(a));
-
-    return [...withSales, ...padded].slice(0, 5);
-  }, [tracker]);
-
   return (
     <div className="min-h-screen bg-[#0d0118] text-white">
-      <div className="max-w-4xl mx-auto px-4 py-8 flex flex-col gap-8">
+      <div className="max-w-4xl mx-auto px-4 py-8 flex flex-col gap-10">
 
         {/* Header */}
         <div>
-          <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-          <p className="text-purple-300 text-sm mt-1">Overview of your ideas and progress</p>
+          <h1 className="text-3xl font-bold text-white tracking-tight">Dashboard</h1>
+          <p className="text-purple-400 text-sm mt-1.5">Your progress at a glance</p>
         </div>
 
-        {/* Stat pills */}
+        {/* Stat cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <StatPill label="Total Ideas"  value={digitalDownloadIdeas.length} accent="text-white" />
-          <StatPill label="Categories"   value={CATEGORIES.length}           accent="text-amber-400" />
-          <StatPill label="In Progress"  value={inProgress}                  accent="text-amber-400" />
-          <StatPill label="Earning"      value={earning}                     accent="text-green-400" />
+          <StatCard label="Tracked"    value={totalTracked} accent="text-white"      sub="ideas in your list" />
+          <StatCard label="In Progress" value={inProgress}   accent="text-amber-400" sub="creating or listed" />
+          <StatCard label="Earning"    value={earning}      accent="text-green-400" sub="active listings" />
+          <StatCard label="Total Sold" value={totalSales}   accent="text-green-300" sub="units across all" />
         </div>
 
-        {/* Tracker breakdown */}
-        <div className="flex flex-col gap-3">
-          <h2 className="text-sm font-semibold text-purple-200">My Tracker</h2>
+        {/* My List */}
+        <div className="flex flex-col gap-4">
+          <div>
+            <h2 className="text-base font-bold text-purple-100">My List</h2>
+            <p className="text-purple-500 text-xs mt-0.5">All ideas you're tracking, grouped by stage</p>
+          </div>
+
           {totalTracked === 0 ? (
-            <div className="bg-[#160028] border border-purple-900 rounded-xl px-4 py-6 text-center">
-              <p className="text-purple-400 text-sm">No ideas tracked yet.</p>
-              <p className="text-purple-600 text-xs mt-1">Open any product in Browse and set a stage to get started.</p>
+            <div className="bg-[#160028] border border-dashed border-purple-800 rounded-xl px-6 py-10 text-center flex flex-col gap-2">
+              <p className="text-purple-300 font-semibold text-sm">Your list is empty</p>
+              <p className="text-purple-600 text-xs">
+                Go to Browse, open any idea, and set a stage — it will appear here.
+              </p>
             </div>
           ) : (
-            <div className="bg-[#160028] border border-purple-900 rounded-xl p-4 flex flex-col gap-3">
+            <div className="flex flex-col gap-6">
+              {STAGES.map((s) => (
+                <StageSection
+                  key={s.key}
+                  stage={s}
+                  ideas={ideasByStage[s.key]}
+                  salesMap={salesMap}
+                  onSalesChange={setSales}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Stage pipeline bar */}
+        {totalTracked > 0 && (
+          <div className="flex flex-col gap-3">
+            <h2 className="text-base font-bold text-purple-100">Pipeline</h2>
+            <div className="bg-[#160028] border border-purple-900 rounded-xl p-5 flex flex-col gap-4">
               {STAGES.map((s) => {
                 const count = stageCounts[s.key] ?? 0;
                 const pct = totalTracked > 0 ? (count / totalTracked) * 100 : 0;
                 return (
-                  <div key={s.key} className="flex items-center gap-3">
-                    <span className={`text-xs font-semibold w-16 shrink-0 ${s.color}`}>{s.label}</span>
-                    <div className="flex-1 h-2 bg-[#2a0050] rounded-full overflow-hidden">
+                  <div key={s.key} className="flex items-center gap-4">
+                    <span className={`text-sm font-semibold w-20 shrink-0 ${s.color}`}>{s.label}</span>
+                    <div className="flex-1 h-3 bg-[#2a0050] rounded-full overflow-hidden">
                       <div
                         className={`h-full rounded-full transition-all duration-500 ${s.bg.replace("/20", "")}`}
                         style={{ width: `${pct}%` }}
                       />
                     </div>
-                    <span className="text-xs text-purple-400 w-6 text-right shrink-0">{count}</span>
+                    <span className="text-sm font-bold text-purple-300 w-6 text-right shrink-0">{count}</span>
                   </div>
                 );
               })}
-              <p className="text-purple-600 text-xs text-right">{totalTracked} idea{totalTracked !== 1 ? "s" : ""} tracked</p>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Ideas by category */}
         <div className="flex flex-col gap-3">
-          <h2 className="text-sm font-semibold text-purple-200">Ideas by Category</h2>
-          <div className="bg-[#160028] border border-purple-900 rounded-xl p-4 flex flex-col gap-4">
+          <h2 className="text-base font-bold text-purple-100">Ideas by Category</h2>
+          <div className="bg-[#160028] border border-purple-900 rounded-xl p-5 flex flex-col gap-4">
             {categoryStats.map(({ category, count, creating, listed, earningCount, earningSales }) => {
               const pct = (count / maxCategoryCount) * 100;
               const bar = CATEGORY_BAR[category] ?? "bg-gray-600";
@@ -165,18 +268,15 @@ export default function Dashboard() {
               return (
                 <div key={category} className="flex flex-col gap-1.5">
                   <div className="flex items-center gap-3">
-                    <span className="text-xs text-purple-300 w-44 shrink-0 truncate">{category}</span>
-                    <div className="flex-1 h-2 bg-[#2a0050] rounded-full overflow-hidden">
-                      <div
-                        className={`h-full rounded-full transition-all duration-500 ${bar}`}
-                        style={{ width: `${pct}%` }}
-                      />
+                    <span className="text-sm text-purple-300 w-48 shrink-0 truncate">{category}</span>
+                    <div className="flex-1 h-2.5 bg-[#2a0050] rounded-full overflow-hidden">
+                      <div className={`h-full rounded-full transition-all duration-500 ${bar}`} style={{ width: `${pct}%` }} />
                     </div>
-                    <span className="text-xs text-purple-400 w-6 text-right shrink-0">{count}</span>
+                    <span className="text-sm text-purple-400 w-6 text-right shrink-0">{count}</span>
                   </div>
                   {hasActivity && (
-                    <div className="flex items-center gap-3 pl-[11.5rem]">
-                      <div className="flex items-center gap-2 text-[11px]">
+                    <div className="flex items-center gap-3 pl-[12.5rem]">
+                      <div className="flex items-center gap-2 text-xs">
                         {creating > 0 && (
                           <span className="flex items-center gap-1 text-amber-400">
                             <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
@@ -198,36 +298,6 @@ export default function Dashboard() {
                       </div>
                     </div>
                   )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Top 5 ideas */}
-        <div className="flex flex-col gap-3">
-          <div>
-            <h2 className="text-sm font-semibold text-purple-200">Top Ideas</h2>
-            <p className="text-purple-600 text-xs mt-0.5">By units sold · padded by demand rating</p>
-          </div>
-          <div className="bg-[#160028] border border-purple-900 rounded-xl divide-y divide-purple-900">
-            {topIdeas.map((idea, i) => {
-              const sales = tracker[idea.id]?.sales ?? 0;
-              return (
-                <div key={idea.id} className="px-4 py-3 flex items-center gap-4">
-                  <span className="text-purple-600 text-xs font-bold w-4 shrink-0">{i + 1}</span>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-white text-sm font-medium truncate">{idea.name}</p>
-                    <p className="text-purple-400 text-xs truncate">{idea.category}</p>
-                  </div>
-                  {sales > 0 ? (
-                    <span className="text-xs font-semibold text-green-400 bg-green-500/10 border border-green-500/20 px-2 py-0.5 rounded-full shrink-0">
-                      {sales} sold
-                    </span>
-                  ) : (
-                    <DemandStars rating={getDemandRating(idea)} />
-                  )}
-                  <span className="text-purple-300 text-xs shrink-0">£{idea.pricingRange.min}–£{idea.pricingRange.max}</span>
                 </div>
               );
             })}
