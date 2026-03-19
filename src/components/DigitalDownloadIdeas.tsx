@@ -16,6 +16,19 @@ const CATEGORIES: Category[] = [
   "Spreadsheets & Trackers",
 ];
 
+const CATEGORY_ACCENT: Record<Category, string> = {
+  "Planners & Organizers":      "border-t-violet-500",
+  "Wall Art & Prints":          "border-t-pink-500",
+  "Social Media Templates":     "border-t-sky-500",
+  "Business & Branding":        "border-t-amber-500",
+  "Education & Kids":           "border-t-green-500",
+  "Journals & Workbooks":       "border-t-purple-500",
+  "Notion & Digital Templates": "border-t-cyan-500",
+  "Photo & Design Assets":      "border-t-rose-500",
+  "Events & Celebrations":      "border-t-orange-500",
+  "Spreadsheets & Trackers":    "border-t-teal-500",
+};
+
 const DIFFICULTIES = ["beginner", "intermediate", "advanced"] as const;
 
 const TOOL_SCORES: Record<string, number> = {
@@ -105,6 +118,21 @@ function StagePill({ stage }: { stage: Stage }) {
   );
 }
 
+function DemandStars({ rating }: { rating: number }) {
+  return (
+    <div className="flex items-center gap-0.5">
+      {Array.from({ length: 5 }, (_, i) => (
+        <span
+          key={i}
+          className={`text-[10px] ${i < rating ? "text-violet-400" : "text-gray-700"}`}
+        >
+          ●
+        </span>
+      ))}
+    </div>
+  );
+}
+
 function IdeaCard({
   idea,
   stage,
@@ -114,10 +142,11 @@ function IdeaCard({
   stage: Stage | undefined;
   onClick: () => void;
 }) {
+  const accent = CATEGORY_ACCENT[idea.category] ?? "border-t-gray-700";
   return (
     <button
       onClick={onClick}
-      className="text-left bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-violet-500/50 hover:bg-gray-800/60 transition-all duration-200 flex flex-col gap-3 active:scale-[0.98]"
+      className={`text-left bg-gray-900 border border-gray-800 border-t-2 ${accent} rounded-xl p-4 hover:border-violet-500/50 hover:bg-gray-800/60 hover:-translate-y-px transition-all duration-200 flex flex-col gap-3 active:scale-[0.98]`}
     >
       <div className="flex items-start justify-between gap-2">
         <h3 className="text-white font-semibold text-sm leading-snug">{idea.name}</h3>
@@ -129,7 +158,7 @@ function IdeaCard({
           {getDifficulty(idea)}
         </span>
         <span>£{idea.pricingRange.min}–£{idea.pricingRange.max}</span>
-        <span>{idea.estimatedCreationTime}</span>
+        <DemandStars rating={idea.demandRating} />
       </div>
     </button>
   );
@@ -165,6 +194,17 @@ function IdeaDetail({
 }) {
   const workflow = workflowGuides[idea.id];
   const marketing = marketingPrompts[idea.id];
+  const [checkedSteps, setCheckedSteps] = useState<Set<number>>(new Set());
+
+  const toggleStep = (i: number) =>
+    setCheckedSteps((prev) => {
+      const next = new Set(prev);
+      next.has(i) ? next.delete(i) : next.add(i);
+      return next;
+    });
+
+  const checklist = idea.launchChecklist ?? [];
+  const completedCount = checklist.filter((_, i) => checkedSteps.has(i)).length;
 
   return (
     <div
@@ -236,14 +276,56 @@ function IdeaDetail({
               <span className="text-gray-500 text-xs">Time to Create</span>
               <span className="text-white text-sm font-semibold">{idea.estimatedCreationTime}</span>
             </div>
-            <div className="bg-gray-900 rounded-xl p-3 flex flex-col gap-1 col-span-2">
+            <div className="bg-gray-900 rounded-xl p-3 flex flex-col gap-1">
               <span className="text-gray-500 text-xs">Difficulty</span>
               <span className={`text-sm font-semibold capitalize ${
                 getDifficulty(idea) === "beginner" ? "text-emerald-400" :
                 getDifficulty(idea) === "intermediate" ? "text-amber-400" : "text-red-400"
               }`}>{getDifficulty(idea)}</span>
             </div>
+            <div className="bg-gray-900 rounded-xl p-3 flex flex-col gap-1">
+              <span className="text-gray-500 text-xs">Demand</span>
+              <div className="flex items-center gap-1 pt-0.5">
+                <DemandStars rating={idea.demandRating} />
+                <span className="text-gray-500 text-xs">({idea.demandRating}/5)</span>
+              </div>
+            </div>
           </div>
+
+          {/* Launch Checklist */}
+          {checklist.length > 0 && (
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-between">
+                <SectionHeader label="Launch Checklist" />
+                <span className="text-xs text-gray-500 shrink-0 ml-3">
+                  {completedCount}/{checklist.length} done
+                </span>
+              </div>
+              <div className="flex flex-col gap-2">
+                {checklist.map((item, i) => {
+                  const checked = checkedSteps.has(i);
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => toggleStep(i)}
+                      className="bg-gray-900 border border-gray-800 rounded-xl p-3 flex gap-3 items-start text-left hover:border-gray-700 transition-colors"
+                    >
+                      <span className={`shrink-0 w-4 h-4 mt-0.5 rounded border flex items-center justify-center text-[10px] transition-colors ${
+                        checked
+                          ? "bg-violet-500 border-violet-500 text-white"
+                          : "border-gray-600 text-transparent"
+                      }`}>
+                        ✓
+                      </span>
+                      <p className={`text-sm leading-relaxed transition-colors ${checked ? "text-gray-500 line-through" : "text-gray-300"}`}>
+                        {item}
+                      </p>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Tools + Niches */}
           <div className="flex flex-col gap-3">
@@ -319,16 +401,27 @@ function IdeaDetail({
   );
 }
 
+type SortOption = "default" | "demand" | "price-asc" | "price-desc";
+
 export default function DigitalDownloadIdeas() {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<Category | "All">("All");
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>("All");
+  const [selectedSort, setSelectedSort] = useState<SortOption>("default");
   const [myListOnly, setMyListOnly] = useState(false);
   const [selectedIdea, setSelectedIdea] = useState<DigitalDownloadIdea | null>(null);
   const { tracker, setStage } = useTracker();
 
+  const clearFilters = () => {
+    setSearch("");
+    setSelectedCategory("All");
+    setSelectedDifficulty("All");
+    setSelectedSort("default");
+    setMyListOnly(false);
+  };
+
   const filtered = useMemo(() => {
-    return digitalDownloadIdeas.filter((idea) => {
+    const results = digitalDownloadIdeas.filter((idea) => {
       if (selectedCategory !== "All" && idea.category !== selectedCategory) return false;
       if (selectedDifficulty !== "All" && getDifficulty(idea) !== selectedDifficulty) return false;
       if (myListOnly && !tracker[idea.id]) return false;
@@ -342,7 +435,18 @@ export default function DigitalDownloadIdeas() {
       }
       return true;
     });
-  }, [search, selectedCategory, selectedDifficulty, myListOnly, tracker]);
+
+    if (selectedSort === "demand") {
+      return [...results].sort((a, b) => b.demandRating - a.demandRating);
+    }
+    if (selectedSort === "price-asc") {
+      return [...results].sort((a, b) => a.pricingRange.min - b.pricingRange.min);
+    }
+    if (selectedSort === "price-desc") {
+      return [...results].sort((a, b) => b.pricingRange.min - a.pricingRange.min);
+    }
+    return results;
+  }, [search, selectedCategory, selectedDifficulty, selectedSort, myListOnly, tracker]);
 
   const myListCount = Object.keys(tracker).length;
 
@@ -351,14 +455,16 @@ export default function DigitalDownloadIdeas() {
       <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col gap-6">
 
         {/* Header */}
-        <div>
-          <h1 className="text-2xl font-bold text-white">Digital Downloads</h1>
-          <p className="text-gray-400 text-sm mt-1">
-            {digitalDownloadIdeas.length} product ideas across {CATEGORIES.length} categories
-            {myListCount > 0 && (
-              <span className="ml-2 text-violet-400">· {myListCount} in your list</span>
-            )}
-          </p>
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-white">Digital Downloads</h1>
+            <p className="text-gray-400 text-sm mt-1">
+              {digitalDownloadIdeas.length} ideas across {CATEGORIES.length} categories
+              {myListCount > 0 && (
+                <span className="ml-2 text-violet-400">· {myListCount} in your list</span>
+              )}
+            </p>
+          </div>
         </div>
 
         {/* Filters */}
@@ -394,6 +500,17 @@ export default function DigitalDownloadIdeas() {
               ))}
             </select>
 
+            <select
+              value={selectedSort}
+              onChange={(e) => setSelectedSort(e.target.value as SortOption)}
+              className="bg-gray-900 border border-gray-700 text-sm text-white rounded-xl px-3 min-h-[44px] focus:outline-none focus:border-violet-500 flex-1 min-w-[130px]"
+            >
+              <option value="default">Default Order</option>
+              <option value="demand">Demand: High first</option>
+              <option value="price-asc">Price: Low first</option>
+              <option value="price-desc">Price: High first</option>
+            </select>
+
             <button
               onClick={() => setMyListOnly((v) => !v)}
               className={`text-sm px-4 min-h-[44px] rounded-xl border transition-colors ${
@@ -413,8 +530,26 @@ export default function DigitalDownloadIdeas() {
 
         {/* Grid */}
         {filtered.length === 0 ? (
-          <div className="text-center py-20 text-gray-500">
-            {myListOnly ? "No products in your list yet — tap any product and set a stage." : "No ideas match your filters."}
+          <div className="flex flex-col items-center justify-center py-24 gap-4">
+            <span className="text-4xl text-gray-700">◎</span>
+            <div className="text-center">
+              <p className="text-gray-300 font-semibold text-base">
+                {myListOnly ? "Your list is empty" : "No ideas match your filters"}
+              </p>
+              <p className="text-gray-500 text-sm mt-1">
+                {myListOnly
+                  ? "Open any product and set a stage to add it here."
+                  : "Try adjusting your search or filters."}
+              </p>
+            </div>
+            {!myListOnly && (
+              <button
+                onClick={clearFilters}
+                className="mt-2 text-sm px-4 py-2 rounded-xl bg-gray-800 border border-gray-700 text-gray-300 hover:text-white hover:border-gray-600 transition-colors"
+              >
+                Clear filters
+              </button>
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
