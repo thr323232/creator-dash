@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { digitalDownloadIdeas, type DigitalDownloadIdea, type Category } from "../data/digitalDownloadIdeas";
 import { workflowGuides } from "../data/workflowGuides";
 import { marketingPrompts } from "../data/marketingPrompts";
@@ -24,26 +24,69 @@ const difficultyColor: Record<string, string> = {
   advanced: "bg-red-500/20 text-red-400 border-red-500/30",
 };
 
-const PLATFORM_CONFIG = [
-  { key: "etsy" as const, label: "Etsy", color: "text-orange-400", border: "border-orange-500/30", bg: "bg-orange-500/10" },
-  { key: "tiktok" as const, label: "TikTok", color: "text-pink-400", border: "border-pink-500/30", bg: "bg-pink-500/10" },
-  { key: "instagram" as const, label: "Instagram", color: "text-purple-400", border: "border-purple-500/30", bg: "bg-purple-500/10" },
-  { key: "pinterest" as const, label: "Pinterest", color: "text-red-400", border: "border-red-500/30", bg: "bg-red-500/10" },
-  { key: "gptImagePrompt" as const, label: "GPT Image Prompt", color: "text-cyan-400", border: "border-cyan-500/30", bg: "bg-cyan-500/10" },
-  { key: "videoPrompt" as const, label: "Video Prompt", color: "text-blue-400", border: "border-blue-500/30", bg: "bg-blue-500/10" },
+type Stage = "saved" | "creating" | "listed" | "earning";
+
+const STAGES: { key: Stage; label: string; color: string; bg: string; border: string }[] = [
+  { key: "saved",    label: "Saved",    color: "text-gray-300",   bg: "bg-gray-700",        border: "border-gray-600" },
+  { key: "creating", label: "Creating", color: "text-amber-300",  bg: "bg-amber-500/20",    border: "border-amber-500/40" },
+  { key: "listed",   label: "Listed",   color: "text-blue-300",   bg: "bg-blue-500/20",     border: "border-blue-500/40" },
+  { key: "earning",  label: "Earning",  color: "text-green-300",  bg: "bg-green-500/20",    border: "border-green-500/40" },
 ];
 
-function DemandStars({ rating }: { rating: number }) {
+const STORAGE_KEY = "creator-dash-tracker";
+
+function useTracker() {
+  const [tracker, setTracker] = useState<Record<string, Stage>>(() => {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+    } catch {
+      return {};
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(tracker));
+  }, [tracker]);
+
+  const setStage = (id: string, stage: Stage | null) => {
+    setTracker((prev) => {
+      const next = { ...prev };
+      if (stage === null) delete next[id];
+      else next[id] = stage;
+      return next;
+    });
+  };
+
+  return { tracker, setStage };
+}
+
+const PLATFORM_CONFIG = [
+  { key: "etsy" as const,           label: "Etsy",             color: "text-orange-400", border: "border-orange-500/30", bg: "bg-orange-500/10" },
+  { key: "tiktok" as const,         label: "TikTok",           color: "text-pink-400",   border: "border-pink-500/30",   bg: "bg-pink-500/10" },
+  { key: "instagram" as const,      label: "Instagram",        color: "text-purple-400", border: "border-purple-500/30", bg: "bg-purple-500/10" },
+  { key: "pinterest" as const,      label: "Pinterest",        color: "text-red-400",    border: "border-red-500/30",    bg: "bg-red-500/10" },
+  { key: "gptImagePrompt" as const, label: "GPT Image Prompt", color: "text-cyan-400",   border: "border-cyan-500/30",   bg: "bg-cyan-500/10" },
+  { key: "videoPrompt" as const,    label: "Video Prompt",     color: "text-blue-400",   border: "border-blue-500/30",   bg: "bg-blue-500/10" },
+];
+
+function StagePill({ stage }: { stage: Stage }) {
+  const s = STAGES.find((s) => s.key === stage)!;
   return (
-    <div className="flex gap-0.5">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <span key={i} className={i < rating ? "text-yellow-400" : "text-gray-600"}>★</span>
-      ))}
-    </div>
+    <span className={`text-xs px-2 py-0.5 rounded-full border font-medium ${s.color} ${s.bg} ${s.border}`}>
+      {s.label}
+    </span>
   );
 }
 
-function IdeaCard({ idea, onClick }: { idea: DigitalDownloadIdea; onClick: () => void }) {
+function IdeaCard({
+  idea,
+  stage,
+  onClick,
+}: {
+  idea: DigitalDownloadIdea;
+  stage: Stage | undefined;
+  onClick: () => void;
+}) {
   return (
     <button
       onClick={onClick}
@@ -51,20 +94,13 @@ function IdeaCard({ idea, onClick }: { idea: DigitalDownloadIdea; onClick: () =>
     >
       <div className="flex items-start justify-between gap-2">
         <h3 className="text-white font-semibold text-sm leading-snug">{idea.name}</h3>
-        {idea.trending && (
-          <span className="shrink-0 text-xs px-2 py-0.5 rounded-full bg-violet-500/20 text-violet-400 border border-violet-500/30">
-            Trending
-          </span>
-        )}
+        {stage && <StagePill stage={stage} />}
       </div>
       <p className="text-gray-400 text-xs leading-relaxed line-clamp-2">{idea.description}</p>
-      <div className="flex items-center gap-2 flex-wrap">
-        <span className={`text-xs px-2 py-0.5 rounded-full border ${difficultyColor[idea.difficulty]}`}>
+      <div className="flex items-center justify-between text-xs text-gray-500">
+        <span className={`px-2 py-0.5 rounded-full border ${difficultyColor[idea.difficulty]}`}>
           {idea.difficulty}
         </span>
-        <DemandStars rating={idea.demandRating} />
-      </div>
-      <div className="flex items-center justify-between text-xs text-gray-500">
         <span>£{idea.pricingRange.min}–£{idea.pricingRange.max}</span>
         <span>{idea.estimatedCreationTime}</span>
       </div>
@@ -89,7 +125,17 @@ function PlaceholderBox({ message }: { message: string }) {
   );
 }
 
-function IdeaDetail({ idea, onClose }: { idea: DigitalDownloadIdea; onClose: () => void }) {
+function IdeaDetail({
+  idea,
+  stage,
+  onStageChange,
+  onClose,
+}: {
+  idea: DigitalDownloadIdea;
+  stage: Stage | undefined;
+  onStageChange: (stage: Stage | null) => void;
+  onClose: () => void;
+}) {
   const workflow = workflowGuides[idea.id];
   const marketing = marketingPrompts[idea.id];
 
@@ -119,6 +165,37 @@ function IdeaDetail({ idea, onClose }: { idea: DigitalDownloadIdea; onClose: () 
 
         <div className="px-4 py-5 flex flex-col gap-6">
 
+          {/* Progress tracker */}
+          <div className="flex flex-col gap-2">
+            <p className="text-gray-500 text-xs font-semibold uppercase tracking-wider">My Progress</p>
+            <div className="grid grid-cols-4 gap-2">
+              {STAGES.map((s) => {
+                const active = stage === s.key;
+                return (
+                  <button
+                    key={s.key}
+                    onClick={() => onStageChange(active ? null : s.key)}
+                    className={`min-h-[44px] rounded-xl border text-xs font-semibold transition-all ${
+                      active
+                        ? `${s.bg} ${s.border} ${s.color}`
+                        : "bg-gray-900 border-gray-700 text-gray-500 hover:border-gray-600 hover:text-gray-400"
+                    }`}
+                  >
+                    {s.label}
+                  </button>
+                );
+              })}
+            </div>
+            {stage && (
+              <button
+                onClick={() => onStageChange(null)}
+                className="text-xs text-gray-600 hover:text-gray-400 text-right transition-colors"
+              >
+                Remove from my list
+              </button>
+            )}
+          </div>
+
           {/* Description */}
           <p className="text-gray-300 text-sm leading-relaxed">{idea.description}</p>
 
@@ -132,16 +209,12 @@ function IdeaDetail({ idea, onClose }: { idea: DigitalDownloadIdea; onClose: () 
               <span className="text-gray-500 text-xs">Time to Create</span>
               <span className="text-white text-sm font-semibold">{idea.estimatedCreationTime}</span>
             </div>
-            <div className="bg-gray-900 rounded-xl p-3 flex flex-col gap-1">
+            <div className="bg-gray-900 rounded-xl p-3 flex flex-col gap-1 col-span-2">
               <span className="text-gray-500 text-xs">Difficulty</span>
               <span className={`text-sm font-semibold capitalize ${
                 idea.difficulty === "beginner" ? "text-emerald-400" :
                 idea.difficulty === "intermediate" ? "text-amber-400" : "text-red-400"
               }`}>{idea.difficulty}</span>
-            </div>
-            <div className="bg-gray-900 rounded-xl p-3 flex flex-col gap-1">
-              <span className="text-gray-500 text-xs">Demand</span>
-              <DemandStars rating={idea.demandRating} />
             </div>
           </div>
 
@@ -184,7 +257,7 @@ function IdeaDetail({ idea, onClose }: { idea: DigitalDownloadIdea; onClose: () 
                 ))}
               </div>
             ) : (
-              <PlaceholderBox message="Workflow guide coming soon — paste steps into workflowGuides.ts" />
+              <PlaceholderBox message="Paste steps into workflowGuides.ts to populate this section" />
             )}
           </div>
 
@@ -208,11 +281,10 @@ function IdeaDetail({ idea, onClose }: { idea: DigitalDownloadIdea; onClose: () 
                 })}
               </div>
             ) : (
-              <PlaceholderBox message="Marketing prompts coming soon — paste into marketingPrompts.ts" />
+              <PlaceholderBox message="Paste prompts into marketingPrompts.ts to populate this section" />
             )}
           </div>
 
-          {/* Bottom padding for safe area */}
           <div className="h-4" />
         </div>
       </div>
@@ -224,14 +296,15 @@ export default function DigitalDownloadIdeas() {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<Category | "All">("All");
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>("All");
-  const [trendingOnly, setTrendingOnly] = useState(false);
+  const [myListOnly, setMyListOnly] = useState(false);
   const [selectedIdea, setSelectedIdea] = useState<DigitalDownloadIdea | null>(null);
+  const { tracker, setStage } = useTracker();
 
   const filtered = useMemo(() => {
     return digitalDownloadIdeas.filter((idea) => {
       if (selectedCategory !== "All" && idea.category !== selectedCategory) return false;
       if (selectedDifficulty !== "All" && idea.difficulty !== selectedDifficulty) return false;
-      if (trendingOnly && !idea.trending) return false;
+      if (myListOnly && !tracker[idea.id]) return false;
       if (search) {
         const q = search.toLowerCase();
         return (
@@ -242,7 +315,9 @@ export default function DigitalDownloadIdeas() {
       }
       return true;
     });
-  }, [search, selectedCategory, selectedDifficulty, trendingOnly]);
+  }, [search, selectedCategory, selectedDifficulty, myListOnly, tracker]);
+
+  const myListCount = Object.keys(tracker).length;
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
@@ -253,6 +328,9 @@ export default function DigitalDownloadIdeas() {
           <h1 className="text-2xl font-bold text-white">Digital Downloads</h1>
           <p className="text-gray-400 text-sm mt-1">
             {digitalDownloadIdeas.length} product ideas across {CATEGORIES.length} categories
+            {myListCount > 0 && (
+              <span className="ml-2 text-violet-400">· {myListCount} in your list</span>
+            )}
           </p>
         </div>
 
@@ -290,14 +368,14 @@ export default function DigitalDownloadIdeas() {
             </select>
 
             <button
-              onClick={() => setTrendingOnly((v) => !v)}
+              onClick={() => setMyListOnly((v) => !v)}
               className={`text-sm px-4 min-h-[44px] rounded-xl border transition-colors ${
-                trendingOnly
+                myListOnly
                   ? "bg-violet-600 border-violet-500 text-white"
                   : "bg-gray-900 border-gray-700 text-gray-400 hover:text-white"
               }`}
             >
-              Trending
+              My List{myListCount > 0 ? ` (${myListCount})` : ""}
             </button>
           </div>
 
@@ -308,18 +386,30 @@ export default function DigitalDownloadIdeas() {
 
         {/* Grid */}
         {filtered.length === 0 ? (
-          <div className="text-center py-20 text-gray-500">No ideas match your filters.</div>
+          <div className="text-center py-20 text-gray-500">
+            {myListOnly ? "No products in your list yet — tap any product and set a stage." : "No ideas match your filters."}
+          </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
             {filtered.map((idea) => (
-              <IdeaCard key={idea.id} idea={idea} onClick={() => setSelectedIdea(idea)} />
+              <IdeaCard
+                key={idea.id}
+                idea={idea}
+                stage={tracker[idea.id]}
+                onClick={() => setSelectedIdea(idea)}
+              />
             ))}
           </div>
         )}
       </div>
 
       {selectedIdea && (
-        <IdeaDetail idea={selectedIdea} onClose={() => setSelectedIdea(null)} />
+        <IdeaDetail
+          idea={selectedIdea}
+          stage={tracker[selectedIdea.id]}
+          onStageChange={(stage) => setStage(selectedIdea.id, stage)}
+          onClose={() => setSelectedIdea(null)}
+        />
       )}
     </div>
   );
