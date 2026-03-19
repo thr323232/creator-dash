@@ -475,16 +475,226 @@ export const marketingPrompts: Record<string, MarketingPrompts> = {
     gptImagePrompt: "three city skyline prints in thin black frames arranged horizontally on a white wall in a modern home office minimal black and white styling clean desk below",
     videoPrompt: "Hook: for everyone who loves to travel. Flash through all 6 city skylines one by one. Show framed in a stylish home. CTA: pick your city and download.",
   },
-  "social-001": { ...empty },
-  "social-002": { ...empty },
-  "social-003": { ...empty },
-  "social-004": { ...empty },
-  "social-005": { ...empty },
-  "social-006": { ...empty },
-  "social-007": { ...empty },
-  "social-008": { ...empty },
-  "social-009": { ...empty },
-  "social-010": { ...empty },
+  "social-001": {
+    etsy: {
+      title: "Instagram Post & Story Templates – 30 Canva Templates for Small Business, Editable Feed & Stories",
+      description: "A set of 30 editable Canva Instagram templates for small businesses: 20 feed post layouts and 10 story formats. Cohesive brand aesthetic with fully editable text, colours, and fonts. Includes a how-to-edit guide. Instant digital download.",
+      tags: "Instagram template, Canva Instagram template, social media template, small business template, Instagram post template, story template, editable Instagram, Canva template, digital download, instant download, Instagram feed template, branding template, social media kit",
+    },
+    tiktok: {
+      caption: "Stop spending hours on Instagram content. These Canva templates do the heavy lifting for you.",
+      hashtags: "#instagramtemplates #canvatemplate #smallbusinessowner #socialmediatips #contentcreator #instagramfeed #digitaldownload #etsyseller #contentcreation #businesstok",
+    },
+    instagram: {
+      caption: "30 done-for-you Instagram templates. Feed posts and stories. All editable in Canva. Your brand, your colours, 10 minutes to set up.",
+      hashtags: "#instagramtemplates #canvatemplate #smallbusinesstips #socialmediamarketing #instagramfeed #storiestemplate #digitaldownload #etsyfinds #contentcreator #brandingtemplate #businessowner #socialmediakit",
+    },
+    pinterest: {
+      title: "Instagram Post & Story Canva Templates for Small Business – 30 Editable Feed & Stories Designs",
+      description: "30 editable Canva templates for Instagram. 20 feed posts and 10 story formats. Cohesive brand aesthetic, fully editable. Includes how-to-edit guide. Instant download.",
+      keywords: "Instagram template, Canva Instagram template, social media template, small business template, story template, editable Instagram, branding template, digital download",
+    },
+    gptImagePrompt: "flat lay phone screen mockup showing 9-grid Instagram feed with cohesive branded post templates minimal neutral palette clean desk background natural light small business aesthetic",
+    videoPrompt: "Hook: your Instagram feed looks all over the place. Open Canva template. Swap in brand colours and logo in seconds. Reveal polished cohesive feed. CTA: download the full set.",
+  },
+  "social-002": {
+    etsy: {
+      title: "Pinterest Pin Templates – 20 Editable Canva Designs, Vertical Pin & Idea Pin Layouts for Bloggers",
+      description: "A set of 20 editable Canva Pinterest pin templates in the standard 1000x1500px format. Includes text-overlay layouts, image placeholder designs, and idea pin formats. All fonts and colours are easily editable. Includes a Pinterest best practices guide. Instant download.",
+      tags: "Pinterest template, Pinterest pin template, Canva Pinterest template, blogger template, social media template, Pinterest marketing, editable pin template, digital download, instant download, idea pin template, Pinterest design, vertical pin template, content creator template",
+    },
+    tiktok: {
+      caption: "Pinterest traffic starts with a click-worthy pin. These templates are designed to stop the scroll.",
+      hashtags: "#pinteresttemplate #canvatemplate #pinterestmarketing #bloggertools #socialmediatips #digitaldownload #etsyseller #contentcreator #pinterestgrowth #creativebusiness",
+    },
+    instagram: {
+      caption: "20 Pinterest pin templates that are actually designed to get clicks. Bold layouts, easy to edit, and built to drive traffic.",
+      hashtags: "#pinteresttemplate #canvapinterest #pinterestmarketing #bloggertemplate #socialmediadesign #digitaldownload #etsyfinds #contentcreator #pinterestgrowth #ideapintemplate #verticalpindesign #pinteresttips",
+    },
+    pinterest: {
+      title: "Pinterest Pin Canva Templates – 20 Editable Vertical Pins for Bloggers and Content Creators",
+      description: "20 editable Canva Pinterest pin templates at 1000x1500px. Text-overlay layouts, image placeholders, idea pin formats. Includes Pinterest best practices guide. Instant download.",
+      keywords: "Pinterest pin template, Canva Pinterest template, vertical pin design, blogger template, idea pin template, Pinterest marketing, editable pin, digital download",
+    },
+    gptImagePrompt: "tablet screen showing Pinterest board with multiple click-worthy branded pin designs bold typography lifestyle photography overlaid text minimal clean aesthetic content creator workspace",
+    videoPrompt: "Hook: no one is clicking your Pinterest pins. Swap in one of these templates. Change the text. Export. Show before and after pin designs. CTA: download 20 templates today.",
+  },
+  "social-003": {
+    etsy: {
+      title: "Instagram Highlight Cover Icons Set of 30 – Editable Canva Icons, Multiple Aesthetic Styles",
+      description: "A set of 30 Instagram story highlight cover icons across multiple aesthetic styles: minimal, boho, dark, and pastel. Covers all common highlight categories. Multiple colour palette options included. Exported at correct Instagram dimensions with installation instructions. Instant digital download.",
+      tags: "Instagram highlight covers, highlight icons, Instagram highlight template, Canva highlight covers, story highlight icons, editable highlight covers, Instagram icons, digital download, instant download, boho highlight covers, minimal highlight icons, pastel highlight covers, Instagram aesthetic",
+    },
+    tiktok: {
+      caption: "Your Instagram profile deserves matching highlight covers. Grab and install in 5 minutes.",
+      hashtags: "#instagramhighlightcovers #instagramaesthetic #highlighticons #canvatemplate #digitaldownload #etsyseller #instagramtips #profilesetup #contentcreator #smallbusiness",
+    },
+    instagram: {
+      caption: "30 Instagram highlight cover icons across 4 aesthetic styles. Minimal, boho, dark, pastel — pick your vibe and install in minutes.",
+      hashtags: "#instagramhighlightcovers #highlighticons #instagramaesthetic #canvatemplate #profilesetup #digitaldownload #etsyfinds #instagramtips #bohostyle #minimalaesthetic #darkstyle #pastelicons",
+    },
+    pinterest: {
+      title: "Instagram Highlight Cover Icons Set of 30 – Minimal Boho Dark Pastel Editable Canva Templates",
+      description: "30 highlight cover icons in 4 aesthetic styles: minimal, boho, dark, and pastel. Covers all common categories. Correct Instagram dimensions. Installation guide included. Instant download.",
+      keywords: "Instagram highlight covers, highlight icons, Canva highlight template, Instagram aesthetic, story highlight icons, minimal icons, boho highlight, pastel icons, digital download",
+    },
+    gptImagePrompt: "phone screen showing stylish Instagram profile with matching highlight cover icons in minimal beige aesthetic clean white background profile grid visible lifestyle photography",
+    videoPrompt: "Hook: your Instagram profile looks unfinished without matching highlight covers. Show 4 styles side by side. Pick one. Install on phone in seconds. CTA: download all 30 icons.",
+  },
+  "social-004": {
+    etsy: {
+      title: "YouTube Thumbnail Templates – 20 Editable Canva Designs, Bold High Click-Through Rate Thumbnails",
+      description: "A set of 20 YouTube thumbnail Canva templates at 1280x720px. Bold readable text areas, high-contrast designs, and face cutout placeholders built for high click-through rates. All text and colours are fully editable. Instant digital download.",
+      tags: "YouTube thumbnail template, Canva YouTube template, thumbnail design, editable thumbnail, YouTube template, click-through rate thumbnail, bold thumbnail template, digital download, instant download, YouTuber template, video thumbnail, social media template, content creator",
+    },
+    tiktok: {
+      caption: "Your YouTube thumbnail is the first thing people see. Make it impossible to scroll past.",
+      hashtags: "#youtubethumbnail #canvatemplate #youtubetemplate #contentcreator #youtubergrowth #digitaldownload #etsyseller #youtubestrategy #videocreator #socialmediatips",
+    },
+    instagram: {
+      caption: "20 YouTube thumbnail templates designed to get clicked. Bold, high contrast, face-ready. All editable in Canva.",
+      hashtags: "#youtubethumbnail #thumbnaildesign #canvayoutube #youtubetemplate #contentcreator #clickthroughrate #digitaldownload #etsyfinds #youtubergrowth #boldthumbnail #videomarketing #socialmediadesign",
+    },
+    pinterest: {
+      title: "YouTube Thumbnail Canva Templates – 20 Bold Editable Designs for High Click-Through Rates",
+      description: "20 editable Canva YouTube thumbnail templates at 1280x720px. Bold text, high-contrast layouts, face cutout placeholders. Fully editable text and colours. Instant download.",
+      keywords: "YouTube thumbnail template, Canva thumbnail, bold thumbnail design, editable YouTube template, click-through rate, video thumbnail, content creator template, digital download",
+    },
+    gptImagePrompt: "laptop screen showing YouTube channel page with bold vibrant thumbnail templates displayed in grid view bright colours strong text contrast creator content dark background",
+    videoPrompt: "Hook: low click-through rate? Your thumbnail is the problem. Open template. Add photo and title. Publish. Show before thumbnail vs the new one side by side. CTA: download 20 templates.",
+  },
+  "social-005": {
+    etsy: {
+      title: "TikTok Carousel Templates – 15 Editable Canva Swipe Posts, Tips, Storytelling & Educational Layouts",
+      description: "A set of 15 TikTok carousel (photo mode) Canva template sets. Each set includes a cover slide plus content slides in educational, tips, and storytelling layouts. Optimised for TikTok dimensions with fully editable text and colours. Includes phone screen mockups. Instant download.",
+      tags: "TikTok carousel template, TikTok template, Canva TikTok template, swipe post template, photo carousel TikTok, editable TikTok template, educational content template, digital download, instant download, TikTok content creator, storytelling template, social media template",
+    },
+    tiktok: {
+      caption: "Carousels are blowing up on TikTok right now. These templates make it stupidly easy to post them.",
+      hashtags: "#tiktokcarousel #tiktoktemplate #canvatemplate #contentcreator #tiktoktips #socialmediamarketing #digitaldownload #etsyseller #tiktokgrowth #contentcreation",
+    },
+    instagram: {
+      caption: "15 TikTok carousel template sets ready to go in Canva. Educational, tips, storytelling — all the formats that actually perform.",
+      hashtags: "#tiktokcarousel #tiktoktemplate #canvatemplate #contentcreator #tiktokgrowth #swipepost #digitaldownload #etsyfinds #socialmediamarketing #tiktokstrategy #educationalcontent #carouseltemplate",
+    },
+    pinterest: {
+      title: "TikTok Carousel Canva Templates – 15 Swipe Post Sets for Educational, Tips & Storytelling Content",
+      description: "15 TikTok carousel template sets in Canva. Cover and content slides for tips, education, and storytelling. TikTok dimensions, fully editable. Phone mockups included. Instant download.",
+      keywords: "TikTok carousel template, Canva TikTok template, swipe post template, photo carousel TikTok, educational content, storytelling template, content creator, digital download",
+    },
+    gptImagePrompt: "phone screen showing TikTok photo carousel swipe post template with bold clean typography pastel accent colours multiple slide preview content creator aesthetic bright studio background",
+    videoPrompt: "Hook: TikTok carousels are the most saved content right now. Open template in Canva. Add your tips text. Export. Show it live in TikTok app. CTA: download 15 carousel sets.",
+  },
+  "social-006": {
+    etsy: {
+      title: "LinkedIn Post & Banner Templates – 20 Professional Canva Designs, Posts, Carousels & Profile Banners",
+      description: "A set of 20 professional Canva LinkedIn templates: post templates, carousel slide layouts, and profile banner designs. Clean and polished aesthetic with brand colour customisation. Mockups showing templates in LinkedIn feed included. Instant digital download.",
+      tags: "LinkedIn template, LinkedIn post template, LinkedIn banner template, professional social media template, Canva LinkedIn template, LinkedIn carousel, profile banner template, editable LinkedIn template, digital download, instant download, personal brand, business template",
+    },
+    tiktok: {
+      caption: "Your LinkedIn profile can look this polished in under 10 minutes. Canva templates.",
+      hashtags: "#linkedintemplate #linkedintips #personalbranding #canvatemplate #professionaldevelopment #digitaldownload #etsyseller #linkedingrowth #contentcreator #businesstok",
+    },
+    instagram: {
+      caption: "LinkedIn posts that look this professional don't happen by accident. They happen with a template. 20 designs, all in Canva.",
+      hashtags: "#linkedintemplate #linkedinmarketing #professionalbranding #canvatemplate #linkedinpost #carouseltemplate #profilebanner #digitaldownload #etsyfinds #personalbranding #businesscontent #linkedingrowth",
+    },
+    pinterest: {
+      title: "Professional LinkedIn Canva Templates – 20 Post, Carousel & Banner Designs for Personal Branding",
+      description: "20 professional LinkedIn Canva templates: posts, carousel slides, and profile banners. Clean aesthetic, editable brand colours. LinkedIn feed mockups included. Instant download.",
+      keywords: "LinkedIn template, LinkedIn post template, profile banner, LinkedIn carousel, professional social media, Canva LinkedIn, personal brand, editable template, digital download",
+    },
+    gptImagePrompt: "laptop screen showing polished LinkedIn profile page with professional branded banner and post templates in feed clean navy and white aesthetic minimal professional workspace",
+    videoPrompt: "Hook: your LinkedIn looks like it hasn't been touched in years. Open template. Brand it in 5 minutes. Show polished profile and post live. CTA: download 20 LinkedIn templates.",
+  },
+  "social-007": {
+    etsy: {
+      title: "Facebook Group Banner Templates – 10 Editable Canva Cover Photo Designs, Professional Group Branding",
+      description: "A set of 10 editable Canva Facebook group and page cover photo templates. Professional branding layouts with fully editable text, colours, and logo placeholders. Includes sizing guide for correct display on both mobile and desktop. Instant digital download.",
+      tags: "Facebook banner template, Facebook group cover, Facebook cover photo template, Canva Facebook template, editable Facebook banner, group branding template, Facebook page banner, digital download, instant download, social media template, Facebook cover design, business branding",
+    },
+    tiktok: {
+      caption: "A well-branded Facebook group cover makes your community look 10x more professional.",
+      hashtags: "#facebooktemplate #facebookgroupcover #canvatemplate #facebookbanner #communitybuilding #digitaldownload #etsyseller #socialmediadesign #groupadmin #onlinecommunity",
+    },
+    instagram: {
+      caption: "Your Facebook group deserves a cover that makes people want to join. 10 editable Canva templates, done in minutes.",
+      hashtags: "#facebookbanner #facebookgroupcover #canvatemplate #facebookpagetemplate #groupbranding #digitaldownload #etsyfinds #socialmediadesign #coverphototemplate #facebookmarketing #communitybuilding #brandedtemplate",
+    },
+    pinterest: {
+      title: "Facebook Group Cover Photo Canva Templates – 10 Editable Professional Banner Designs",
+      description: "10 editable Canva Facebook group and page cover templates. Professional layouts with editable text, colours, and logo placeholders. Mobile and desktop sizing guide. Instant download.",
+      keywords: "Facebook banner template, Facebook group cover, Canva Facebook template, cover photo template, editable banner, group branding, business Facebook, digital download",
+    },
+    gptImagePrompt: "desktop browser showing styled Facebook group page with bold professional branded cover photo banner mockup clean modern design colourful but minimal text overlay",
+    videoPrompt: "Hook: your Facebook group cover looks outdated. Open Canva template. Add group name. Brand colours in. Show it live on Facebook. CTA: download 10 templates.",
+  },
+  "social-008": {
+    etsy: {
+      title: "Podcast Cover Art Templates – 12 Professional Canva Designs, Apple Podcasts & Spotify Spec Ready",
+      description: "A set of 12 professional podcast cover art Canva templates at 3000x3000px, meeting Apple Podcasts and Spotify specifications. Bold readable text at thumbnail size, editable photo placeholders, and fully customisable colours. Includes a podcast spec requirements guide. Instant download.",
+      tags: "podcast cover art, podcast template, Canva podcast cover, podcast artwork, Apple Podcasts template, Spotify podcast art, editable podcast cover, digital download, instant download, podcaster template, podcast branding, podcast design, podcast art template",
+    },
+    tiktok: {
+      caption: "Your podcast cover art is your first impression. Make it a good one.",
+      hashtags: "#podcastcover #podcastart #canvatemplate #podcaster #podcasttips #digitaldownload #etsyseller #podcastbranding #newpodcast #audiocontent",
+    },
+    instagram: {
+      caption: "12 podcast cover art templates built to spec for Apple Podcasts and Spotify. Bold, readable, professional. All editable in Canva.",
+      hashtags: "#podcastcoverart #podcasttemplate #canvapodcast #podcastbranding #applepodcasts #spotifypodcast #digitaldownload #etsyfinds #podcasterlife #newpodcast #podcastdesign #audiocreator",
+    },
+    pinterest: {
+      title: "Professional Podcast Cover Art Canva Templates – 12 Designs, Apple Podcasts & Spotify Spec Ready",
+      description: "12 podcast cover art Canva templates at 3000x3000px. Bold readable text, editable photo and colour options. Apple Podcasts and Spotify spec guide included. Instant download.",
+      keywords: "podcast cover art, podcast template, Canva podcast, Apple Podcasts artwork, Spotify podcast art, editable podcast cover, podcast branding, digital download",
+    },
+    gptImagePrompt: "phone screen showing podcast app with bold professional podcast cover art mockup bold typography strong contrast lifestyle photography host photo visible multiple template styles shown",
+    videoPrompt: "Hook: no one will click a boring podcast cover. Open template. Add show name and photo. Export at 3000px. Show it in Apple Podcasts and Spotify. CTA: download 12 covers.",
+  },
+  "social-009": {
+    etsy: {
+      title: "Email Newsletter Header Templates – 15 Editable Canva Designs, Seasonal & Evergreen Banners",
+      description: "A set of 15 email newsletter header and banner Canva templates at standard email widths. Includes both seasonal and evergreen options compatible with Mailchimp, Klaviyo, and ConvertKit. Fully editable text, colours, and logo placeholders. Instant digital download.",
+      tags: "email newsletter template, email header template, Canva email template, newsletter banner, email marketing template, Mailchimp template, Klaviyo template, digital download, instant download, email banner design, newsletter design, email marketing, seasonal email template",
+    },
+    tiktok: {
+      caption: "A professional email header makes your newsletter feel like a real brand. Here's how.",
+      hashtags: "#emailmarketing #emailtemplate #canvatemplate #newsletterdesign #emailnewsletter #digitaldownload #etsyseller #emailmarketingtips #mailchimp #contentcreator",
+    },
+    instagram: {
+      caption: "15 email newsletter header templates that make your emails look like a real brand sent them. Seasonal and evergreen options in Canva.",
+      hashtags: "#emailnewsletter #emailheadertemplate #canvatemplate #emailmarketing #newsletterdesign #mailchimptemplate #klaviyo #digitaldownload #etsyfinds #emailmarketingtips #seasonalemail #brandednewsletter",
+    },
+    pinterest: {
+      title: "Email Newsletter Header Canva Templates – 15 Seasonal & Evergreen Banner Designs for Mailchimp Klaviyo",
+      description: "15 email newsletter header templates in Canva at standard email widths. Seasonal and evergreen options. Compatible with Mailchimp, Klaviyo, and ConvertKit. Instant download.",
+      keywords: "email newsletter template, email header template, newsletter banner, Canva email template, Mailchimp template, Klaviyo, email marketing, seasonal banner, digital download",
+    },
+    gptImagePrompt: "laptop screen showing open email newsletter with polished branded header banner design clean modern layout branded colours professional email marketing aesthetic inbox view",
+    videoPrompt: "Hook: plain email headers are killing your open rate. Open Canva template. Brand it in 2 minutes. Show final email in inbox. CTA: download 15 header templates.",
+  },
+  "social-010": {
+    etsy: {
+      title: "Canva Brand Kit Templates – Logo, Colour Palette, Font Pairing & Brand Guidelines, Complete Identity Kit",
+      description: "An all-in-one Canva brand identity kit including editable logo templates, colour palette sheets, font pairing guides, social media sizing cheatsheet, and a one-page brand guidelines document. Perfect for small businesses and freelancers building a cohesive visual identity. Instant digital download.",
+      tags: "brand kit, Canva brand kit, logo template, brand identity, colour palette template, font pairing, brand guidelines, small business branding, digital download, instant download, brand design, business branding template, visual identity, Canva template",
+    },
+    tiktok: {
+      caption: "A brand kit is the thing that makes your business look like a real business. And you can build it in Canva.",
+      hashtags: "#brandkit #canvatemplate #smallbusinessbranding #brandidentity #logotemplate #digitaldownload #etsyseller #branddesign #businesstok #visualidentity",
+    },
+    instagram: {
+      caption: "Logo. Colours. Fonts. Brand guidelines. All in one Canva kit. Everything you need to make your business look intentional and professional.",
+      hashtags: "#brandkit #brandidentity #canvatemplate #logotemplate #colourpalette #fontpairing #brandguidelines #digitaldownload #etsyfinds #smallbusinessbranding #visualidentity #branddesign",
+    },
+    pinterest: {
+      title: "Complete Canva Brand Kit Templates – Logo, Colour Palette, Font Pairing & Brand Guidelines for Small Business",
+      description: "All-in-one Canva brand identity kit: logo templates, colour palette sheets, font pairing guides, social media sizing cheatsheet, and one-page brand guidelines. Instant download.",
+      keywords: "brand kit, Canva brand kit, logo template, brand identity, colour palette, font pairing, brand guidelines, small business branding, visual identity, digital download",
+    },
+    gptImagePrompt: "flat lay showing printed brand kit documents spread on a white desk logo mark colour swatches font specimens brand board style guide natural light minimal creative studio",
+    videoPrompt: "Hook: your business has no visual identity. Open brand kit in Canva. Fill in logo, colours, fonts. Show the full brand board complete. CTA: build your brand with this kit.",
+  },
   "biz-001": { ...empty },
   "biz-002": { ...empty },
   "biz-003": { ...empty },
