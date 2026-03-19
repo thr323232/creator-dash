@@ -1355,16 +1355,226 @@ export const marketingPrompts: Record<string, MarketingPrompts> = {
     gptImagePrompt: "writing journal on desk notebook pen coffee soft lighting cosy creative workspace",
     videoPrompt: "Hook: writer's block frustration. Show prompts. Show writing flow. CTA: start writing today.",
   },
-  "notion-001": { ...empty },
-  "notion-002": { ...empty },
-  "notion-003": { ...empty },
-  "notion-004": { ...empty },
-  "notion-005": { ...empty },
-  "notion-006": { ...empty },
-  "notion-007": { ...empty },
-  "notion-008": { ...empty },
-  "notion-009": { ...empty },
-  "notion-010": { ...empty },
+  "notion-001": {
+    etsy: {
+      title: "Notion Student Dashboard Template Study Planner Notion Template Academic Organiser",
+      description: "Stay organised with a Notion student dashboard designed to manage assignments, deadlines and study schedules in one place. Perfect for improving productivity and keeping track of academic life.",
+      tags: "notion student template,study planner notion,notion dashboard,academic organiser,student productivity,notion template,study tracker,university planner,school organisation,notion setup,productivity tools,study system,notion uk",
+    },
+    tiktok: {
+      caption: "Your uni life feels chaotic? This dashboard fixes everything.",
+      hashtags: "#notiontemplate #studentlifeuk #productivity #studytips #organisation #notiondashboard #universitylife #studyplanner #digitalplanning #notionsetup",
+    },
+    instagram: {
+      caption: "Keeping up with assignments and deadlines doesn't have to feel overwhelming. This Notion dashboard brings everything into one clean system so you can stay focused and organised. Study smarter, not harder.",
+      hashtags: "#notiontemplate #studentlifeuk #productivitytools #studytips #organisation #notiondashboard #universitylife #studyplanner #digitalplanning #notionsetup #academicsuccess #studentorganisation",
+    },
+    pinterest: {
+      title: "Notion Student Dashboard Template for Study Organisation",
+      description: "All-in-one Notion student dashboard to manage assignments, deadlines and study planning.",
+      keywords: "notion student template,study planner notion,academic organiser,student dashboard,productivity tools,notion setup,study tracker,university planner",
+    },
+    gptImagePrompt: "notion dashboard on laptop screen student desk notebook coffee minimal workspace soft lighting clean aesthetic",
+    videoPrompt: "Hook: student life feels messy. Show dashboard layout. Show organised sections. CTA: organise your studies.",
+  },
+  "notion-002": {
+    etsy: {
+      title: "Notion Budget Tracker Template Finance Tracker Notion Personal Finance Dashboard",
+      description: "Take control of your money with a Notion budget tracker designed to monitor spending, savings and financial goals. A simple system to improve organisation and build better financial habits.",
+      tags: "notion budget template,finance tracker notion,money tracker,notion finance,personal finance,expense tracker,notion dashboard,budget planner,financial goals,money management,notion system,productivity tools,notion uk",
+    },
+    tiktok: {
+      caption: "No idea where your money goes each month? This shows everything.",
+      hashtags: "#budgetinguk #notiontemplate #moneytracker #personalfinance #financialgoals #notiondashboard #moneytips #organisation #productivity #notionsetup",
+    },
+    instagram: {
+      caption: "Managing your money becomes easier when everything is clear. This Notion template helps you track spending, plan budgets and stay on top of your finances without stress. Simple and effective.",
+      hashtags: "#budgetinguk #notiontemplate #moneymanagement #personalfinance #financialplanning #notiondashboard #moneygoals #organisationtools #productivitytools #notionsetup #financeuk #digitalplanning",
+    },
+    pinterest: {
+      title: "Notion Budget Tracker Template for Personal Finance",
+      description: "Track spending, savings and financial goals with this easy-to-use Notion budget template.",
+      keywords: "notion budget,finance tracker,money management,personal finance,expense tracker,notion dashboard,financial goals,budget planner",
+    },
+    gptImagePrompt: "notion budget tracker on laptop calculator notebook coffee neutral tones clean financial workspace",
+    videoPrompt: "Hook: money disappears each month. Show budget tracker. Show categories. CTA: take control of your finances.",
+  },
+  "notion-003": {
+    etsy: {
+      title: "Notion Content Calendar Template Creator Planner Social Media Planner Notion Dashboard",
+      description: "Plan and organise your content with a Notion content calendar designed for creators and businesses. Manage posts, ideas and schedules in one streamlined system.",
+      tags: "notion content calendar,social media planner,content planner notion,notion dashboard,creator tools,content organisation,posting schedule,notion template,marketing planner,content strategy,notion setup,productivity tools,notion uk",
+    },
+    tiktok: {
+      caption: "Posting randomly and seeing no growth? This fixes your content strategy.",
+      hashtags: "#contentcreator #notiontemplate #socialmediaplanner #contentstrategy #marketingtips #notiondashboard #growthtips #digitalplanning #productivity #notionsetup",
+    },
+    instagram: {
+      caption: "Consistency is key when it comes to content. This Notion template helps you plan, organise and stay on track so you can grow without feeling overwhelmed. Everything in one place.",
+      hashtags: "#contentcreatoruk #notiontemplate #socialmediaplanner #contentstrategy #marketingtools #notiondashboard #growthtips #digitalplanning #productivitytools #notionsetup #onlinebusinessuk #contentplanning",
+    },
+    pinterest: {
+      title: "Notion Content Calendar Template for Creators and Businesses",
+      description: "Organise your content and stay consistent with this Notion content planning template.",
+      keywords: "notion content calendar,social media planner,content strategy,creator tools,notion dashboard,marketing planner,content planning,notion template",
+    },
+    gptImagePrompt: "notion content calendar on laptop social media icons notebook coffee modern workspace clean aesthetic",
+    videoPrompt: "Hook: inconsistent posting. Show content calendar. Show scheduling. CTA: plan your content properly.",
+  },
+  "notion-004": {
+    etsy: {
+      title: "Notion Habit Tracker Template Life Planner Notion Dashboard Daily Habit Tracker",
+      description: "Build better habits with a Notion habit tracker designed to track routines and improve consistency. A simple system to stay accountable and achieve your goals.",
+      tags: "notion habit tracker,habit tracker notion,life planner,notion dashboard,daily habits,productivity tools,self improvement,notion template,habit tracking,routine planner,goal tracking,notion setup,notion uk",
+    },
+    tiktok: {
+      caption: "Struggling to stay consistent with habits? This makes it easy.",
+      hashtags: "#habittracker #notiontemplate #selfimprovement #dailyhabits #productivity #notiondashboard #routinebuilding #goalsetting #digitalplanning #notionsetup",
+    },
+    instagram: {
+      caption: "Consistency is what creates real change. This Notion template helps you track habits, stay accountable and build routines that actually last. Simple tracking, powerful results.",
+      hashtags: "#habittracker #notiontemplate #selfimprovement #dailyhabits #productivitytools #notiondashboard #routinebuilding #goalsetting #digitalplanning #notionsetup #personaldevelopment #wellbeing",
+    },
+    pinterest: {
+      title: "Notion Habit Tracker Template for Daily Routines",
+      description: "Track habits and build better routines with this simple Notion habit tracker.",
+      keywords: "notion habit tracker,daily habits,routine planner,self improvement,productivity tools,notion dashboard,goal tracking,habit building",
+    },
+    gptImagePrompt: "notion habit tracker on laptop checklist view coffee minimal desk soft lighting clean aesthetic",
+    videoPrompt: "Hook: habits not sticking. Show tracker. Show daily check-off. CTA: stay consistent.",
+  },
+  "notion-005": {
+    etsy: {
+      title: "Notion Reading Tracker Template Book Tracker Notion Library Dashboard Reading Log",
+      description: "Organise your reading with a Notion book tracker designed to log books, track progress and manage your reading list. Perfect for building a consistent reading habit.",
+      tags: "notion reading tracker,book tracker notion,reading log,notion dashboard,book organiser,reading planner,notion template,reading list,habit tracking,library tracker,productivity tools,notion setup,notion uk",
+    },
+    tiktok: {
+      caption: "Buying books but never finishing them? This keeps you on track.",
+      hashtags: "#readingtracker #notiontemplate #booklover #readinghabit #productivity #notiondashboard #booktok #digitalplanning #organisation #notionsetup",
+    },
+    instagram: {
+      caption: "Reading becomes more enjoyable when it's organised. This Notion template helps you track books, set goals and build a consistent habit without pressure. Simple and motivating.",
+      hashtags: "#readingtracker #bookloveruk #notiontemplate #readinghabit #productivitytools #notiondashboard #booktok #digitalplanning #organisationtools #notionsetup #readinggoals #selfgrowth",
+    },
+    pinterest: {
+      title: "Notion Reading Tracker Template for Book Organisation",
+      description: "Track books, reading progress and goals with this Notion reading dashboard.",
+      keywords: "notion reading tracker,book tracker,reading log,reading habit,notion dashboard,book organiser,reading planner,notion template",
+    },
+    gptImagePrompt: "notion reading tracker on laptop books stacked coffee cosy desk soft lighting minimal aesthetic",
+    videoPrompt: "Hook: unfinished books pile up. Show tracker. Show progress. CTA: stay consistent with reading.",
+  },
+  "notion-006": {
+    etsy: {
+      title: "Notion Project Management Template Freelancer Dashboard Task Manager Notion Template",
+      description: "Manage projects with ease using a Notion project management template designed for freelancers. Track tasks, deadlines and clients in one organised system.",
+      tags: "notion project manager,task manager notion,freelancer dashboard,project tracker,notion template,client management,productivity tools,task organisation,notion dashboard,workflow system,notion setup,freelancer tools,notion uk",
+    },
+    tiktok: {
+      caption: "Too many tasks and no system? This organises everything.",
+      hashtags: "#projectmanagement #notiontemplate #freelancerlife #productivity #taskmanagement #notiondashboard #workflow #organisation #digitalplanning #notionsetup",
+    },
+    instagram: {
+      caption: "Running projects becomes easier when everything is in one place. This Notion template helps you manage tasks, deadlines and clients without feeling overwhelmed. Stay organised and in control.",
+      hashtags: "#projectmanagement #notiontemplate #freelanceruk #productivitytools #taskmanagement #notiondashboard #workflow #organisationtools #digitalplanning #notionsetup #businesssystems #clientwork",
+    },
+    pinterest: {
+      title: "Notion Project Management Template for Freelancers",
+      description: "Organise tasks, projects and deadlines with this Notion project management dashboard.",
+      keywords: "notion project management,task manager,freelancer tools,workflow system,productivity tools,notion dashboard,task tracking,project planner",
+    },
+    gptImagePrompt: "notion project dashboard on laptop task board view notebook coffee modern workspace clean aesthetic",
+    videoPrompt: "Hook: too many tasks. Show dashboard. Show task organisation. CTA: manage projects better.",
+  },
+  "notion-007": {
+    etsy: {
+      title: "Notion Recipe Book Template Meal Planner Notion Recipe Organiser Cooking Planner",
+      description: "Organise your meals and recipes with a Notion recipe book template designed for easy planning. Store recipes, plan meals and simplify your weekly food routine.",
+      tags: "notion recipe template,meal planner notion,recipe organiser,notion dashboard,meal planning,food planner,notion template,cooking planner,recipe tracker,weekly meals,organisation tools,notion setup,notion uk",
+    },
+    tiktok: {
+      caption: "Always wondering what to cook? This solves it.",
+      hashtags: "#mealplanning #notiontemplate #recipebook #foodplanning #organisation #notiondashboard #homecooking #productivity #digitalplanning #notionsetup",
+    },
+    instagram: {
+      caption: "Meal planning becomes easier when everything is organised. This Notion template helps you store recipes, plan meals and save time every week. Simple and practical.",
+      hashtags: "#mealplanning #notiontemplate #recipebook #foodplanning #organisationtools #notiondashboard #homecooking #productivitytools #digitalplanning #notionsetup #weeklymeals #lifestyleplanning",
+    },
+    pinterest: {
+      title: "Notion Recipe Book Template for Meal Planning",
+      description: "Store recipes and plan meals easily with this Notion recipe organiser.",
+      keywords: "notion recipe book,meal planner,food planning,recipe organiser,notion dashboard,weekly meals,cooking planner,notion template",
+    },
+    gptImagePrompt: "notion recipe book on laptop kitchen counter ingredients notebook clean minimal aesthetic soft lighting",
+    videoPrompt: "Hook: no meal plan. Show recipe dashboard. Show planning. CTA: simplify your meals.",
+  },
+  "notion-008": {
+    etsy: {
+      title: "Notion Job Application Tracker Template Career Planner Job Search Dashboard",
+      description: "Stay organised during your job search with a Notion job application tracker. Track applications, interviews and follow-ups in one simple and structured system.",
+      tags: "notion job tracker,job application tracker,career planner,job search organiser,notion template,application tracker,interview tracker,career tools,notion dashboard,job search tools,organisation tools,notion setup,notion uk",
+    },
+    tiktok: {
+      caption: "Applying for jobs but losing track? This keeps everything organised.",
+      hashtags: "#jobsearch #notiontemplate #careerplanning #productivity #jobtracker #notiondashboard #organisation #digitalplanning #careertips #notionsetup",
+    },
+    instagram: {
+      caption: "Job searching becomes less stressful when everything is organised. This template helps you track applications, interviews and follow-ups in one place. Stay focused and in control.",
+      hashtags: "#jobsearch #notiontemplate #careerplanning #productivitytools #jobtracker #notiondashboard #organisationtools #digitalplanning #careertips #notionsetup #jobhunt #careergoals",
+    },
+    pinterest: {
+      title: "Notion Job Application Tracker Template for Career Planning",
+      description: "Track job applications, interviews and progress with this Notion dashboard.",
+      keywords: "job tracker notion,job application tracker,career planning,job search organiser,notion template,interview tracker,career tools,notion dashboard",
+    },
+    gptImagePrompt: "notion job tracker on laptop notebook pen coffee clean desk setup minimal aesthetic",
+    videoPrompt: "Hook: losing track of job applications. Show tracker. Show organisation. CTA: stay on top of your search.",
+  },
+  "notion-009": {
+    etsy: {
+      title: "Notion Travel Planner Template Trip Planner Notion Itinerary Dashboard Travel Organiser",
+      description: "Plan your trips with ease using a Notion travel planner designed to organise itineraries, bookings and budgets. Keep everything in one place for stress-free travel.",
+      tags: "notion travel planner,trip planner notion,itinerary planner,travel organiser,notion template,travel dashboard,holiday planning,trip organiser,travel budget,notion setup,organisation tools,travel planning,notion uk",
+    },
+    tiktok: {
+      caption: "Travel planning feels overwhelming? This organises everything.",
+      hashtags: "#travelplanning #notiontemplate #tripplanner #organisation #traveltools #notiondashboard #holidayplanning #productivity #digitalplanning #notionsetup",
+    },
+    instagram: {
+      caption: "Planning trips becomes easier when everything is in one place. This Notion template helps you organise itineraries, bookings and budgets so you can focus on enjoying your trip.",
+      hashtags: "#travelplanning #notiontemplate #tripplanner #organisationtools #traveltools #notiondashboard #holidayplanning #productivitytools #digitalplanning #notionsetup #travelorganisation #lifestyleplanning",
+    },
+    pinterest: {
+      title: "Notion Travel Planner Template for Trip Organisation",
+      description: "Organise itineraries, bookings and budgets with this Notion travel planner.",
+      keywords: "notion travel planner,trip planner,itinerary planner,travel organiser,holiday planning,notion dashboard,travel tools,trip organisation",
+    },
+    gptImagePrompt: "notion travel planner on laptop passport sunglasses coffee minimal desk travel aesthetic soft lighting",
+    videoPrompt: "Hook: messy travel plans. Show planner. Show itinerary. CTA: plan your trips easily.",
+  },
+  "notion-010": {
+    etsy: {
+      title: "Notion CRM Template Small Business CRM Client Tracker Notion Dashboard Sales Tracker",
+      description: "Manage your clients with a Notion CRM template designed for small businesses. Track leads, clients and sales in one organised system to improve workflow and growth.",
+      tags: "notion crm template,client tracker notion,small business crm,sales tracker,notion dashboard,lead tracker,business tools,client management,notion template,workflow system,organisation tools,notion setup,notion uk",
+    },
+    tiktok: {
+      caption: "Losing track of clients and leads? This fixes your system.",
+      hashtags: "#crm #notiontemplate #smallbusinessuk #clientmanagement #salestracker #notiondashboard #organisation #businesssystems #productivity #notionsetup",
+    },
+    instagram: {
+      caption: "Managing clients becomes simple when you have the right system. This Notion CRM helps you track leads, organise contacts and stay on top of your business growth. Clear and effective.",
+      hashtags: "#crm #notiontemplate #smallbusinessuk #clientmanagement #salestracker #notiondashboard #organisationtools #businesssystems #productivitytools #notionsetup #businessgrowth #entrepreneuruk",
+    },
+    pinterest: {
+      title: "Notion CRM Template for Small Business Client Management",
+      description: "Track leads, clients and sales with this easy-to-use Notion CRM dashboard.",
+      keywords: "notion crm,client tracker,sales tracker,small business tools,notion dashboard,lead management,workflow system,business organisation",
+    },
+    gptImagePrompt: "notion crm dashboard on laptop business desk notebook coffee clean minimal aesthetic soft lighting",
+    videoPrompt: "Hook: losing track of clients. Show CRM dashboard. Show organisation. CTA: manage your business better.",
+  },
   "asset-001": { ...empty },
   "asset-002": { ...empty },
   "asset-003": { ...empty },
