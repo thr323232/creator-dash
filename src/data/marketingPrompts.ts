@@ -1795,16 +1795,226 @@ export const marketingPrompts: Record<string, MarketingPrompts> = {
     gptImagePrompt: "seamless patterns displayed on screen repeating designs minimal workspace soft lighting modern aesthetic",
     videoPrompt: "Hook: designs look plain. Show patterns. Show transformation. CTA: upgrade your designs.",
   },
-  "event-001": { ...empty },
-  "event-002": { ...empty },
-  "event-003": { ...empty },
-  "event-004": { ...empty },
-  "event-005": { ...empty },
-  "event-006": { ...empty },
-  "event-007": { ...empty },
-  "event-008": { ...empty },
-  "event-009": { ...empty },
-  "event-010": { ...empty },
+  "event-001": {
+    etsy: {
+      title: "Birthday Invitation Template Editable Canva Party Invite Kids Birthday Invitation Printable",
+      description: "Create beautiful birthday invitations with editable templates designed for any celebration. Perfect for kids and adults, easy to customise and print for a professional, personal touch.",
+      tags: "birthday invitation,party invite template,canva invitation,kids birthday invite,printable invite,editable invitation,party planning,birthday party decor,invitation template,event stationery,celebration invite,custom invite,party printable",
+    },
+    tiktok: {
+      caption: "Still buying boring party invites? This makes yours stand out.",
+      hashtags: "#birthdayparty #invitationdesign #partyplanning #canvatemplates #eventplanning #smallbusinessuk #celebration #printables #designinspo #partyideas",
+    },
+    instagram: {
+      caption: "The invitation sets the tone for the entire party. These templates make it easy to create something stylish, personal and memorable in minutes. Perfect for any celebration.",
+      hashtags: "#birthdaypartyuk #invitationdesign #partyplanning #canvatemplate #eventstyling #celebrationideas #printablesuk #partydecor #designinspiration #eventplanning #creativeuk #partysetup",
+    },
+    pinterest: {
+      title: "Editable Birthday Invitation Template for Parties",
+      description: "Customisable birthday invitation templates to create stylish and memorable party invites.",
+      keywords: "birthday invitation,party invite template,canva invitation,printable invite,party planning,event stationery,celebration ideas,custom invites",
+    },
+    gptImagePrompt: "birthday invitation cards on table balloons confetti pastel colours soft lighting party setup aesthetic",
+    videoPrompt: "Hook: boring invites. Show template. Show customisation. CTA: create your own invitations.",
+  },
+  "event-002": {
+    etsy: {
+      title: "Wedding Invitation Template Suite Editable Canva Wedding Stationery Invite Set Printable",
+      description: "Design elegant wedding invitations with a complete editable suite including RSVP and details cards. Perfect for creating a cohesive, stylish wedding theme with ease.",
+      tags: "wedding invitation,wedding stationery,invitation suite,canva wedding,editable invite,rsvp card,bridal stationery,wedding planning,printable invite,elegant wedding,event stationery,wedding decor,invite template",
+    },
+    tiktok: {
+      caption: "Wedding costs adding up? Design your own invites instead.",
+      hashtags: "#weddingplanning #weddinginvites #brideuk #eventplanning #canvatemplates #weddingideas #budgetwedding #printables #bridetobe #weddingdecor",
+    },
+    instagram: {
+      caption: "Your wedding invitations should feel as special as your day. This suite helps you create a cohesive, elegant look without the high cost. Simple, stylish and fully customisable.",
+      hashtags: "#weddingplanninguk #weddinginvites #brideuk #eventstyling #canvatemplate #weddingideas #budgetwedding #printablesuk #bridetobe #weddingdecor #stationerydesign #weddingdetails",
+    },
+    pinterest: {
+      title: "Editable Wedding Invitation Suite with RSVP and Details Cards",
+      description: "Elegant wedding invitation templates to create a cohesive and stylish wedding theme.",
+      keywords: "wedding invitation,wedding stationery,invitation suite,canva wedding,rsvp card,wedding planning,printable invite,event stationery",
+    },
+    gptImagePrompt: "wedding invitation suite on table neutral tones flowers ribbon soft lighting elegant aesthetic",
+    videoPrompt: "Hook: wedding invites too expensive. Show suite. Show customisation. CTA: design your own wedding invites.",
+  },
+  "event-003": {
+    etsy: {
+      title: "Baby Shower Games Bundle Printable Baby Shower Activities Games Pack Party Printable",
+      description: "Make your baby shower fun and memorable with a bundle of printable games and activities. Easy to print and perfect for entertaining guests of all ages.",
+      tags: "baby shower games,baby shower printable,party games bundle,shower activities,baby party ideas,printable games,event planning,celebration games,party activities,baby shower decor,fun games bundle,printablesuk,baby shower pack",
+    },
+    tiktok: {
+      caption: "Planning a baby shower and don't know what to do? This solves it.",
+      hashtags: "#babyshower #partyplanning #babyshowerideas #eventplanning #printables #celebration #partyideas #gamesnight #babyplanning #familyevents",
+    },
+    instagram: {
+      caption: "Baby showers are all about creating memories. This bundle gives you easy, fun activities that keep everyone engaged without stress. Just print and enjoy.",
+      hashtags: "#babyshoweruk #partyplanning #babyshowerideas #eventstyling #printablesuk #celebrationideas #partydecor #familyevents #gamesbundle #babyplanning #eventplanning #creativeuk",
+    },
+    pinterest: {
+      title: "Baby Shower Games Bundle Printable Party Activities",
+      description: "Printable baby shower games to keep guests entertained and create a fun celebration.",
+      keywords: "baby shower games,party games,baby shower ideas,printable games,event planning,celebration ideas,party activities,baby shower printable",
+    },
+    gptImagePrompt: "baby shower game cards on table pastel colours balloons soft lighting party setup aesthetic",
+    videoPrompt: "Hook: boring baby shower. Show games. Show interaction. CTA: make your event fun.",
+  },
+  "event-004": {
+    etsy: {
+      title: "Bachelorette Party Games Printable Itinerary Pack Hen Party Games Bundle Editable",
+      description: "Plan the perfect hen party with a bundle of printable games and itinerary templates. Designed to keep the celebration fun, organised and unforgettable.",
+      tags: "hen party games,bachelorette party games,party itinerary,hen party printable,party games bundle,event planning,celebration ideas,party activities,printable games,hen do ideas,bridal party,event stationery,printablesuk",
+    },
+    tiktok: {
+      caption: "Planning a hen party and stressed? This makes it easy.",
+      hashtags: "#henparty #bacheloretteparty #partyplanning #eventplanning #printables #celebration #partyideas #bridetobe #girlsnight #eventideas",
+    },
+    instagram: {
+      caption: "Planning a hen party doesn't have to feel overwhelming. This bundle helps you organise the day and keep the fun going with easy-to-use games and templates. Everything sorted in minutes.",
+      hashtags: "#henpartyuk #bacheloretteparty #partyplanning #eventstyling #printablesuk #celebrationideas #partydecor #bridetobe #girlsnight #eventplanning #creativeuk #partysetup",
+    },
+    pinterest: {
+      title: "Hen Party Games and Itinerary Printable Bundle",
+      description: "Fun printable games and itinerary templates for planning the perfect hen party.",
+      keywords: "hen party games,bachelorette party,party itinerary,event planning,celebration ideas,printable games,party activities,hen do ideas",
+    },
+    gptImagePrompt: "hen party game cards on table champagne glasses pink decor confetti soft lighting celebration aesthetic",
+    videoPrompt: "Hook: stressful party planning. Show bundle. Show itinerary. CTA: plan your hen party easily.",
+  },
+  "event-005": {
+    etsy: {
+      title: "Holiday Card Template Editable Christmas Card Canva Greeting Card Printable",
+      description: "Create personalised holiday cards with editable templates designed for a festive, professional finish. Perfect for Christmas, seasonal greetings and special occasions.",
+      tags: "holiday card template,christmas card,canva greeting card,editable card,seasonal card,printable greeting,festive card,holiday stationery,event stationery,christmas printable,custom card,card template,printablesuk",
+    },
+    tiktok: {
+      caption: "Still buying generic Christmas cards? Make your own instead.",
+      hashtags: "#christmascards #holidaycards #festivedesign #canvatemplates #printables #seasonaldecor #giftideas #designinspo #creativeuk #christmasideas",
+    },
+    instagram: {
+      caption: "Personal touches make all the difference. These holiday card templates help you create something meaningful, stylish and completely your own. Perfect for any festive season.",
+      hashtags: "#christmascardsuk #holidaycards #festivedesign #canvatemplate #printablesuk #seasonaldecor #giftideas #designinspiration #creativeuk #christmasideas #stationerydesign #festiveplanning",
+    },
+    pinterest: {
+      title: "Editable Holiday Card Template for Christmas Greetings",
+      description: "Create personalised holiday cards with easy-to-edit templates for festive occasions.",
+      keywords: "holiday cards,christmas card template,greeting card,canva card,seasonal design,printable card,festive stationery,custom cards",
+    },
+    gptImagePrompt: "holiday greeting cards on table christmas decor pine branches warm lighting cosy festive aesthetic",
+    videoPrompt: "Hook: boring holiday cards. Show design. Show customisation. CTA: create your own festive cards.",
+  },
+  "event-006": {
+    etsy: {
+      title: "Graduation Party Printables Invitation Decor Sign Templates Graduation Celebration Pack",
+      description: "Celebrate graduation with a complete printable party pack including invitations, signs and decor. Easy to customise and perfect for creating a memorable event.",
+      tags: "graduation party,graduation printables,party decor,invitation template,graduation celebration,event planning,party signs,printable decor,graduation invite,celebration ideas,party pack,printablesuk,graduation ideas",
+    },
+    tiktok: {
+      caption: "Graduation party coming up? This makes it look amazing.",
+      hashtags: "#graduationparty #eventplanning #partydecor #celebrationideas #printables #graduation #partysetup #designinspo #eventstyling #creativeuk",
+    },
+    instagram: {
+      caption: "Graduation is a moment worth celebrating properly. This printable pack helps you create a cohesive, stylish event without the stress. Everything you need in one place.",
+      hashtags: "#graduationpartyuk #eventplanning #partydecor #celebrationideas #printablesuk #graduation #partysetup #designinspiration #eventstyling #creativeuk #partyplanning #graduationideas",
+    },
+    pinterest: {
+      title: "Graduation Party Printables for Invitations and Decor",
+      description: "Complete printable pack to create a stylish graduation celebration.",
+      keywords: "graduation party,party printables,graduation decor,invitation template,event planning,celebration ideas,party setup,graduation invite",
+    },
+    gptImagePrompt: "graduation party setup with printables balloons banners neutral tones celebration decor soft lighting",
+    videoPrompt: "Hook: graduation party stress. Show printables. Show setup. CTA: plan your celebration easily.",
+  },
+  "event-007": {
+    etsy: {
+      title: "Classroom Valentines Printable Kids Valentine Cards School Valentines Cards Template",
+      description: "Make Valentine's Day fun with printable classroom cards designed for kids. Easy to print and perfect for sharing thoughtful messages with friends.",
+      tags: "valentines cards,kids valentines,classroom valentines,printable cards,valentines printable,school cards,holiday cards,kids activities,party printables,event stationery,valentines day,card template,printablesuk",
+    },
+    tiktok: {
+      caption: "Need quick Valentine's cards for school? This makes it easy.",
+      hashtags: "#valentinesday #kidsactivities #schoolideas #printables #holidaycards #classroomfun #creativekids #parentinguk #carddesign #eventplanning",
+    },
+    instagram: {
+      caption: "Valentine's Day should feel fun and simple. These printable cards make it easy for kids to share thoughtful messages without stress. Just print and enjoy.",
+      hashtags: "#valentinesdayuk #kidsactivities #schoolideas #printablesuk #holidaycards #classroomfun #creativekids #parentinguk #carddesign #eventplanning #familyactivities #craftideas",
+    },
+    pinterest: {
+      title: "Printable Classroom Valentines Cards for Kids",
+      description: "Fun and easy printable Valentine's cards for school and kids celebrations.",
+      keywords: "valentines cards,kids valentines,printable cards,school valentines,holiday cards,kids activities,classroom ideas,valentines printable",
+    },
+    gptImagePrompt: "valentines cards on table heart shapes pastel colours kids craft setup soft lighting playful aesthetic",
+    videoPrompt: "Hook: last minute valentines. Show cards. Show printing. CTA: make it easy.",
+  },
+  "event-008": {
+    etsy: {
+      title: "Easter Egg Hunt Clue Cards Printable Kids Easter Activity Treasure Hunt Cards",
+      description: "Make Easter more exciting with printable clue cards for a fun egg hunt. Easy to use and perfect for creating memorable family moments.",
+      tags: "easter egg hunt,easter printable,clue cards,treasure hunt,easter activity,kids activities,party games,holiday printable,easter ideas,printable games,event planning,children games,printablesuk",
+    },
+    tiktok: {
+      caption: "Make your Easter egg hunt way more exciting with this.",
+      hashtags: "#easterideas #easterhunt #kidsactivities #familyfun #printables #holidayfun #treasurehunt #parentinguk #eventplanning #celebration",
+    },
+    instagram: {
+      caption: "Turn a simple Easter egg hunt into something unforgettable. These clue cards add excitement, structure and fun for the whole family. Easy to set up and enjoy.",
+      hashtags: "#easterideasuk #easterhunt #kidsactivities #familyfun #printablesuk #holidayfun #treasurehunt #parentinguk #eventplanning #celebrationideas #familyactivities #creativefun",
+    },
+    pinterest: {
+      title: "Easter Egg Hunt Clue Cards Printable for Kids",
+      description: "Printable clue cards to create a fun and exciting Easter egg hunt for children.",
+      keywords: "easter egg hunt,clue cards,easter printable,treasure hunt,kids activities,holiday fun,party games,easter ideas",
+    },
+    gptImagePrompt: "easter clue cards on table pastel colours eggs basket soft lighting playful spring aesthetic",
+    videoPrompt: "Hook: boring egg hunt. Show clue cards. Show game. CTA: make Easter fun.",
+  },
+  "event-009": {
+    etsy: {
+      title: "Anniversary Milestone Poster Printable Timeline Poster Custom Anniversary Gift",
+      description: "Celebrate special milestones with a printable anniversary poster designed to highlight meaningful moments. Perfect as a thoughtful and personal gift.",
+      tags: "anniversary poster,milestone poster,timeline poster,anniversary gift,printable poster,custom gift,event stationery,celebration poster,relationship timeline,personalised gift,printablesuk,gift idea,wall art",
+    },
+    tiktok: {
+      caption: "Struggling to find a meaningful gift? This is perfect.",
+      hashtags: "#anniversarygift #giftideas #milestone #celebration #printables #personalisedgift #relationshipgoals #creativegift #eventplanning #giftinspo",
+    },
+    instagram: {
+      caption: "Some gifts are meant to be remembered forever. This poster helps you celebrate milestones in a meaningful, visual way. A simple but powerful keepsake.",
+      hashtags: "#anniversarygift #giftideas #milestone #celebration #printablesuk #personalisedgift #relationshipgoals #creativegift #eventplanning #giftinspo #meaningfulgift #wallart",
+    },
+    pinterest: {
+      title: "Anniversary Milestone Poster Printable Gift Idea",
+      description: "Celebrate special moments with a personalised milestone poster design.",
+      keywords: "anniversary poster,milestone gift,timeline poster,printable gift,relationship timeline,celebration gift,personalised gift,wall art",
+    },
+    gptImagePrompt: "anniversary poster framed on wall neutral tones soft lighting cosy home aesthetic minimal decor",
+    videoPrompt: "Hook: boring gifts. Show poster. Show personalisation. CTA: create a meaningful gift.",
+  },
+  "event-010": {
+    etsy: {
+      title: "Retirement Party Decor Printables Invitation Signs Banner Templates Retirement Celebration",
+      description: "Plan a memorable retirement party with a complete printable decor pack including invitations, signs and banners. Easy to customise and perfect for celebrating this milestone.",
+      tags: "retirement party,party printables,retirement decor,invitation template,event planning,celebration decor,party signs,printable banner,retirement invite,party pack,printablesuk,celebration ideas,event stationery",
+    },
+    tiktok: {
+      caption: "Planning a retirement party? This makes it look amazing.",
+      hashtags: "#retirementparty #eventplanning #partydecor #celebrationideas #printables #retirement #partysetup #designinspo #eventstyling #creativeuk",
+    },
+    instagram: {
+      caption: "Retirement is a milestone worth celebrating properly. This printable pack helps you create a cohesive, stylish event without stress. Everything you need in one place.",
+      hashtags: "#retirementpartyuk #eventplanning #partydecor #celebrationideas #printablesuk #retirement #partysetup #designinspiration #eventstyling #creativeuk #partyplanning #celebration",
+    },
+    pinterest: {
+      title: "Retirement Party Printables for Invitations and Decor",
+      description: "Printable decor and invitations to create a stylish retirement celebration.",
+      keywords: "retirement party,party printables,retirement decor,invitation template,event planning,celebration ideas,party setup,retirement invite",
+    },
+    gptImagePrompt: "retirement party setup with printables balloons banner neutral tones celebration decor soft lighting",
+    videoPrompt: "Hook: stressful party planning. Show decor pack. Show setup. CTA: plan your retirement party easily.",
+  },
   "sheet-001": { ...empty },
   "sheet-002": { ...empty },
   "sheet-003": { ...empty },
