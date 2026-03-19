@@ -915,16 +915,226 @@ export const marketingPrompts: Record<string, MarketingPrompts> = {
     gptImagePrompt: "portfolio pages displayed on tablet and printed sheets neutral desk minimal layout modern branding soft lighting aesthetic",
     videoPrompt: "Hook: your portfolio isn't converting. Show clean portfolio pages. CTA: upgrade your portfolio.",
   },
-  "edu-001": { ...empty },
-  "edu-002": { ...empty },
-  "edu-003": { ...empty },
-  "edu-004": { ...empty },
-  "edu-005": { ...empty },
-  "edu-006": { ...empty },
-  "edu-007": { ...empty },
-  "edu-008": { ...empty },
-  "edu-009": { ...empty },
-  "edu-010": { ...empty },
+  "edu-001": {
+    etsy: {
+      title: "Flashcards Printable Learning Cards Study Flashcards Kids Education Homeschool Flash Cards",
+      description: "Boost learning with printable flashcards designed for quick revision and memory building. Perfect for homeschooling, early years education and structured study sessions at home or in the classroom.",
+      tags: "flashcards printable,learning flashcards,study cards,homeschool resources,kids learning tools,education printable,revision cards,early learning,teaching resources,school printable,memory learning,study aid,kids education",
+    },
+    tiktok: {
+      caption: "Struggling to get kids to actually remember what they learn? Try this.",
+      hashtags: "#homeschooluk #kidslearning #studyhack #educationtools #parentingtips #learningthroughplay #teachersofinstagram #earlyyears #studytools #printables",
+    },
+    instagram: {
+      caption: "Learning becomes so much easier when it feels simple and visual. These flashcards help build confidence, memory and understanding without overwhelm. Perfect for home learning or quick revision sessions.",
+      hashtags: "#homeschooluk #kidseducation #learningtools #studyresources #teachersuk #earlylearning #parentinguk #educationideas #printablesuk #learningathome #schoolresources #studyhelp",
+    },
+    pinterest: {
+      title: "Printable Flashcards for Kids Learning and Revision",
+      description: "Printable flashcards designed to improve memory and learning. Ideal for homeschooling and early education.",
+      keywords: "flashcards printable,learning tools,kids education,homeschool resources,study cards,revision tools,early learning,education printable",
+    },
+    gptImagePrompt: "flat lay flashcards on desk colourful cards pencils notebook soft natural light kids learning setup minimal aesthetic",
+    videoPrompt: "Hook: kids forget what they learn. Show flashcards in use. Show quick learning interaction. CTA: make learning easier with printables.",
+  },
+  "edu-002": {
+    etsy: {
+      title: "Colouring Pages Printable Kids Colouring Sheets Educational Colouring Book Pages PDF",
+      description: "Encourage creativity and focus with printable colouring pages designed for children of all ages. Perfect for quiet time, learning activities and developing fine motor skills.",
+      tags: "colouring pages,kids colouring sheets,printable colouring,colouring book pages,children activities,learning printables,homeschool activity,kids art,creative learning,early years,fun learning,activity sheets,colouring printable",
+    },
+    tiktok: {
+      caption: "Need a quiet activity that actually keeps kids engaged? This works every time.",
+      hashtags: "#kidsactivities #colouringpages #parentinguk #learningthroughplay #homeschooluk #creativekids #quiettime #educationfun #printables #activityideas",
+    },
+    instagram: {
+      caption: "Sometimes the simplest activities are the most effective. These colouring pages help kids relax, focus and get creative while still learning. Perfect for home, school or on-the-go activities.",
+      hashtags: "#kidsactivitiesuk #colouringpages #creativelearning #homeschooluk #parentingtips #learningthroughplay #earlyyears #educationideas #printablesuk #activityforkids #funlearning #creativekids",
+    },
+    pinterest: {
+      title: "Printable Colouring Pages for Kids Fun Learning Activities",
+      description: "Creative printable colouring sheets to keep kids engaged while developing focus and skills.",
+      keywords: "colouring pages,kids activities,printable colouring,learning activities,homeschool resources,creative learning,activity sheets,early years",
+    },
+    gptImagePrompt: "colouring pages spread on table crayons markers kids drawing setup bright colours soft lighting playful aesthetic",
+    videoPrompt: "Hook: kids get bored quickly. Show colouring activity. Show engagement and creativity. CTA: download fun learning pages.",
+  },
+  "edu-003": {
+    etsy: {
+      title: "Handwriting Practice Worksheets Printable Kids Writing Sheets Learn to Write Letters",
+      description: "Help children improve handwriting with structured printable worksheets designed for letter formation and practice. Ideal for early years, homeschooling and classroom support.",
+      tags: "handwriting practice,writing worksheets,learn to write,printable worksheets,kids education,early learning,homeschool printable,letter practice,writing skills,school resources,education printable,learning sheets,kids writing",
+    },
+    tiktok: {
+      caption: "Struggling with messy handwriting? This makes practice simple.",
+      hashtags: "#handwritingpractice #kidslearning #homeschooluk #educationtools #learningathome #teachersuk #earlyyears #studytools #printables #parentingtips",
+    },
+    instagram: {
+      caption: "Good handwriting builds confidence early on. These worksheets make it easy for children to practise consistently and improve without frustration. Simple structure, real results.",
+      hashtags: "#handwritingpractice #kidseducation #homeschooluk #learningtools #teachersuk #earlylearning #educationideas #printablesuk #schoolresources #learningathome #studyhelp #parentinguk",
+    },
+    pinterest: {
+      title: "Handwriting Practice Worksheets for Kids Learning to Write",
+      description: "Printable worksheets to help children improve handwriting and letter formation skills.",
+      keywords: "handwriting worksheets,learn to write,kids education,printable worksheets,early learning,homeschool resources,writing practice,school printable",
+    },
+    gptImagePrompt: "handwriting worksheets on desk pencil notebook clean layout natural light minimal learning setup",
+    videoPrompt: "Hook: messy handwriting frustration. Show worksheets. Show improved writing. CTA: improve handwriting today.",
+  },
+  "edu-004": {
+    etsy: {
+      title: "Homeschool Curriculum Planner Printable Education Planner Home Learning Organisation",
+      description: "Stay organised with a homeschool curriculum planner designed to structure lessons, track progress and plan effectively. Perfect for parents managing home education with clarity and ease.",
+      tags: "homeschool planner,curriculum planner,home education,education planner,learning organiser,printable planner,homeschool resources,lesson planning,study planner,kids learning,education printable,planning tools,school organisation",
+    },
+    tiktok: {
+      caption: "Homeschooling feels chaotic? This brings structure instantly.",
+      hashtags: "#homeschooluk #educationplanner #parentingtips #learningathome #organisation #studytools #printables #teachingresources #schoolplanning #productivity",
+    },
+    instagram: {
+      caption: "Homeschooling becomes so much easier when everything is organised in one place. This planner helps you map lessons, track progress and stay consistent without feeling overwhelmed.",
+      hashtags: "#homeschooluk #educationplanner #learningathome #organisationtools #parentinguk #studyplanner #printablesuk #teachersuk #schoolresources #productivitytools #learningtools #homeeducation",
+    },
+    pinterest: {
+      title: "Homeschool Curriculum Planner for Organised Learning",
+      description: "Printable homeschool planner to organise lessons, track progress and simplify home education.",
+      keywords: "homeschool planner,curriculum planner,home education,lesson planning,education tools,printable planner,learning organisation,study planner",
+    },
+    gptImagePrompt: "homeschool planner pages on desk laptop notebook coffee neutral tones organised workspace aesthetic",
+    videoPrompt: "Hook: homeschooling feels messy. Show planner pages. Show organised schedule. CTA: simplify your planning.",
+  },
+  "edu-005": {
+    etsy: {
+      title: "Reward Chart Printable Behaviour Tracker Kids Reward System Chore Chart PDF",
+      description: "Encourage positive behaviour with printable reward charts designed for kids. Perfect for building routines, motivation and consistency at home or in the classroom.",
+      tags: "reward chart,kids behaviour chart,printable reward chart,behaviour tracker,chore chart,kids routine,positive reinforcement,parenting tools,education printable,learning rewards,homeschool tools,kids motivation,printable chart",
+    },
+    tiktok: {
+      caption: "Struggling with routines and behaviour? This makes it simple.",
+      hashtags: "#parentinguk #rewardchart #kidsroutine #behaviourtips #homeschooluk #learningtools #printables #positiveparenting #kidsmotivation #familylife",
+    },
+    instagram: {
+      caption: "Consistency becomes so much easier when kids can see their progress. These reward charts help build positive habits in a simple and motivating way. A small change that makes a big difference.",
+      hashtags: "#rewardchart #parentingtips #kidsroutine #homeschooluk #positiveparenting #educationtools #printablesuk #learningathome #familyorganisation #kidsmotivation #behaviourchart #parentinguk",
+    },
+    pinterest: {
+      title: "Reward Chart Printable for Kids Behaviour and Routine",
+      description: "Printable reward charts to build positive habits and routines for children at home.",
+      keywords: "reward chart,kids behaviour,printable chart,parenting tools,positive habits,homeschool resources,kids routine,learning tools",
+    },
+    gptImagePrompt: "reward chart printable on wall stickers kids desk colourful setup soft lighting playful learning environment",
+    videoPrompt: "Hook: routines aren't working. Show reward chart. Show progress tracking. CTA: build better habits.",
+  },
+  "edu-006": {
+    etsy: {
+      title: "Learning Activity Bundle Printable Kids Worksheets Educational Activities Homeschool Pack",
+      description: "Keep children engaged with a bundle of printable learning activities designed to support development and creativity. Ideal for homeschooling, classrooms and fun learning at home.",
+      tags: "learning activities,activity bundle,kids worksheets,education printable,homeschool resources,learning pack,kids education,activity sheets,creative learning,study tools,early years,printables,learning fun",
+    },
+    tiktok: {
+      caption: "Need activities that actually keep kids learning? Try this bundle.",
+      hashtags: "#kidsactivities #learningbundle #homeschooluk #educationtools #parentingtips #learningthroughplay #printables #studytools #earlyyears #creativelearning",
+    },
+    instagram: {
+      caption: "Keeping kids engaged while learning doesn't have to be difficult. This bundle gives you ready-to-use activities that are fun, structured and easy to follow. Perfect for everyday learning.",
+      hashtags: "#kidslearning #homeschooluk #learningactivities #educationtools #parentinguk #printablesuk #earlyyears #creativelearning #studytools #learningathome #activityideas #kidseducation",
+    },
+    pinterest: {
+      title: "Printable Learning Activity Bundle for Kids Education",
+      description: "Educational activity bundle to keep children engaged while developing skills and knowledge.",
+      keywords: "learning activities,kids worksheets,education bundle,homeschool resources,printables,creative learning,study tools,activity sheets",
+    },
+    gptImagePrompt: "learning worksheets spread on desk pencils colourful materials kids activity setup bright soft lighting",
+    videoPrompt: "Hook: kids lose focus quickly. Show activity bundle. Show engagement. CTA: keep learning fun.",
+  },
+  "edu-007": {
+    etsy: {
+      title: "Book Report Template Printable Reading Report Worksheet School Project Template PDF",
+      description: "Make reading assignments easier with printable book report templates designed for clear structure and understanding. Perfect for students, teachers and homeschooling support.",
+      tags: "book report template,reading worksheet,school project,printable worksheet,education printable,homeschool resources,reading log,study tools,school printable,learning sheets,student resources,book summary,education tools",
+    },
+    tiktok: {
+      caption: "Book reports taking too long? This simplifies everything.",
+      hashtags: "#schoolwork #bookreport #studentlife #educationtools #homeschooluk #studyhelp #printables #learningtools #teachersuk #studyhack",
+    },
+    instagram: {
+      caption: "Book reports don't have to feel overwhelming. This template helps structure thoughts, organise ideas and make writing easier. Perfect for building confidence in learning.",
+      hashtags: "#bookreport #studentresources #educationtools #homeschooluk #studyplanner #printablesuk #learningathome #schoolresources #studyhelp #teachersuk #kidseducation #learningtools",
+    },
+    pinterest: {
+      title: "Book Report Template Printable for Students and School Projects",
+      description: "Printable book report worksheet to help students organise and present their ideas clearly.",
+      keywords: "book report template,reading worksheet,student tools,school printable,education resources,study help,learning sheets,homeschool tools",
+    },
+    gptImagePrompt: "book report worksheet on desk open book pen notebook natural light study setup",
+    videoPrompt: "Hook: book reports feel confusing. Show template. Show structure. CTA: simplify school work.",
+  },
+  "edu-008": {
+    etsy: {
+      title: "Times Table Chart Printable Multiplication Chart Kids Maths Learning Poster PDF",
+      description: "Support maths learning with printable multiplication charts designed for quick reference and practice. Ideal for children building confidence in times tables and basic maths skills.",
+      tags: "times table chart,multiplication chart,maths printable,kids maths,learning chart,education printable,homeschool maths,study tools,maths poster,school resources,learning aid,maths help,printable chart",
+    },
+    tiktok: {
+      caption: "Struggling with times tables? This makes it easier.",
+      hashtags: "#mathshelp #timestables #kidslearning #homeschooluk #educationtools #studyhack #learningathome #printables #mathslearning #schooltips",
+    },
+    instagram: {
+      caption: "Maths becomes easier when it's visual and clear. These charts help children practise and remember times tables with confidence. Simple, effective and easy to use every day.",
+      hashtags: "#mathslearning #timestables #kidseducation #homeschooluk #educationtools #printablesuk #learningathome #studytools #schoolresources #mathshelp #learningcharts #parentinguk",
+    },
+    pinterest: {
+      title: "Times Table Chart Printable for Kids Maths Learning",
+      description: "Multiplication charts to help children learn and practise times tables effectively.",
+      keywords: "times tables,multiplication chart,maths printable,kids maths,learning tools,homeschool maths,study aids,education resources",
+    },
+    gptImagePrompt: "multiplication chart on desk colourful layout pencils kids learning setup bright lighting",
+    videoPrompt: "Hook: times tables frustration. Show chart. Show learning process. CTA: make maths easier.",
+  },
+  "edu-009": {
+    etsy: {
+      title: "Reading Log Printable Book Tracker Kids Reading Tracker Worksheet PDF",
+      description: "Encourage reading habits with printable reading logs designed to track progress and build consistency. Perfect for students, homeschooling and developing a love for reading.",
+      tags: "reading log,book tracker,reading tracker,printable worksheet,kids reading,education printable,homeschool resources,study tools,reading habits,school printable,learning sheets,student tools,reading chart",
+    },
+    tiktok: {
+      caption: "Kids not reading enough? This changes everything.",
+      hashtags: "#readinglog #kidsreading #homeschooluk #educationtools #learninghabits #printables #studytools #parentingtips #readingtime #schoolresources",
+    },
+    instagram: {
+      caption: "Building a reading habit starts with consistency. These reading logs make it easy to track progress and keep motivation high. Perfect for supporting learning in a simple way.",
+      hashtags: "#readinglog #kidseducation #homeschooluk #learningtools #printablesuk #studytools #readinghabits #schoolresources #learningathome #parentinguk #educationideas #studentlife",
+    },
+    pinterest: {
+      title: "Reading Log Printable for Kids Book Tracking and Progress",
+      description: "Printable reading logs to help children build consistent reading habits and track progress.",
+      keywords: "reading log,book tracker,kids reading,education tools,homeschool resources,study tools,reading habits,learning sheets",
+    },
+    gptImagePrompt: "reading log worksheet on desk books stacked pen cosy study environment soft natural light",
+    videoPrompt: "Hook: kids don't read consistently. Show reading log. Show tracking progress. CTA: build reading habits.",
+  },
+  "edu-010": {
+    etsy: {
+      title: "STEM Activity Cards Printable Kids Science Activities Learning Cards Homeschool STEM Pack",
+      description: "Inspire curiosity with printable STEM activity cards designed for hands-on learning and problem-solving. Perfect for children exploring science, technology, engineering and maths at home or school.",
+      tags: "stem activities,stem cards,science printable,kids learning,education printable,homeschool stem,activity cards,learning tools,stem education,science activities,early learning,printables,education pack",
+    },
+    tiktok: {
+      caption: "Want kids to actually enjoy learning? Try this.",
+      hashtags: "#stemlearning #kidsactivities #educationtools #homeschooluk #learningthroughplay #sciencefun #printables #studytools #creativelearning #kidseducation",
+    },
+    instagram: {
+      caption: "Learning becomes exciting when it's hands-on and engaging. These STEM activity cards help children explore, experiment and think creatively. A simple way to make learning more fun and meaningful.",
+      hashtags: "#stemlearning #kidseducation #homeschooluk #learningthroughplay #scienceactivities #printablesuk #creativelearning #educationtools #learningathome #parentinguk #studytools #earlyyears",
+    },
+    pinterest: {
+      title: "STEM Activity Cards Printable for Kids Science Learning",
+      description: "Printable STEM activity cards to encourage hands-on learning and creativity in children.",
+      keywords: "stem activities,science learning,kids education,homeschool stem,activity cards,learning tools,printables,creative learning",
+    },
+    gptImagePrompt: "stem activity cards on table kids science experiment setup bright colours educational tools soft lighting",
+    videoPrompt: "Hook: kids find learning boring. Show STEM cards. Show hands-on activity. CTA: make learning exciting.",
+  },
   "journal-001": { ...empty },
   "journal-002": { ...empty },
   "journal-003": { ...empty },
