@@ -1,4 +1,4 @@
-name: Auto-merge claude branches into master
+name: Auto-merge claude branches into main
 
 on:
   push:
@@ -14,10 +14,16 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Merge into master
+      - name: Merge into main
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout master
-          git merge --ff-only origin/${{ github.ref_name }} || git merge origin/${{ github.ref_name }}
-          git push origin master
+          git fetch origin
+          # Create main from this branch if it doesn't exist
+          if ! git ls-remote --heads origin main | grep -q main; then
+            git checkout -b main
+          else
+            git checkout main
+            git merge --ff-only origin/${{ github.ref_name }} || git merge origin/${{ github.ref_name }}
+          fi
+          git push origin main
