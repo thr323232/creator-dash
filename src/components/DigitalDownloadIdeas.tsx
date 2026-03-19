@@ -173,6 +173,11 @@ function IdeaDetail({
   const marketing = marketingPrompts[idea.id];
   const [checkedSteps, setCheckedSteps] = useState<Set<number>>(new Set());
 
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, []);
+
   const toggleStep = (i: number) =>
     setCheckedSteps((prev) => {
       const next = new Set(prev);
@@ -217,7 +222,7 @@ function IdeaDetail({
           </button>
         </div>
 
-        <div className="overflow-y-auto flex-1">
+        <div className="overflow-y-auto flex-1 overscroll-contain">
         <div className="px-4 py-5 flex flex-col gap-6">
 
           {/* Progress tracker */}
