@@ -1575,16 +1575,226 @@ export const marketingPrompts: Record<string, MarketingPrompts> = {
     gptImagePrompt: "notion crm dashboard on laptop business desk notebook coffee clean minimal aesthetic soft lighting",
     videoPrompt: "Hook: losing track of clients. Show CRM dashboard. Show organisation. CTA: manage your business better.",
   },
-  "asset-001": { ...empty },
-  "asset-002": { ...empty },
-  "asset-003": { ...empty },
-  "asset-004": { ...empty },
-  "asset-005": { ...empty },
-  "asset-006": { ...empty },
-  "asset-007": { ...empty },
-  "asset-008": { ...empty },
-  "asset-009": { ...empty },
-  "asset-010": { ...empty },
+  "asset-001": {
+    etsy: {
+      title: "Lightroom Presets Pack Mobile Desktop Presets Photo Editing Presets Instagram Aesthetic",
+      description: "Transform your photos instantly with professional Lightroom presets designed for mobile and desktop editing. Perfect for creating a consistent, polished aesthetic for social media, photography or branding.",
+      tags: "lightroom presets,mobile presets,photo editing presets,instagram presets,lightroom mobile,photo filters,editing tools,photography presets,content creator tools,branding aesthetic,lightroom pack,photo editing,filter presets",
+    },
+    tiktok: {
+      caption: "Your photos look flat? These presets fix it instantly.",
+      hashtags: "#lightroompresets #photoediting #contentcreator #instagramaesthetic #editingtools #photographytips #socialmediagrowth #digitalproducts #creativetools #aesthetic",
+    },
+    instagram: {
+      caption: "A consistent aesthetic makes all the difference. These presets help you transform your photos in seconds while keeping your content clean, cohesive and professional. Perfect for creators and brands.",
+      hashtags: "#lightroompresets #photoediting #contentcreatoruk #instagramaesthetic #editingtools #photographytips #socialmediagrowth #digitalproducts #creativetools #brandinguk #aestheticfeed #contentcreation",
+    },
+    pinterest: {
+      title: "Lightroom Presets Pack for Instagram Aesthetic and Photo Editing",
+      description: "Professional presets to enhance photos and create a consistent aesthetic for social media and branding.",
+      keywords: "lightroom presets,photo editing,instagram aesthetic,mobile presets,photography tools,editing filters,content creator tools,aesthetic photos",
+    },
+    gptImagePrompt: "before and after photo editing comparison lightroom presets applied neutral tones minimal layout modern aesthetic soft lighting",
+    videoPrompt: "Hook: photos look dull. Show before and after. Show preset application. CTA: upgrade your photos instantly.",
+  },
+  "asset-002": {
+    etsy: {
+      title: "Procreate Brush Set Digital Brushes Drawing Brushes Illustration Brushes Procreate Pack",
+      description: "Create stunning artwork with a professional Procreate brush set designed for illustration and digital drawing. Perfect for artists looking to enhance texture, detail and creativity in their work.",
+      tags: "procreate brushes,digital brushes,illustration brushes,procreate pack,drawing tools,artist tools,digital art brushes,texture brushes,creative tools,procreate art,design resources,brush set,ipad drawing",
+    },
+    tiktok: {
+      caption: "Your digital art feels flat? These brushes change everything.",
+      hashtags: "#procreatebrushes #digitalart #illustrationtools #artistlife #creativeprocess #drawingtools #ipadart #designresources #digitalproducts #arttips",
+    },
+    instagram: {
+      caption: "The right tools can completely change your artwork. These brushes add texture, depth and flow to your designs, making it easier to create something that feels professional and unique.",
+      hashtags: "#procreatebrushes #digitalartuk #illustrationtools #artistlife #creativeprocess #drawingtools #ipadart #designresources #digitalproducts #arttips #creativeuk #designinspiration",
+    },
+    pinterest: {
+      title: "Procreate Brush Set for Digital Illustration and Drawing",
+      description: "High-quality Procreate brushes to improve texture, detail and creativity in digital art.",
+      keywords: "procreate brushes,digital art tools,illustration brushes,ipad drawing,creative tools,artist resources,design tools,brush pack",
+    },
+    gptImagePrompt: "ipad with procreate open stylus pen brush strokes on screen creative workspace soft lighting modern artist setup",
+    videoPrompt: "Hook: art feels flat. Show brush strokes. Show texture. CTA: upgrade your brushes.",
+  },
+  "asset-003": {
+    etsy: {
+      title: "Procreate Colour Palette Pack Colour Palettes Digital Colour Swatches Aesthetic Colours",
+      description: "Enhance your designs with curated Procreate colour palettes designed for modern aesthetics. Perfect for artists, designers and creators looking to build cohesive and visually appealing work.",
+      tags: "procreate palette,colour palette pack,digital colours,design colours,procreate tools,colour swatches,branding colours,creative tools,design resources,colour inspiration,aesthetic colours,artist tools,colour palette",
+    },
+    tiktok: {
+      caption: "Your colours don't match? This fixes your palette instantly.",
+      hashtags: "#colourpalette #procreatepalette #designinspo #creativeprocess #artisttools #brandingdesign #colourtheory #digitalart #designresources #aesthetic",
+    },
+    instagram: {
+      caption: "Colour can completely change how your work feels. These palettes help you create cohesive, professional designs without guessing. Simple, effective and ready to use.",
+      hashtags: "#colourpalette #designinspo #creativeprocess #artisttools #brandingdesign #colourtheory #digitalart #designresources #aesthetic #creativeuk #designinspiration #visualdesign",
+    },
+    pinterest: {
+      title: "Procreate Colour Palette Pack for Designers and Artists",
+      description: "Curated colour palettes to create cohesive and visually appealing designs.",
+      keywords: "colour palette,procreate palette,design colours,colour inspiration,branding colours,creative tools,digital design,artist resources",
+    },
+    gptImagePrompt: "colour palette swatches displayed on ipad soft tones design workspace minimal aesthetic clean layout",
+    videoPrompt: "Hook: colours don't work together. Show palette. Show design. CTA: improve your colour choices.",
+  },
+  "asset-004": {
+    etsy: {
+      title: "Stock Photo Bundle Neutral Aesthetic Photos Small Business Branding Photos Bundle",
+      description: "Elevate your brand with a curated stock photo bundle designed for small businesses and content creators. Perfect for creating a cohesive, professional and modern visual identity.",
+      tags: "stock photos bundle,branding photos,neutral aesthetic photos,business photos,content creator photos,instagram content,photo bundle,branding kit,small business tools,visual branding,photo resources,aesthetic images,content bundle",
+    },
+    tiktok: {
+      caption: "Struggling to find content for your posts? This solves it.",
+      hashtags: "#stockphotos #brandingcontent #smallbusinessuk #contentcreation #instagramcontent #visualbranding #digitalproducts #contentcreator #aesthetic #marketingtools",
+    },
+    instagram: {
+      caption: "Your visuals shape how people see your brand. This bundle gives you clean, cohesive photos you can use across your content instantly. No more scrambling for images.",
+      hashtags: "#stockphotos #brandingcontent #smallbusinessuk #contentcreation #instagramcontent #visualbranding #digitalproducts #contentcreator #aesthetic #marketingtools #brandidentity #onlinebusinessuk",
+    },
+    pinterest: {
+      title: "Stock Photo Bundle for Small Business Branding and Content",
+      description: "Neutral aesthetic stock photos to elevate your brand and create cohesive content.",
+      keywords: "stock photos,branding photos,content creation,small business tools,visual branding,aesthetic photos,instagram content,photo bundle",
+    },
+    gptImagePrompt: "neutral aesthetic stock photos displayed on laptop coffee minimal desk soft lighting modern branding aesthetic",
+    videoPrompt: "Hook: no content ideas. Show stock photos. Show usage. CTA: upgrade your visuals.",
+  },
+  "asset-005": {
+    etsy: {
+      title: "Product Mockup Templates Canva Mockups Product Display Templates Branding Mockups",
+      description: "Showcase your products professionally with editable mockup templates designed for branding and marketing. Perfect for creating polished visuals without photography.",
+      tags: "product mockup,canva mockups,branding mockups,product display,marketing templates,visual branding,product presentation,canva templates,design tools,small business tools,mockup bundle,content creation,branding kit",
+    },
+    tiktok: {
+      caption: "Your product photos look basic? This upgrades them instantly.",
+      hashtags: "#mockups #productphotos #brandinguk #smallbusinessuk #canvatemplates #contentcreation #visualbranding #digitalproducts #designtools #marketingtips",
+    },
+    instagram: {
+      caption: "How you present your product matters. These mockups help you create clean, professional visuals that instantly elevate your brand. No photography needed.",
+      hashtags: "#mockups #productphotos #brandinguk #smallbusinessuk #canvatemplates #contentcreation #visualbranding #digitalproducts #designtools #marketingtips #brandidentity #onlinebusinessuk",
+    },
+    pinterest: {
+      title: "Product Mockup Templates for Branding and Marketing",
+      description: "Editable mockups to showcase your products professionally without photography.",
+      keywords: "product mockups,canva mockups,branding templates,product display,visual branding,marketing tools,design resources,content creation",
+    },
+    gptImagePrompt: "product mockup scene on laptop neutral desk minimal layout clean branding soft lighting modern aesthetic",
+    videoPrompt: "Hook: product photos look basic. Show mockup. Show transformation. CTA: upgrade your visuals.",
+  },
+  "asset-006": {
+    etsy: {
+      title: "Canva Element Pack Design Elements Icons Shapes Branding Graphics Bundle",
+      description: "Create standout designs with a Canva element pack featuring icons, shapes and graphics. Perfect for branding, social media and creative projects.",
+      tags: "canva elements,design elements pack,branding graphics,icons pack,shapes bundle,canva graphics,design resources,creative tools,social media design,branding kit,visual elements,graphic pack,design tools",
+    },
+    tiktok: {
+      caption: "Your designs feel empty? These elements fix it instantly.",
+      hashtags: "#canvadesign #designresources #brandinggraphics #contentcreation #creativeprocess #designtools #visualdesign #digitalproducts #aesthetic #graphicdesign",
+    },
+    instagram: {
+      caption: "Great design is all about the details. These elements help you create more polished, engaging visuals without starting from scratch. Perfect for elevating your content.",
+      hashtags: "#canvadesign #designresources #brandinggraphics #contentcreation #creativeprocess #designtools #visualdesign #digitalproducts #aesthetic #graphicdesign #creativeuk #designinspiration",
+    },
+    pinterest: {
+      title: "Canva Element Pack for Branding and Social Media Design",
+      description: "Design elements, icons and shapes to elevate your Canva projects and branding.",
+      keywords: "canva elements,design resources,branding graphics,icons pack,creative tools,social media design,visual elements,graphic design",
+    },
+    gptImagePrompt: "design elements displayed on screen icons shapes layouts clean minimal workspace soft lighting modern aesthetic",
+    videoPrompt: "Hook: designs feel empty. Show elements. Show improved design. CTA: upgrade your designs.",
+  },
+  "asset-007": {
+    etsy: {
+      title: "Font Pairing Guide Typography Guide Branding Fonts Canva Fonts Design Resource",
+      description: "Create beautiful designs with a font pairing guide designed to help you choose the perfect combinations. Ideal for branding, social media and creative projects.",
+      tags: "font pairing guide,typography guide,branding fonts,design fonts,canva fonts,font combinations,design resources,creative tools,branding design,typography tips,visual design,font guide,design tools",
+    },
+    tiktok: {
+      caption: "Fonts not looking right together? This solves it instantly.",
+      hashtags: "#fontpairing #typography #designtips #brandingdesign #canvadesign #creativeprocess #designtools #visualdesign #digitalproducts #aesthetic",
+    },
+    instagram: {
+      caption: "Typography can make or break your design. This guide helps you choose font pairings that feel balanced, professional and visually appealing. No more guessing.",
+      hashtags: "#fontpairing #typography #designtips #brandingdesign #canvadesign #creativeprocess #designtools #visualdesign #digitalproducts #aesthetic #designinspiration #creativeuk",
+    },
+    pinterest: {
+      title: "Font Pairing Guide for Branding and Graphic Design",
+      description: "Typography guide to help you choose perfect font combinations for your designs.",
+      keywords: "font pairing,typography guide,branding fonts,design fonts,canva fonts,creative tools,visual design,design resources",
+    },
+    gptImagePrompt: "font pairing examples on screen typography layouts clean minimal workspace soft lighting modern design aesthetic",
+    videoPrompt: "Hook: fonts look wrong together. Show pairings. Show improvement. CTA: fix your typography.",
+  },
+  "asset-008": {
+    etsy: {
+      title: "Texture and Background Pack Digital Backgrounds Aesthetic Textures Design Resources",
+      description: "Enhance your designs with a texture and background pack featuring modern, aesthetic styles. Perfect for branding, social media and creative design projects.",
+      tags: "texture pack,background pack,digital textures,design backgrounds,aesthetic textures,branding resources,design tools,creative assets,graphic design,social media design,visual elements,design pack,texture bundle",
+    },
+    tiktok: {
+      caption: "Your designs look flat? These textures fix that instantly.",
+      hashtags: "#textures #designresources #graphicdesign #brandingdesign #creativeprocess #designtools #visualdesign #digitalproducts #aesthetic #contentcreation",
+    },
+    instagram: {
+      caption: "Adding texture can completely transform your designs. This pack helps you create depth, interest and a more polished look without extra effort. Perfect for any creative project.",
+      hashtags: "#textures #designresources #graphicdesign #brandingdesign #creativeprocess #designtools #visualdesign #digitalproducts #aesthetic #contentcreation #designinspiration #creativeuk",
+    },
+    pinterest: {
+      title: "Texture and Background Pack for Graphic Design and Branding",
+      description: "Aesthetic textures and backgrounds to add depth and style to your designs.",
+      keywords: "texture pack,backgrounds,design textures,graphic design,branding resources,creative assets,visual elements,design tools",
+    },
+    gptImagePrompt: "texture backgrounds displayed on screen layered designs minimal workspace soft lighting modern aesthetic",
+    videoPrompt: "Hook: designs feel flat. Show textures. Show depth. CTA: improve your visuals.",
+  },
+  "asset-009": {
+    etsy: {
+      title: "Icon Set Pack Website Icons App Icons UI Icons Minimal Icon Pack Digital Icons",
+      description: "Upgrade your designs with a clean, modern icon set perfect for websites, apps and branding. Designed to create consistency and clarity across your visuals.",
+      tags: "icon pack,website icons,app icons,ui icons,design icons,minimal icons,branding icons,design resources,creative tools,graphic elements,ui design,icon set,digital icons",
+    },
+    tiktok: {
+      caption: "Your designs feel inconsistent? These icons fix it.",
+      hashtags: "#iconpack #uidesign #graphicdesign #brandingdesign #designresources #creativeprocess #designtools #visualdesign #digitalproducts #aesthetic",
+    },
+    instagram: {
+      caption: "Consistency is key in design. This icon set helps you create clean, professional visuals that feel cohesive across every platform. Simple details that elevate everything.",
+      hashtags: "#iconpack #uidesign #graphicdesign #brandingdesign #designresources #creativeprocess #designtools #visualdesign #digitalproducts #aesthetic #designinspiration #creativeuk",
+    },
+    pinterest: {
+      title: "Minimal Icon Set for Websites, Apps and Branding",
+      description: "Clean icon pack to create consistent and professional design across projects.",
+      keywords: "icon pack,ui icons,website icons,app icons,design resources,branding icons,graphic elements,visual design",
+    },
+    gptImagePrompt: "icon set displayed on screen minimal grid layout clean workspace soft lighting modern aesthetic",
+    videoPrompt: "Hook: inconsistent design. Show icons. Show improved layout. CTA: upgrade your visuals.",
+  },
+  "asset-010": {
+    etsy: {
+      title: "Seamless Pattern Designs Pattern Pack Repeat Patterns Digital Patterns Branding Textures",
+      description: "Create standout designs with a seamless pattern pack perfect for branding, packaging and digital projects. Easy to use and designed for a clean, modern aesthetic.",
+      tags: "pattern pack,seamless patterns,digital patterns,branding patterns,repeat patterns,design resources,creative assets,graphic design,pattern design,background patterns,visual design,pattern bundle,design tools",
+    },
+    tiktok: {
+      caption: "Your designs look plain? These patterns change everything.",
+      hashtags: "#patternpack #graphicdesign #brandingdesign #designresources #creativeprocess #designtools #visualdesign #digitalproducts #aesthetic #contentcreation",
+    },
+    instagram: {
+      caption: "Patterns add personality and depth to your designs. This pack helps you create visually interesting, professional layouts without overcomplicating your workflow. Perfect for branding and packaging.",
+      hashtags: "#patternpack #graphicdesign #brandingdesign #designresources #creativeprocess #designtools #visualdesign #digitalproducts #aesthetic #contentcreation #designinspiration #creativeuk",
+    },
+    pinterest: {
+      title: "Seamless Pattern Pack for Branding and Graphic Design",
+      description: "Repeat pattern designs to add depth and personality to your creative projects.",
+      keywords: "pattern pack,seamless patterns,design resources,branding patterns,graphic design,creative assets,visual design,background patterns",
+    },
+    gptImagePrompt: "seamless patterns displayed on screen repeating designs minimal workspace soft lighting modern aesthetic",
+    videoPrompt: "Hook: designs look plain. Show patterns. Show transformation. CTA: upgrade your designs.",
+  },
   "event-001": { ...empty },
   "event-002": { ...empty },
   "event-003": { ...empty },
