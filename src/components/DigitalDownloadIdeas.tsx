@@ -18,6 +18,33 @@ const CATEGORIES: Category[] = [
 
 const DIFFICULTIES = ["beginner", "intermediate", "advanced"] as const;
 
+const TOOL_SCORES: Record<string, number> = {
+  // easy (0)
+  "canva": 0, "google docs": 0, "google slides": 0, "powerpoint": 0, "word": 0, "google forms": 0,
+  // mid (1)
+  "notion": 1, "figma": 1, "google sheets": 1, "excel": 1, "keynote": 1, "canva pro": 1,
+  // hard (2)
+  "adobe illustrator": 2, "adobe indesign": 2, "adobe photoshop": 2, "adobe premiere": 2,
+  "adobe after effects": 2, "procreate": 2, "davinci resolve": 2, "final cut pro": 2,
+  "lightroom": 2, "adobe lightroom": 2,
+};
+
+function getDifficulty(idea: DigitalDownloadIdea): "beginner" | "intermediate" | "advanced" {
+  const toolScore = idea.toolsNeeded.reduce((max, tool) => {
+    const score = TOOL_SCORES[tool.toLowerCase()] ?? 0;
+    return Math.max(max, score);
+  }, 0);
+
+  const numbers = idea.estimatedCreationTime.match(/\d+/g)?.map(Number) ?? [4];
+  const avgTime = numbers.reduce((a, b) => a + b, 0) / numbers.length;
+  const timeScore = avgTime < 4 ? 0 : avgTime <= 8 ? 1 : 2;
+
+  const total = toolScore + timeScore;
+  if (total <= 1) return "beginner";
+  if (total <= 3) return "intermediate";
+  return "advanced";
+}
+
 const difficultyColor: Record<string, string> = {
   beginner: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
   intermediate: "bg-amber-500/20 text-amber-400 border-amber-500/30",
@@ -98,8 +125,8 @@ function IdeaCard({
       </div>
       <p className="text-gray-400 text-xs leading-relaxed line-clamp-2">{idea.description}</p>
       <div className="flex items-center justify-between text-xs text-gray-500">
-        <span className={`px-2 py-0.5 rounded-full border ${difficultyColor[idea.difficulty]}`}>
-          {idea.difficulty}
+        <span className={`px-2 py-0.5 rounded-full border ${difficultyColor[getDifficulty(idea)]}`}>
+          {getDifficulty(idea)}
         </span>
         <span>£{idea.pricingRange.min}–£{idea.pricingRange.max}</span>
         <span>{idea.estimatedCreationTime}</span>
@@ -212,9 +239,9 @@ function IdeaDetail({
             <div className="bg-gray-900 rounded-xl p-3 flex flex-col gap-1 col-span-2">
               <span className="text-gray-500 text-xs">Difficulty</span>
               <span className={`text-sm font-semibold capitalize ${
-                idea.difficulty === "beginner" ? "text-emerald-400" :
-                idea.difficulty === "intermediate" ? "text-amber-400" : "text-red-400"
-              }`}>{idea.difficulty}</span>
+                getDifficulty(idea) === "beginner" ? "text-emerald-400" :
+                getDifficulty(idea) === "intermediate" ? "text-amber-400" : "text-red-400"
+              }`}>{getDifficulty(idea)}</span>
             </div>
           </div>
 
@@ -303,7 +330,7 @@ export default function DigitalDownloadIdeas() {
   const filtered = useMemo(() => {
     return digitalDownloadIdeas.filter((idea) => {
       if (selectedCategory !== "All" && idea.category !== selectedCategory) return false;
-      if (selectedDifficulty !== "All" && idea.difficulty !== selectedDifficulty) return false;
+      if (selectedDifficulty !== "All" && getDifficulty(idea) !== selectedDifficulty) return false;
       if (myListOnly && !tracker[idea.id]) return false;
       if (search) {
         const q = search.toLowerCase();
