@@ -441,7 +441,7 @@ function IdeaDetail({
               <div className="flex flex-col gap-2">
                 {/* Platform accordions */}
                 {PLATFORM_CONFIG.map(({ key, label, color, border, bg, fields }) => {
-                  const platformData = marketing[key] as Record<string, string>;
+                  const platformData = marketing[key] as unknown as Record<string, string>;
                   const isOpen = openPlatform === key;
                   const hasContent = fields.some(f => platformData?.[f.subKey]);
                   return (
