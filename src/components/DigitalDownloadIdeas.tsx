@@ -86,13 +86,50 @@ export function useTracker() {
   return { tracker, setStage, setSales };
 }
 
-const PLATFORM_CONFIG = [
-  { key: "etsy" as const,           label: "Etsy",             color: "text-orange-400", border: "border-orange-500/30", bg: "bg-orange-500/10" },
-  { key: "tiktok" as const,         label: "TikTok",           color: "text-pink-400",   border: "border-pink-500/30",   bg: "bg-pink-500/10" },
-  { key: "instagram" as const,      label: "Instagram",        color: "text-purple-400", border: "border-purple-500/30", bg: "bg-purple-500/10" },
-  { key: "pinterest" as const,      label: "Pinterest",        color: "text-red-400",    border: "border-red-500/30",    bg: "bg-red-500/10" },
-  { key: "gptImagePrompt" as const, label: "GPT Image Prompt", color: "text-cyan-400",   border: "border-cyan-500/30",   bg: "bg-cyan-500/10" },
-  { key: "videoPrompt" as const,    label: "Video Prompt",     color: "text-blue-400",   border: "border-blue-500/30",   bg: "bg-blue-500/10" },
+type PlatformKey = "etsy" | "tiktok" | "instagram" | "pinterest";
+
+const PLATFORM_CONFIG: {
+  key: PlatformKey;
+  label: string;
+  color: string;
+  border: string;
+  bg: string;
+  fields: { subKey: string; label: string }[];
+}[] = [
+  {
+    key: "etsy", label: "Etsy", color: "text-orange-400",
+    border: "border-orange-500/30", bg: "bg-orange-500/10",
+    fields: [
+      { subKey: "title",       label: "Listing Title" },
+      { subKey: "description", label: "Description" },
+      { subKey: "tags",        label: "Tags" },
+    ],
+  },
+  {
+    key: "tiktok", label: "TikTok", color: "text-pink-400",
+    border: "border-pink-500/30", bg: "bg-pink-500/10",
+    fields: [
+      { subKey: "caption",  label: "Caption" },
+      { subKey: "hashtags", label: "Hashtags" },
+    ],
+  },
+  {
+    key: "instagram", label: "Instagram", color: "text-purple-400",
+    border: "border-purple-500/30", bg: "bg-purple-500/10",
+    fields: [
+      { subKey: "caption",  label: "Caption" },
+      { subKey: "hashtags", label: "Hashtags" },
+    ],
+  },
+  {
+    key: "pinterest", label: "Pinterest", color: "text-red-400",
+    border: "border-red-500/30", bg: "bg-red-500/10",
+    fields: [
+      { subKey: "title",       label: "Pin Title" },
+      { subKey: "description", label: "Description" },
+      { subKey: "keywords",    label: "Keywords" },
+    ],
+  },
 ];
 
 function StagePill({ stage }: { stage: Stage }) {
@@ -172,11 +209,20 @@ function IdeaDetail({
   const workflow = workflowGuides[idea.id];
   const marketing = marketingPrompts[idea.id];
   const [checkedSteps, setCheckedSteps] = useState<Set<number>>(new Set());
+  const [openPlatform, setOpenPlatform] = useState<string | null>("etsy");
+  const [copied, setCopied] = useState<string | null>(null);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = ""; };
   }, []);
+
+  const copyText = (text: string, key: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(key);
+      setTimeout(() => setCopied(null), 1500);
+    });
+  };
 
   const toggleStep = (i: number) =>
     setCheckedSteps((prev) => {
@@ -392,20 +438,106 @@ function IdeaDetail({
               <div className="flex-1 h-px bg-[#2a0050]" />
             </div>
             {marketing ? (
-              <div className="flex flex-col gap-3">
-                {PLATFORM_CONFIG.map(({ key, label, color, border, bg }) => {
-                  const content = marketing[key];
+              <div className="flex flex-col gap-2">
+                {/* Platform accordions */}
+                {PLATFORM_CONFIG.map(({ key, label, color, border, bg, fields }) => {
+                  const platformData = marketing[key] as Record<string, string>;
+                  const isOpen = openPlatform === key;
+                  const hasContent = fields.some(f => platformData?.[f.subKey]);
                   return (
-                    <div key={key} className={`rounded-xl border ${border} ${bg} p-4 flex flex-col gap-2`}>
-                      <span className={`text-xs font-bold uppercase tracking-widest ${color}`}>{label}</span>
-                      {content ? (
-                        <p className="text-purple-100 text-sm leading-relaxed select-all">{content}</p>
-                      ) : (
-                        <p className="text-purple-600 text-xs italic">Paste your {label} prompt into marketingPrompts.ts</p>
+                    <div key={key} className={`rounded-xl border ${border} ${bg} overflow-hidden`}>
+                      {/* Accordion header */}
+                      <button
+                        onClick={() => setOpenPlatform(isOpen ? null : key)}
+                        className="w-full px-4 py-3 flex items-center justify-between gap-3"
+                      >
+                        <span className={`text-xs font-bold uppercase tracking-widest ${color}`}>{label}</span>
+                        <span className={`text-purple-500 text-xs transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}>▾</span>
+                      </button>
+                      {/* Accordion body */}
+                      {isOpen && (
+                        <div className="px-4 pb-4 flex flex-col gap-4 border-t border-white/5 pt-3">
+                          {hasContent ? fields.map(({ subKey, label: fieldLabel }) => {
+                            const value = platformData?.[subKey] ?? "";
+                            const copyKey = `${key}.${subKey}`;
+                            return (
+                              <div key={subKey} className="flex flex-col gap-1.5">
+                                <div className="flex items-center justify-between gap-2">
+                                  <span className="text-xs font-semibold text-purple-400 uppercase tracking-wider">{fieldLabel}</span>
+                                  {value && (
+                                    <button
+                                      onClick={() => copyText(value, copyKey)}
+                                      className="shrink-0 text-xs px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-purple-300 hover:text-white hover:border-white/20 transition-colors"
+                                    >
+                                      {copied === copyKey ? "✓ Copied" : "Copy"}
+                                    </button>
+                                  )}
+                                </div>
+                                {value ? (
+                                  <p className="text-purple-100 text-sm leading-relaxed">{value}</p>
+                                ) : (
+                                  <p className="text-purple-600 text-xs italic">No content yet</p>
+                                )}
+                              </div>
+                            );
+                          }) : (
+                            <p className="text-purple-600 text-xs italic">No content yet for this platform.</p>
+                          )}
+                        </div>
                       )}
                     </div>
                   );
                 })}
+
+                {/* GPT Image Prompt — flat card */}
+                {(() => {
+                  const val = marketing.gptImagePrompt;
+                  return (
+                    <div className="rounded-xl border border-cyan-500/30 bg-cyan-500/10 p-4 flex flex-col gap-2">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-xs font-bold uppercase tracking-widest text-cyan-400">GPT Image Prompt</span>
+                        {val && (
+                          <button
+                            onClick={() => copyText(val, "gptImagePrompt")}
+                            className="shrink-0 text-xs px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-purple-300 hover:text-white hover:border-white/20 transition-colors"
+                          >
+                            {copied === "gptImagePrompt" ? "✓ Copied" : "Copy"}
+                          </button>
+                        )}
+                      </div>
+                      {val ? (
+                        <p className="text-purple-100 text-sm leading-relaxed">{val}</p>
+                      ) : (
+                        <p className="text-purple-600 text-xs italic">No content yet</p>
+                      )}
+                    </div>
+                  );
+                })()}
+
+                {/* Video Prompt — flat card */}
+                {(() => {
+                  const val = marketing.videoPrompt;
+                  return (
+                    <div className="rounded-xl border border-blue-500/30 bg-blue-500/10 p-4 flex flex-col gap-2">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-xs font-bold uppercase tracking-widest text-blue-400">Video Prompt</span>
+                        {val && (
+                          <button
+                            onClick={() => copyText(val, "videoPrompt")}
+                            className="shrink-0 text-xs px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-purple-300 hover:text-white hover:border-white/20 transition-colors"
+                          >
+                            {copied === "videoPrompt" ? "✓ Copied" : "Copy"}
+                          </button>
+                        )}
+                      </div>
+                      {val ? (
+                        <p className="text-purple-100 text-sm leading-relaxed">{val}</p>
+                      ) : (
+                        <p className="text-purple-600 text-xs italic">No content yet</p>
+                      )}
+                    </div>
+                  );
+                })()}
               </div>
             ) : (
               <PlaceholderBox message="Paste prompts into marketingPrompts.ts to populate this section" />
