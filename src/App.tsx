@@ -1,9 +1,7 @@
+import DigitalDownloadIdeas from "./components/DigitalDownloadIdeas";
+
 function App() {
-  return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-      <h1 className="text-4xl font-bold text-white">Creator OS</h1>
-    </div>
-  )
+  return <DigitalDownloadIdeas />;
 }
 
-export default App
+export default App;
