@@ -2,8 +2,9 @@ import { useState, useMemo, useEffect } from "react";
 import { digitalDownloadIdeas, type DigitalDownloadIdea, type Category } from "../data/digitalDownloadIdeas";
 import { workflowGuides } from "../data/workflowGuides";
 import { marketingPrompts } from "../data/marketingPrompts";
+import { getDifficulty, getDemandRating, CATEGORY_ACCENT, CATEGORY_DOT } from "../data/ideaUtils";
 
-const CATEGORIES: Category[] = [
+export const CATEGORIES: Category[] = [
   "Planners & Organizers",
   "Wall Art & Prints",
   "Social Media Templates",
@@ -16,47 +17,7 @@ const CATEGORIES: Category[] = [
   "Spreadsheets & Trackers",
 ];
 
-const CATEGORY_ACCENT: Record<Category, string> = {
-  "Planners & Organizers":      "border-t-violet-500",
-  "Wall Art & Prints":          "border-t-pink-500",
-  "Social Media Templates":     "border-t-sky-500",
-  "Business & Branding":        "border-t-amber-500",
-  "Education & Kids":           "border-t-green-500",
-  "Journals & Workbooks":       "border-t-purple-500",
-  "Notion & Digital Templates": "border-t-cyan-500",
-  "Photo & Design Assets":      "border-t-rose-500",
-  "Events & Celebrations":      "border-t-orange-500",
-  "Spreadsheets & Trackers":    "border-t-teal-500",
-};
-
 const DIFFICULTIES = ["beginner", "intermediate", "advanced"] as const;
-
-const TOOL_SCORES: Record<string, number> = {
-  // easy (0)
-  "canva": 0, "google docs": 0, "google slides": 0, "powerpoint": 0, "word": 0, "google forms": 0,
-  // mid (1)
-  "notion": 1, "figma": 1, "google sheets": 1, "excel": 1, "keynote": 1, "canva pro": 1,
-  // hard (2)
-  "adobe illustrator": 2, "adobe indesign": 2, "adobe photoshop": 2, "adobe premiere": 2,
-  "adobe after effects": 2, "procreate": 2, "davinci resolve": 2, "final cut pro": 2,
-  "lightroom": 2, "adobe lightroom": 2,
-};
-
-function getDifficulty(idea: DigitalDownloadIdea): "beginner" | "intermediate" | "advanced" {
-  const toolScore = idea.toolsNeeded.reduce((max, tool) => {
-    const score = TOOL_SCORES[tool.toLowerCase()] ?? 0;
-    return Math.max(max, score);
-  }, 0);
-
-  const numbers = idea.estimatedCreationTime.match(/\d+/g)?.map(Number) ?? [4];
-  const avgTime = numbers.reduce((a, b) => a + b, 0) / numbers.length;
-  const timeScore = avgTime < 4 ? 0 : avgTime <= 8 ? 1 : 2;
-
-  const total = toolScore + timeScore;
-  if (total <= 1) return "beginner";
-  if (total <= 3) return "intermediate";
-  return "advanced";
-}
 
 const difficultyColor: Record<string, string> = {
   beginner: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
@@ -64,18 +25,18 @@ const difficultyColor: Record<string, string> = {
   advanced: "bg-red-500/20 text-red-400 border-red-500/30",
 };
 
-type Stage = "saved" | "creating" | "listed" | "earning";
+export type Stage = "saved" | "creating" | "listed" | "earning";
 
-const STAGES: { key: Stage; label: string; color: string; bg: string; border: string }[] = [
+export const STAGES: { key: Stage; label: string; color: string; bg: string; border: string }[] = [
   { key: "saved",    label: "Saved",    color: "text-gray-300",   bg: "bg-gray-700",        border: "border-gray-600" },
   { key: "creating", label: "Creating", color: "text-amber-300",  bg: "bg-amber-500/20",    border: "border-amber-500/40" },
   { key: "listed",   label: "Listed",   color: "text-blue-300",   bg: "bg-blue-500/20",     border: "border-blue-500/40" },
   { key: "earning",  label: "Earning",  color: "text-green-300",  bg: "bg-green-500/20",    border: "border-green-500/40" },
 ];
 
-const STORAGE_KEY = "creator-dash-tracker";
+export const STORAGE_KEY = "creator-dash-tracker";
 
-function useTracker() {
+export function useTracker() {
   const [tracker, setTracker] = useState<Record<string, Stage>>(() => {
     try {
       return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
@@ -118,16 +79,11 @@ function StagePill({ stage }: { stage: Stage }) {
   );
 }
 
-function DemandStars({ rating }: { rating: number }) {
+export function DemandStars({ rating }: { rating: number }) {
   return (
     <div className="flex items-center gap-0.5">
       {Array.from({ length: 5 }, (_, i) => (
-        <span
-          key={i}
-          className={`text-[10px] ${i < rating ? "text-violet-400" : "text-gray-700"}`}
-        >
-          ●
-        </span>
+        <span key={i} className={`text-[10px] ${i < rating ? "text-violet-400" : "text-gray-700"}`}>●</span>
       ))}
     </div>
   );
@@ -158,7 +114,7 @@ function IdeaCard({
           {getDifficulty(idea)}
         </span>
         <span>£{idea.pricingRange.min}–£{idea.pricingRange.max}</span>
-        <DemandStars rating={idea.demandRating} />
+        <DemandStars rating={getDemandRating(idea)} />
       </div>
     </button>
   );
@@ -286,8 +242,8 @@ function IdeaDetail({
             <div className="bg-gray-900 rounded-xl p-3 flex flex-col gap-1">
               <span className="text-gray-500 text-xs">Demand</span>
               <div className="flex items-center gap-1 pt-0.5">
-                <DemandStars rating={idea.demandRating} />
-                <span className="text-gray-500 text-xs">({idea.demandRating}/5)</span>
+                <DemandStars rating={getDemandRating(idea)} />
+                <span className="text-gray-500 text-xs">({getDemandRating(idea)}/5)</span>
               </div>
             </div>
           </div>
@@ -295,11 +251,10 @@ function IdeaDetail({
           {/* Launch Checklist */}
           {checklist.length > 0 && (
             <div className="flex flex-col gap-3">
-              <div className="flex items-center justify-between">
-                <SectionHeader label="Launch Checklist" />
-                <span className="text-xs text-gray-500 shrink-0 ml-3">
-                  {completedCount}/{checklist.length} done
-                </span>
+              <div className="flex items-center gap-3 py-1">
+                <span className="text-xs font-bold uppercase tracking-widest text-gray-500">Launch Checklist</span>
+                <div className="flex-1 h-px bg-gray-800" />
+                <span className="text-xs text-gray-500 shrink-0">{completedCount}/{checklist.length} done</span>
               </div>
               <div className="flex flex-col gap-2">
                 {checklist.map((item, i) => {
@@ -436,17 +391,19 @@ export default function DigitalDownloadIdeas() {
       return true;
     });
 
-    if (selectedSort === "demand") {
-      return [...results].sort((a, b) => b.demandRating - a.demandRating);
-    }
-    if (selectedSort === "price-asc") {
-      return [...results].sort((a, b) => a.pricingRange.min - b.pricingRange.min);
-    }
-    if (selectedSort === "price-desc") {
-      return [...results].sort((a, b) => b.pricingRange.min - a.pricingRange.min);
-    }
+    if (selectedSort === "demand") return [...results].sort((a, b) => getDemandRating(b) - getDemandRating(a));
+    if (selectedSort === "price-asc") return [...results].sort((a, b) => a.pricingRange.min - b.pricingRange.min);
+    if (selectedSort === "price-desc") return [...results].sort((a, b) => b.pricingRange.min - a.pricingRange.min);
     return results;
   }, [search, selectedCategory, selectedDifficulty, selectedSort, myListOnly, tracker]);
+
+  // Group by category when on default sort
+  const grouped = useMemo(() => {
+    if (selectedSort !== "default") return null;
+    return CATEGORIES
+      .map((cat) => ({ category: cat, ideas: filtered.filter((i) => i.category === cat) }))
+      .filter((g) => g.ideas.length > 0);
+  }, [filtered, selectedSort]);
 
   const myListCount = Object.keys(tracker).length;
 
@@ -455,16 +412,14 @@ export default function DigitalDownloadIdeas() {
       <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col gap-6">
 
         {/* Header */}
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-white">Digital Downloads</h1>
-            <p className="text-gray-400 text-sm mt-1">
-              {digitalDownloadIdeas.length} ideas across {CATEGORIES.length} categories
-              {myListCount > 0 && (
-                <span className="ml-2 text-violet-400">· {myListCount} in your list</span>
-              )}
-            </p>
-          </div>
+        <div>
+          <h1 className="text-2xl font-bold text-white">Digital Downloads</h1>
+          <p className="text-gray-400 text-sm mt-1">
+            {digitalDownloadIdeas.length} ideas across {CATEGORIES.length} categories
+            {myListCount > 0 && (
+              <span className="ml-2 text-violet-400">· {myListCount} in your list</span>
+            )}
+          </p>
         </div>
 
         {/* Filters */}
@@ -484,9 +439,7 @@ export default function DigitalDownloadIdeas() {
               className="bg-gray-900 border border-gray-700 text-sm text-white rounded-xl px-3 min-h-[44px] focus:outline-none focus:border-violet-500 flex-1 min-w-[140px]"
             >
               <option value="All">All Categories</option>
-              {CATEGORIES.map((c) => (
-                <option key={c} value={c}>{c}</option>
-              ))}
+              {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
             </select>
 
             <select
@@ -551,7 +504,31 @@ export default function DigitalDownloadIdeas() {
               </button>
             )}
           </div>
+        ) : grouped ? (
+          // Grouped by category (default sort)
+          <div className="flex flex-col gap-8">
+            {grouped.map(({ category, ideas }) => (
+              <div key={category} className="flex flex-col gap-3">
+                <div className="flex items-center gap-2">
+                  <span className={`w-2 h-2 rounded-full shrink-0 ${CATEGORY_DOT[category]}`} />
+                  <h2 className="text-sm font-semibold text-gray-300">{category}</h2>
+                  <span className="text-xs text-gray-600">{ideas.length}</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                  {ideas.map((idea) => (
+                    <IdeaCard
+                      key={idea.id}
+                      idea={idea}
+                      stage={tracker[idea.id]}
+                      onClick={() => setSelectedIdea(idea)}
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         ) : (
+          // Flat grid (sorted)
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
             {filtered.map((idea) => (
               <IdeaCard
