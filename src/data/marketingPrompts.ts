@@ -255,16 +255,226 @@ export const marketingPrompts: Record<string, MarketingPrompts> = {
     gptImagePrompt: "flat lay pet care log printable with leash bowl toy soft neutral tones cozy home lighting",
     videoPrompt: "Hook: pet routine chaos. Show log. Fill entries. Show happy pet. CTA.",
   },
-  "art-001": { ...empty },
-  "art-002": { ...empty },
-  "art-003": { ...empty },
-  "art-004": { ...empty },
-  "art-005": { ...empty },
-  "art-006": { ...empty },
-  "art-007": { ...empty },
-  "art-008": { ...empty },
-  "art-009": { ...empty },
-  "art-010": { ...empty },
+  "art-001": {
+    etsy: {
+      title: "Minimalist Line Art Prints Set of 6 – Continuous Line Wall Art Printable, Scandinavian Abstract Figure Art",
+      description: "A set of 6 minimalist continuous line art prints featuring an abstract female figure, face outline, hands, body curve, plant drawing, and abstract organic shape. Black on white Scandinavian-style wall art, perfect for a modern gallery wall. Instant digital download in A4 and A3 ratios at 300 DPI.",
+      tags: "line art print, minimalist wall art, continuous line drawing, Scandinavian print, abstract figure art, face line art, botanical line art, printable wall art, digital download, gallery wall, black and white print, modern home decor, instant download",
+    },
+    tiktok: {
+      caption: "One line. No lifting the pen. That's the whole vibe of this print set.",
+      hashtags: "#minimalart #lineartprint #wallartprint #scandinaviandesign #printablewalldecor #abstractart #gallerywallinspo #digitaldownload #homedecortok #etsyseller",
+    },
+    instagram: {
+      caption: "Six prints. One continuous line each. No fuss, just clean Scandinavian style that works in any room. Download, print, frame. Done.",
+      hashtags: "#lineartprint #minimalistwalldecor #scandinavianstyle #abstractlineart #printablewallart #gallerywallinspo #digitaldownload #etsyfinds #modernhomedecor #blackandwhiteart #continuouslinedrawing #minimalprint",
+    },
+    pinterest: {
+      title: "Minimalist Continuous Line Art Print Set – Scandinavian Abstract Wall Art Printable",
+      description: "Set of 6 black on white continuous line art prints. Abstract female figure, face, hands, plant, and organic shapes. A4 and A3 instant digital download.",
+      keywords: "line art print, minimalist wall art, Scandinavian print, continuous line drawing, abstract figure, printable wall art, gallery wall, black and white art",
+    },
+    gptImagePrompt: "six minimalist black line art prints framed in thin black frames on a white wall above a neutral linen sofa Scandinavian interior soft natural light clean aesthetic",
+    videoPrompt: "Hook: bare white wall looking empty. Show prints being framed one by one. Final reveal of full gallery wall arrangement. CTA: download the set and transform your wall.",
+  },
+  "art-002": {
+    etsy: {
+      title: "Inspirational Quote Posters Set of 8 – Minimalist Typography Prints, Modern Wall Art Printable",
+      description: "A set of 8 short inspirational quote prints in a clean minimalist typography style. Black, white, beige, and grey palette with serif and sans-serif font pairings. Centre-aligned layouts ready to print in A4, A3, and 4:5 ratio. Instant digital download.",
+      tags: "quote print, inspirational poster, typography wall art, minimalist quote print, motivational print, printable wall art, digital download, modern home decor, black and white print, gallery wall, quote poster, instant download, beige wall art",
+    },
+    tiktok: {
+      caption: "Short words. Big wall statement. These quote prints hit different when they're framed.",
+      hashtags: "#quoteprint #typographyart #wallartprint #motivationalprint #minimalistdecor #printablewallart #digitaldownload #etsyseller #gallerywallinspo #homedecortok",
+    },
+    instagram: {
+      caption: "Eight quotes. Clean fonts. Neutral tones. The kind of wall art that makes a room feel intentional without trying too hard.",
+      hashtags: "#quoteprint #inspirationalposter #minimalistwalldecor #typographyprint #printablewallart #gallerywallinspo #digitaldownload #etsyfinds #modernhomedecor #motivationalprint #blackandwhiteprint #wallartprint",
+    },
+    pinterest: {
+      title: "Minimalist Inspirational Quote Poster Set of 8 – Typography Printable Wall Art",
+      description: "Eight short inspirational quote prints in a clean modern typography style. Neutral palette, serif and sans-serif pairings. A4, A3, and 4:5 instant download.",
+      keywords: "quote print, inspirational poster, typography wall art, minimalist print, motivational art, printable wall art, gallery wall, digital download",
+    },
+    gptImagePrompt: "set of three framed quote prints in thin black frames on a warm white wall above a minimalist desk beige tones soft natural light modern Scandinavian home office",
+    videoPrompt: "Hook: plain wall, nothing on it. Reveal quote prints being hung one by one. Close up of clean serif typography. Final wide shot of styled space. CTA: download all 8.",
+  },
+  "art-003": {
+    etsy: {
+      title: "Nursery Wall Art Printable Set of 6 – Kids Room Prints, Alphabet, Animals, Positive Phrases",
+      description: "A calming 6-piece nursery wall art set including an alphabet print, animal-themed print, and 4 positive phrase prints. Soft sage, blush, cream, and dusty blue palette with rounded child-friendly fonts. Instant digital download in A4 and A3.",
+      tags: "nursery wall art, kids room print, alphabet print, nursery printable, children's wall art, baby room decor, animal print nursery, positive phrase print, digital download, instant download, pastel nursery art, playroom decor, gender neutral nursery",
+    },
+    tiktok: {
+      caption: "The sweetest nursery gallery wall and it took 10 minutes to put together.",
+      hashtags: "#nurserywalldecor #kidsroomdecor #nurseryprintable #babyroom #gallerywall #alphabetprint #digitaldownload #etsyseller #nurserydecortok #newbaby",
+    },
+    instagram: {
+      caption: "Soft colours. Kind words. A little alphabet for curious minds. This 6-print nursery set is the easiest gallery wall you'll ever put together.",
+      hashtags: "#nurserywallart #kidsroomprint #nurseryprintable #alphabetprint #babyroomdecor #gallerywallinspo #digitaldownload #etsyfinds #genderneutralnursery #playroomdecor #pastelart #childrenswallart",
+    },
+    pinterest: {
+      title: "Nursery Wall Art Printable Set of 6 – Alphabet, Animals & Positive Phrase Prints for Kids Room",
+      description: "Soft pastel nursery prints including alphabet, animal theme, and positive phrases. Sage, blush, cream, and dusty blue. A4 and A3 instant download.",
+      keywords: "nursery wall art, kids room print, alphabet print, nursery printable, baby room decor, pastel nursery, positive phrase print, digital download",
+    },
+    gptImagePrompt: "six pastel nursery prints framed in natural wood frames arranged as gallery wall in a soft white nursery room sage blush cream tones warm natural light cot in background",
+    videoPrompt: "Hook: empty nursery wall. Lay prints out on floor to plan arrangement. Show framing and hanging one by one. Final wide shot of complete cosy nursery. CTA: download the set.",
+  },
+  "art-004": {
+    etsy: {
+      title: "Zodiac Wall Art Printable Set of 12 – Minimalist Astrology Prints, Constellation Art, Gold Accent",
+      description: "A complete set of 12 minimalist zodiac sign prints, each featuring the symbol, constellation, name, and dates. Black, white, and subtle gold palette. Perfect for astrology lovers and as personalised gifts. Instant digital download in A4 at 300 DPI.",
+      tags: "zodiac print, astrology wall art, constellation print, star sign art, zodiac printable, astrology gift, minimalist zodiac, horoscope print, digital download, instant download, gold wall art, celestial print, zodiac decor",
+    },
+    tiktok: {
+      caption: "Got your star sign on your wall yet? This zodiac set is giving celestial chic.",
+      hashtags: "#zodiacprint #astrologylovers #constellationart #starsignprint #celestialart #wallartprint #digitaldownload #etsyseller #zodiacdecor #astrologytok",
+    },
+    instagram: {
+      caption: "Your star sign, but make it art. All 12 zodiac signs in a minimal gold-accent design that actually looks good on a wall.",
+      hashtags: "#zodiacprint #astrologyart #constellationprint #starsignart #celestialwallart #digitaldownload #etsyfinds #minimalistprint #goldaccentart #zodiacdecor #astrologygift #printablewallart",
+    },
+    pinterest: {
+      title: "Minimalist Zodiac Wall Art Printable Set of 12 – Astrology Constellation Prints with Gold Accent",
+      description: "Complete set of 12 zodiac sign prints with symbol, constellation, name, and dates. Black, white, and gold. A4 instant download. Perfect astrology gift.",
+      keywords: "zodiac print, astrology wall art, constellation print, star sign art, zodiac gift, minimalist astrology, gold wall art, celestial print, digital download",
+    },
+    gptImagePrompt: "three zodiac constellation prints framed in thin gold frames on a deep navy wall celestial aesthetic gold accent art soft moody lighting minimal styling",
+    videoPrompt: "Hook: which star sign are you? Flash through all 12 zodiac prints quickly. Slow down on viewer's sign. Show framed on a wall. CTA: get your sign as a print.",
+  },
+  "art-005": {
+    etsy: {
+      title: "Kitchen Wall Art Printable Set of 6 – Farmhouse Phrase Prints, Modern Kitchen Decor",
+      description: "A set of 6 modern farmhouse kitchen phrase prints in cream, black, and warm brown. Script and sans-serif font combinations with clear text hierarchy. Perfect for kitchen walls, dining rooms, and gifting. Instant digital download in A4 and A3.",
+      tags: "kitchen wall art, farmhouse print, kitchen printable, kitchen decor, phrase print, digital download, instant download, farmhouse decor, kitchen phrase, black and white kitchen art, modern farmhouse, dining room print, housewarming gift",
+    },
+    tiktok: {
+      caption: "Your kitchen wall was asking for this. Farmhouse vibes, zero effort.",
+      hashtags: "#kitchendecor #farmhouseprint #kitchenwallart #printablewallart #digitaldownload #etsyseller #homedecortok #modernfarmhouse #diningroom #kitchenphraseprint",
+    },
+    instagram: {
+      caption: "Six kitchen phrases that actually make you smile every morning. Warm, simple, and very easy to print and frame.",
+      hashtags: "#kitchenwallart #farmhouseprint #kitchenprintable #modernfarmhouse #diningwallart #digitaldownload #etsyfinds #homedecor #phraseprint #kitchendecor #printablewallart #housewarmingidea",
+    },
+    pinterest: {
+      title: "Modern Farmhouse Kitchen Wall Art Printable Set of 6 – Phrase Prints for Kitchen Decor",
+      description: "Set of 6 kitchen-themed phrase prints in warm farmhouse style. Cream, black, and brown palette. Script and sans-serif fonts. A4 and A3 instant download.",
+      keywords: "kitchen wall art, farmhouse print, kitchen printable, phrase print, modern farmhouse, kitchen decor, dining room art, digital download",
+    },
+    gptImagePrompt: "three framed farmhouse kitchen phrase prints on a warm cream shiplap wall beside open shelves with neutral ceramic jars natural wood tones warm lifestyle photography",
+    videoPrompt: "Hook: boring kitchen wall. Reveal phrase prints one by one being hung. Wide shot of styled warm farmhouse kitchen. CTA: download and print today.",
+  },
+  "art-006": {
+    etsy: {
+      title: "Personalised Name Print Template – Editable Canva Wall Art, 3 Layout Variations, Elegant Minimalist",
+      description: "An elegant minimalist personalised name print template with 3 layout variations. Large name typography as the centrepiece with subtitle text below. Fully editable in Canva. Instant digital download in A4 vertical and horizontal formats. Perfect as a custom gift.",
+      tags: "personalised name print, custom name wall art, editable name template, Canva template, name print, custom wall art, digital download, instant download, personalised gift, nursery name print, minimalist name art, custom print, name poster",
+    },
+    tiktok: {
+      caption: "Type a name. Print it. Frame it. Best personalised gift and it takes 2 minutes.",
+      hashtags: "#personalisedprint #customnameprint #canvatemplate #digitaldownload #etsyseller #gifttok #nameprint #customwallart #printablegift #homedecortok",
+    },
+    instagram: {
+      caption: "The easiest personalised gift you'll ever give. Edit the name, download, print, frame. Three layouts to choose from so it fits any space.",
+      hashtags: "#personalisedwallart #customnameprint #canvatemplate #nameprint #digitaldownload #etsyfinds #personalisedgift #minimalistwallart #customprintable #nameposter #editabletemplate #printablegift",
+    },
+    pinterest: {
+      title: "Personalised Name Print Template – 3 Editable Canva Layouts, Minimalist Custom Wall Art",
+      description: "Editable minimalist name print template with 3 layout variations. Large name typography with subtitle. Canva-ready. A4 vertical and horizontal instant download.",
+      keywords: "personalised name print, custom name wall art, editable Canva template, name poster, custom gift, minimalist name art, digital download",
+    },
+    gptImagePrompt: "personalised name print in thin black frame on white nursery wall next to soft lamp warm neutral tones elegant minimalist large serif font name centred",
+    videoPrompt: "Hook: searching for a unique gift. Open Canva template. Type in a name. Show it change live. Print and frame reveal. CTA: download the template now.",
+  },
+  "art-007": {
+    etsy: {
+      title: "Seasonal Wall Art Printable Bundle Set of 8 – Spring Summer Autumn Winter Prints, Soft Aesthetic",
+      description: "An 8-piece seasonal wall art bundle with 2 prints per season. Each season has its own distinct colour palette and themed phrases for a soft, intentional aesthetic. Instant digital download in A4. Perfect for refreshing your walls throughout the year.",
+      tags: "seasonal wall art, seasonal printable, spring print, summer print, autumn print, winter print, seasonal decor, printable wall art, digital download, instant download, seasonal bundle, home decor print, gallery wall seasonal",
+    },
+    tiktok: {
+      caption: "Swap your wall art every season. This bundle has all four covered.",
+      hashtags: "#seasonaldecor #wallartprint #springprint #autumnprint #printablewallart #digitaldownload #etsyseller #homedecortok #seasonalinspo #gallerywallinspo",
+    },
+    instagram: {
+      caption: "Four seasons. Eight prints. One bundle to refresh your walls all year long. Soft, calm, and completely printable.",
+      hashtags: "#seasonalwallart #seasonalprintable #springdecor #autumndecor #winterprint #summerdecor #printablewallart #digitaldownload #etsyfinds #gallerywallinspo #seasonalhome #softaesthetic",
+    },
+    pinterest: {
+      title: "Seasonal Wall Art Printable Bundle – 8 Prints for Spring Summer Autumn Winter Home Decor",
+      description: "8-piece seasonal printable bundle, 2 prints per season with defined colour palettes and themed phrases. A4 instant download. Refresh your walls all year.",
+      keywords: "seasonal wall art, seasonal printable, spring print, summer print, autumn print, winter print, seasonal home decor, gallery wall, digital download",
+    },
+    gptImagePrompt: "four framed seasonal prints arranged in a 2x2 grid on a warm white wall each print in a distinct seasonal palette spring blossom summer breeze autumn leaves winter frost minimal styling natural light",
+    videoPrompt: "Hook: time to change up your walls. Show each season's prints being swapped in and out of frames. CTA: get all 4 seasons in one bundle.",
+  },
+  "art-008": {
+    etsy: {
+      title: "Abstract Geometric Wall Art Printable Set of 6 – Modern Art Print, Terracotta Olive Boho Decor",
+      description: "A set of 6 abstract geometric compositions using circles, arches, and rectangles in terracotta, beige, black, and olive. A modern art print set that adds warmth and depth to any room. Instant digital download in A4 and A3 at 300 DPI.",
+      tags: "abstract geometric print, geometric wall art, terracotta print, modern art print, boho wall art, abstract printable, digital download, instant download, gallery wall, olive green art, arch print, circle art, contemporary wall decor",
+    },
+    tiktok: {
+      caption: "Terracotta and olive abstract prints — this is the aesthetic your living room needs.",
+      hashtags: "#abstractart #geometricprint #terracottadecor #bohowallart #modernart #printablewallart #digitaldownload #etsyseller #homedecortok #gallerywallinspo",
+    },
+    instagram: {
+      caption: "Warm tones. Geometric shapes. Six prints that work individually or together as a gallery wall. This is the abstract art set your space has been waiting for.",
+      hashtags: "#abstractgeometricart #terracottaprint #olivedecor #modernwallart #bohowallart #digitaldownload #etsyfinds #gallerywallinspo #geometricprint #abstractprintable #archprint #contemporarydecor",
+    },
+    pinterest: {
+      title: "Abstract Geometric Wall Art Printable Set of 6 – Terracotta Olive Modern Art Print",
+      description: "Six geometric abstract compositions in terracotta, beige, black, and olive. Circles, arches, and layered shapes. A4 and A3 instant download for modern and boho interiors.",
+      keywords: "abstract geometric print, terracotta wall art, olive green print, modern art printable, boho decor, arch print, circle art, geometric wall art, digital download",
+    },
+    gptImagePrompt: "set of three abstract geometric prints in terracotta beige and olive framed in natural wood frames on a warm white limewash wall rattan chair in corner warm afternoon light boho modern interior",
+    videoPrompt: "Hook: your walls are too plain. Reveal geometric prints being placed on a warm textured wall. Zoom into shapes and colour palette. CTA: download the set today.",
+  },
+  "art-009": {
+    etsy: {
+      title: "Vintage Botanical Print Set of 6 – Printable Plant Wall Art, Fern Eucalyptus Wildflower, Antique Style",
+      description: "A set of 6 vintage botanical illustration prints featuring fern, eucalyptus, wildflowers, and more. Muted green, sepia, and cream palette with an aged paper texture for an authentic antique feel. Instant digital download in A4 at 300 DPI.",
+      tags: "botanical print, vintage botanical art, plant wall art, fern print, eucalyptus print, wildflower print, antique botanical, printable wall art, digital download, instant download, nature print, green wall art, vintage home decor",
+    },
+    tiktok: {
+      caption: "Vintage botanical prints that look like they came from an old library. Download and frame.",
+      hashtags: "#botanicalprint #vintageart #plantprint #fernprint #eucalyptusprint #printablewallart #digitaldownload #etsyseller #naturaldecor #homedecortok",
+    },
+    instagram: {
+      caption: "Six botanical illustrations with that old-world charm. Fern, eucalyptus, wildflowers — printed and framed, they look like they've been in the family for years.",
+      hashtags: "#botanicalprint #vintagebotanical #plantwalldecor #fernprint #eucalyptusart #wildflowerprint #digitaldownload #etsyfinds #naturewallart #antiquebotanical #printablewallart #vintagedecor",
+    },
+    pinterest: {
+      title: "Vintage Botanical Printable Set of 6 – Fern Eucalyptus Wildflower Antique Plant Wall Art",
+      description: "Six vintage botanical illustration prints in muted green, sepia, and cream. Aged paper texture effect. A4 instant digital download. Perfect for traditional and cottagecore interiors.",
+      keywords: "vintage botanical print, plant wall art, fern print, eucalyptus print, wildflower print, antique botanical, nature print, printable wall art, digital download",
+    },
+    gptImagePrompt: "six vintage botanical prints in aged cream mounts framed in thin gold frames arranged on a warm white wall beside dark wood bookshelf library aesthetic warm tones natural light",
+    videoPrompt: "Hook: your walls need some old-world charm. Show each botanical print close up one by one. Reveal full gallery wall arrangement. CTA: download the full set.",
+  },
+  "art-010": {
+    etsy: {
+      title: "City Skyline Printable Set of 6 – Minimalist Wall Art London Paris New York Tokyo Sydney Dubai",
+      description: "A set of 6 minimalist city skyline silhouette prints: London, Paris, New York, Tokyo, Sydney, and Dubai. Black on white horizontal compositions with city name typography. Perfect for travel lovers, offices, and modern homes. Instant digital download in A4 horizontal at 300 DPI.",
+      tags: "city skyline print, London print, Paris print, New York print, Tokyo print, Sydney print, Dubai print, skyline wall art, travel art print, minimalist city art, printable wall art, digital download, instant download",
+    },
+    tiktok: {
+      caption: "Your favourite city on your wall. Which one would you pick?",
+      hashtags: "#cityskylineprint #travelwallart #londonprint #newyorkprint #parisprint #minimalistprint #digitaldownload #etsyseller #traveldecor #homedecortok",
+    },
+    instagram: {
+      caption: "Six cities. One clean minimalist style. Whether it's where you live, where you've been, or where you're going — these skyline prints make great wall art.",
+      hashtags: "#cityskylineprint #minimalisttravelart #londonprint #parisprint #newyorkprint #tokyoprint #sydneyprint #dubaiprint #digitaldownload #etsyfinds #travelwallart #printablewallart",
+    },
+    pinterest: {
+      title: "Minimalist City Skyline Printable Set of 6 – London Paris New York Tokyo Sydney Dubai Wall Art",
+      description: "Six minimalist black on white city skyline prints with city name typography. London, Paris, New York, Tokyo, Sydney, Dubai. A4 horizontal instant download.",
+      keywords: "city skyline print, London print, Paris print, New York skyline, minimalist city art, travel wall art, printable wall art, digital download",
+    },
+    gptImagePrompt: "three city skyline prints in thin black frames arranged horizontally on a white wall in a modern home office minimal black and white styling clean desk below",
+    videoPrompt: "Hook: for everyone who loves to travel. Flash through all 6 city skylines one by one. Show framed in a stylish home. CTA: pick your city and download.",
+  },
   "social-001": { ...empty },
   "social-002": { ...empty },
   "social-003": { ...empty },
