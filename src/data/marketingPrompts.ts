@@ -695,16 +695,226 @@ export const marketingPrompts: Record<string, MarketingPrompts> = {
     gptImagePrompt: "flat lay showing printed brand kit documents spread on a white desk logo mark colour swatches font specimens brand board style guide natural light minimal creative studio",
     videoPrompt: "Hook: your business has no visual identity. Open brand kit in Canva. Fill in logo, colours, fonts. Show the full brand board complete. CTA: build your brand with this kit.",
   },
-  "biz-001": { ...empty },
-  "biz-002": { ...empty },
-  "biz-003": { ...empty },
-  "biz-004": { ...empty },
-  "biz-005": { ...empty },
-  "biz-006": { ...empty },
-  "biz-007": { ...empty },
-  "biz-008": { ...empty },
-  "biz-009": { ...empty },
-  "biz-010": { ...empty },
+  "biz-001": {
+    etsy: {
+      title: "Invoice Template Editable Receipt Template Canva Freelancer Invoice Small Business Invoice PDF",
+      description: "Create professional invoices and receipts in minutes with these editable templates designed for freelancers and small businesses. Perfect for improving organisation, building trust with clients, and getting paid faster with clean, branded documents.",
+      tags: "invoice template,receipt template,freelancer invoice,small business invoice,editable invoice,canva invoice,professional invoice,business templates,service invoice,payment receipt,branding template,invoice pdf,consultant invoice",
+    },
+    tiktok: {
+      caption: "Still sending invoices that look rushed and unprofessional? This fixes it instantly.",
+      hashtags: "#freelancerlife #smallbusinessuk #invoicing #businessowner #canvatemplates #sidehustle #entrepreneurlife #onlinebusiness #productivity #branding",
+    },
+    instagram: {
+      caption: "Your invoice is part of your brand, not just a document. These templates help you look professional, stay organised and make getting paid feel seamless. Simple to customise and ready to use straight away.",
+      hashtags: "#freelanceruk #smallbusinessowner #invoice #brandingdesign #canvatemplate #entrepreneuruk #businessgrowth #onlinebusinessuk #digitaldownloads #productivitytools #creativebusiness #businesstips",
+    },
+    pinterest: {
+      title: "Editable Invoice and Receipt Template for Freelancers and Small Businesses",
+      description: "Professional invoice and receipt templates to improve organisation and get paid faster. Ideal for freelancers and small businesses.",
+      keywords: "invoice template,freelancer invoice,receipt template,small business tools,canva invoice,editable invoice,professional branding,business templates",
+    },
+    gptImagePrompt: "flat lay invoice and receipt templates printed on white paper neutral desk laptop coffee mug pen soft natural lighting minimalist business aesthetic beige tones",
+    videoPrompt: "Hook: your invoices look unprofessional. Show messy invoice vs clean template. Demonstrate editing in Canva. CTA: upgrade your invoices and get paid faster.",
+  },
+  "biz-002": {
+    etsy: {
+      title: "Media Kit Template Influencer Canva Media Kit Brand Pitch Kit Creator Media Kit Editable PDF",
+      description: "Impress brands with a polished, professional media kit designed for influencers and content creators. Showcase your audience, engagement and past collaborations with a clean, easy-to-edit Canva template.",
+      tags: "media kit template,influencer media kit,creator media kit,brand pitch kit,canva media kit,blogger media kit,youtube media kit,instagram media kit,editable template,brand collaboration,content creator tools,press kit template,influencer tools",
+    },
+    tiktok: {
+      caption: "Brands aren't replying to your emails? Your media kit might be the reason.",
+      hashtags: "#contentcreator #influenceruk #branddeals #socialmediagrowth #canvatemplates #creatorbusiness #entrepreneurlife #onlineincome #digitalproducts #marketingtips",
+    },
+    instagram: {
+      caption: "Your media kit is often your first impression with a brand. This template helps you present your value clearly, professionally and with confidence. Make it easier for brands to say yes.",
+      hashtags: "#influenceruk #contentcreatorlife #brandcollaboration #mediakit #canvadesign #creatorbusiness #socialmediatips #personalbranding #digitaldownloads #onlinebusinessuk #creatorgrowth #marketingstrategy",
+    },
+    pinterest: {
+      title: "Influencer Media Kit Template for Brand Collaborations",
+      description: "Professional media kit template to showcase your audience and secure brand deals. Perfect for influencers and creators.",
+      keywords: "media kit template,influencer media kit,brand pitch,creator tools,canva template,blogger media kit,content creator,brand partnerships",
+    },
+    gptImagePrompt: "flat lay influencer media kit pages on tablet and printed sheets neutral workspace coffee soft light modern minimal branding aesthetic",
+    videoPrompt: "Hook: brands keep ignoring your pitches. Show media kit pages. Highlight stats and layout. CTA: upgrade your media kit and attract brands.",
+  },
+  "biz-003": {
+    etsy: {
+      title: "Business Card Template Editable Canva Modern Business Card Minimalist Professional Card Design",
+      description: "Create a strong first impression with modern, editable business card templates designed for professionals. Clean layouts and easy customisation make it simple to build a polished brand identity.",
+      tags: "business card template,editable business card,canva business card,modern business card,minimalist card,professional branding,real estate card,consultant card,stylist business card,networking card,brand identity,business design,printable card",
+    },
+    tiktok: {
+      caption: "Your business card still looks outdated? You're losing opportunities.",
+      hashtags: "#businesscards #brandinguk #smallbusinessuk #entrepreneurlife #canvadesign #networking #brandidentity #marketingtips #digitaldownloads #businessowner",
+    },
+    instagram: {
+      caption: "A business card should feel like an extension of your brand. These templates make it easy to look modern, polished and professional without overcomplicating the process. Perfect for standing out in any industry.",
+      hashtags: "#businessbranding #smallbusinessowner #canvatemplates #branddesign #entrepreneuruk #marketingstrategy #creativebusiness #professionalbranding #networkingtips #digitalproducts #brandidentitydesign #businessgrowth",
+    },
+    pinterest: {
+      title: "Modern Business Card Template Editable in Canva",
+      description: "Clean and professional business card templates for modern brands. Easy to customise and perfect for networking.",
+      keywords: "business card template,modern business card,canva design,branding template,professional card,networking tools,small business branding,editable template",
+    },
+    gptImagePrompt: "stack of modern business cards on neutral desk soft shadows minimal typography clean branding beige and black tones professional aesthetic",
+    videoPrompt: "Hook: your business card looks outdated. Show old vs modern design. Show editing process. CTA: upgrade your branding today.",
+  },
+  "biz-004": {
+    etsy: {
+      title: "Freelance Proposal Template Contract Template Canva Client Agreement Professional Business Documents",
+      description: "Win more clients with professional proposal and contract templates designed for freelancers. Clearly present your services, pricing and terms while protecting your business and saving time.",
+      tags: "proposal template,contract template,freelance contract,client agreement,business proposal,canva template,service agreement,freelancer tools,client contract,editable template,design proposal,photography contract,writer contract",
+    },
+    tiktok: {
+      caption: "Your proposals aren't converting? This is probably why.",
+      hashtags: "#freelancerlife #clientwork #businessowner #proposaldesign #canvatemplates #entrepreneurtips #onlinebusiness #servicebusiness #digitalproducts #freelancetips",
+    },
+    instagram: {
+      caption: "A strong proposal can change how clients see your work instantly. These templates help you present your services clearly, set expectations and build trust from the start. Save time and close better projects.",
+      hashtags: "#freelanceruk #proposaltemplate #clientmanagement #businessdocuments #canvadesign #servicebusiness #entrepreneuruk #onlinebusinessuk #creativefreelancer #digitaldownloads #businessgrowth #brandingtools",
+    },
+    pinterest: {
+      title: "Freelance Proposal and Contract Template for Client Projects",
+      description: "Professional proposal and contract templates to win clients and protect your business. Ideal for freelancers.",
+      keywords: "proposal template,freelance contract,client agreement,business documents,canva template,freelancer tools,service contract,proposal design",
+    },
+    gptImagePrompt: "proposal and contract documents on desk laptop pen neutral tones clean layout professional business aesthetic",
+    videoPrompt: "Hook: your proposals get ignored. Show messy vs clean proposal. Show template pages. CTA: improve your client conversion.",
+  },
+  "biz-005": {
+    etsy: {
+      title: "Client Onboarding Packet Template Welcome Guide Questionnaire Canva Editable Service Business Kit",
+      description: "Create a seamless client experience with professional onboarding packet templates. Includes welcome guides, questionnaires and timelines to help you stay organised and impress clients from the start.",
+      tags: "client onboarding,onboarding template,welcome packet,client questionnaire,business templates,canva template,service business,client experience,freelancer tools,branding kit,client workflow,editable template,virtual assistant tools",
+    },
+    tiktok: {
+      caption: "Clients feel confused after booking? This is what's missing.",
+      hashtags: "#clientexperience #smallbusinessuk #freelancerlife #businesssystems #canvatemplates #entrepreneurtips #servicebusiness #productivity #digitalproducts #onlinebusiness",
+    },
+    instagram: {
+      caption: "How you onboard clients sets the tone for your entire service. These templates help you feel organised, professional and easy to work with from day one. Make your business feel effortless and premium.",
+      hashtags: "#clientonboarding #businesssystems #servicebusinessuk #canvatemplate #entrepreneuruk #freelancerlife #onlinebusinessuk #workflowtools #digitaldownloads #businessgrowth #brandingtools #clientmanagement",
+    },
+    pinterest: {
+      title: "Client Onboarding Packet Template for Service Businesses",
+      description: "Professional onboarding templates to create a smooth client experience. Includes welcome guide and questionnaire.",
+      keywords: "client onboarding,service business tools,canva template,client experience,business systems,freelancer tools,welcome packet,workflow templates",
+    },
+    gptImagePrompt: "client onboarding packet pages on desk laptop coffee neutral tones clean layout modern business aesthetic",
+    videoPrompt: "Hook: clients feel lost after booking. Show onboarding pages. Highlight structure. CTA: improve your client experience.",
+  },
+  "biz-006": {
+    etsy: {
+      title: "Rate Card Template Pricing Guide Canva Editable Services Price List Freelancer Pricing Sheet",
+      description: "Present your pricing clearly with professional rate card templates designed for freelancers and agencies. Showcase your services in a clean, organised format that builds trust and saves time.",
+      tags: "rate card template,pricing guide,price list template,freelancer pricing,canva template,service pricing,agency pricing,editable template,business tools,photography pricing,design pricing,marketing services,consultant pricing",
+    },
+    tiktok: {
+      caption: "Still explaining your prices over and over? You need this.",
+      hashtags: "#freelancerpricing #businessowner #servicebusiness #canvatemplates #entrepreneurlife #pricingstrategy #onlinebusiness #digitalproducts #smallbusinessuk #marketingtips",
+    },
+    instagram: {
+      caption: "Clear pricing makes everything easier for you and your clients. These templates help you present your services in a way that feels structured, professional and easy to understand. Save time and build trust instantly.",
+      hashtags: "#pricingstrategy #freelanceruk #servicebusinessuk #canvatemplate #businesstools #entrepreneuruk #onlinebusinessuk #clientwork #digitaldownloads #businessgrowth #brandingtools #creativebusiness",
+    },
+    pinterest: {
+      title: "Rate Card Template for Freelancers and Service Pricing",
+      description: "Professional pricing templates to present your services clearly and confidently. Ideal for freelancers and agencies.",
+      keywords: "rate card template,pricing guide,freelancer pricing,service pricing,canva template,business tools,price list,agency pricing",
+    },
+    gptImagePrompt: "clean rate card layout on desk minimal typography neutral colours laptop pen modern business aesthetic",
+    videoPrompt: "Hook: you keep repeating your prices. Show rate card. Show structure. CTA: simplify your pricing.",
+  },
+  "biz-007": {
+    etsy: {
+      title: "Thank You Card Insert Template Small Business Packaging Canva Editable Brand Card Etsy Seller",
+      description: "Add a personal touch to every order with branded thank you card insert templates. Perfect for small businesses looking to build customer loyalty and create a memorable unboxing experience.",
+      tags: "thank you card insert,packaging insert,small business card,etsy seller tools,branding template,canva template,customer thank you,ecommerce packaging,brand insert,editable template,shop packaging,handmade business,order insert",
+    },
+    tiktok: {
+      caption: "Your packaging feels incomplete? This is what you're missing.",
+      hashtags: "#smallbusinessuk #etsyshop #packagingideas #branding #canvatemplates #ecommerce #customerexperience #digitalproducts #onlinebusiness #handmadebusiness",
+    },
+    instagram: {
+      caption: "The smallest details can make the biggest difference. A simple thank you card helps your brand feel thoughtful and memorable. Create a better unboxing experience with ease.",
+      hashtags: "#packagingdesign #smallbusinessowner #etsyuk #brandingideas #canvatemplate #customerexperience #onlinebusinessuk #ecommerceuk #digitaldownloads #brandidentity #businessgrowth #creativebusiness",
+    },
+    pinterest: {
+      title: "Thank You Card Insert Template for Small Business Packaging",
+      description: "Editable thank you card templates to enhance your packaging and build customer loyalty.",
+      keywords: "thank you card,packaging insert,small business branding,etsy seller tools,canva template,ecommerce packaging,customer loyalty,brand design",
+    },
+    gptImagePrompt: "small thank you cards on packaging box tissue paper neutral tones soft light minimal branding aesthetic",
+    videoPrompt: "Hook: your packaging feels basic. Show insert card. Show branding. CTA: improve your unboxing.",
+  },
+  "biz-008": {
+    etsy: {
+      title: "Gift Certificate Template Voucher Template Canva Editable Gift Card Small Business Voucher",
+      description: "Offer stylish gift vouchers with editable templates designed for small businesses. Perfect for salons, boutiques and service providers to increase sales and attract new customers.",
+      tags: "gift certificate,voucher template,gift card template,canva template,small business voucher,editable voucher,salon voucher,spa voucher,restaurant voucher,business tools,printable voucher,gift card design,retail voucher",
+    },
+    tiktok: {
+      caption: "Want more sales without more work? Start using vouchers.",
+      hashtags: "#smallbusinessuk #giftvoucher #businessgrowth #canvatemplates #entrepreneurlife #salonbusiness #retailbusiness #onlinebusiness #digitalproducts #marketingtips",
+    },
+    instagram: {
+      caption: "Gift vouchers are one of the simplest ways to boost your income. These templates help you create something that looks professional and ready to sell straight away. Easy, effective and on-brand.",
+      hashtags: "#giftvoucher #smallbusinessowner #retailuk #canvatemplate #businessgrowth #entrepreneuruk #onlinebusinessuk #marketingideas #digitaldownloads #brandingtools #creativebusiness #servicebusiness",
+    },
+    pinterest: {
+      title: "Editable Gift Certificate Template for Small Businesses",
+      description: "Professional voucher templates to increase sales and attract new customers. Easy to customise in Canva.",
+      keywords: "gift certificate,voucher template,small business tools,canva template,gift card design,retail marketing,salon voucher,business growth",
+    },
+    gptImagePrompt: "elegant gift certificate on desk ribbon neutral tones soft lighting minimal branding clean layout aesthetic",
+    videoPrompt: "Hook: you're missing easy extra income. Show voucher design. Show branding. CTA: start selling vouchers.",
+  },
+  "biz-009": {
+    etsy: {
+      title: "Email Signature Template Professional HTML Signature Canva Editable Business Email Branding",
+      description: "Upgrade your emails with professional email signature templates designed for modern businesses. Includes clean layouts with photo, contact details and social links for a polished brand presence.",
+      tags: "email signature template,professional email,html signature,canva template,business branding,corporate signature,freelancer tools,real estate signature,modern email design,branding template,contact signature,editable template,business email",
+    },
+    tiktok: {
+      caption: "Your emails look basic… and it's costing you.",
+      hashtags: "#emailmarketing #businessbranding #smallbusinessuk #canvatemplates #entrepreneurlife #corporatebranding #onlinebusiness #digitalproducts #productivity #brandingtips",
+    },
+    instagram: {
+      caption: "Every email you send is part of your brand. A clean, professional signature helps you look more polished instantly. Make every message feel intentional and on-brand.",
+      hashtags: "#emailsignature #businessbranding #corporateuk #canvatemplate #professionalbranding #entrepreneuruk #onlinebusinessuk #brandingdesign #digitaldownloads #businessgrowth #marketingtools #creativebusiness",
+    },
+    pinterest: {
+      title: "Professional Email Signature Template for Business Branding",
+      description: "Modern email signature templates to elevate your brand in every message you send.",
+      keywords: "email signature,professional branding,canva template,business email,corporate design,branding tools,modern email,freelancer tools",
+    },
+    gptImagePrompt: "laptop screen showing email signature design clean layout neutral tones modern workspace aesthetic",
+    videoPrompt: "Hook: your emails look unprofessional. Show signature upgrade. CTA: improve your email branding.",
+  },
+  "biz-010": {
+    etsy: {
+      title: "Freelancer Portfolio Template Canva Portfolio PDF Creative Portfolio Designer Portfolio Template",
+      description: "Showcase your work professionally with a clean, modern portfolio template designed for freelancers. Perfect for presenting projects clearly and attracting higher quality clients.",
+      tags: "portfolio template,freelancer portfolio,canva portfolio,designer portfolio,creative portfolio,editable template,photography portfolio,writer portfolio,business templates,client presentation,portfolio pdf,branding template,freelancer tools",
+    },
+    tiktok: {
+      caption: "Your portfolio isn't getting clients? This is the problem.",
+      hashtags: "#freelancerlife #portfolio #creativebusiness #canvatemplates #entrepreneurlife #clientwork #onlinebusiness #digitalproducts #designportfolio #branding",
+    },
+    instagram: {
+      caption: "Your portfolio should do the selling for you. This template helps you present your work clearly, professionally and with confidence. Make it easier for clients to trust and choose you.",
+      hashtags: "#portfolio #freelanceruk #creativeportfolio #canvatemplate #designersuk #onlinebusinessuk #brandingdesign #digitaldownloads #clientwork #businessgrowth #creativebusiness #entrepreneuruk",
+    },
+    pinterest: {
+      title: "Freelancer Portfolio Template for Designers and Creatives",
+      description: "Professional portfolio templates to showcase your work and attract better clients.",
+      keywords: "portfolio template,freelancer portfolio,creative portfolio,canva template,designer portfolio,client presentation,branding tools,online business",
+    },
+    gptImagePrompt: "portfolio pages displayed on tablet and printed sheets neutral desk minimal layout modern branding soft lighting aesthetic",
+    videoPrompt: "Hook: your portfolio isn't converting. Show clean portfolio pages. CTA: upgrade your portfolio.",
+  },
   "edu-001": { ...empty },
   "edu-002": { ...empty },
   "edu-003": { ...empty },
