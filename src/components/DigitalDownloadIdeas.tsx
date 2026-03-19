@@ -194,6 +194,15 @@ function IdeaDetail({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
+        {/* Mobile drag handle — tap to close */}
+        <button
+          onClick={onClose}
+          className="sm:hidden w-full flex justify-center pt-3 pb-1 shrink-0"
+          aria-label="Close"
+        >
+          <span className="w-10 h-1 rounded-full bg-purple-700" />
+        </button>
+
         <div className="sticky top-0 z-10 bg-[#0d0118] border-b border-purple-900 px-4 py-3 flex items-start justify-between gap-3">
           <div>
             <h2 className="text-white font-bold text-base leading-snug">{idea.name}</h2>
@@ -396,6 +405,13 @@ function IdeaDetail({
               <PlaceholderBox message="Paste prompts into marketingPrompts.ts to populate this section" />
             )}
           </div>
+
+          <button
+            onClick={onClose}
+            className="sm:hidden w-full py-3 rounded-xl bg-[#2a0050] border border-purple-800 text-purple-200 text-sm font-medium hover:text-white transition-colors"
+          >
+            Close
+          </button>
 
           <div className="h-4" />
         </div>
