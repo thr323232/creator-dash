@@ -200,7 +200,9 @@ export const digitalDownloadIdeas: DigitalDownloadIdea[] = [
     difficulty: "intermediate",
     demandRating: 5,
     trending: true,
-    launchChecklist: ["Create a cohesive set of 5-10 line art designs", "Export in multiple sizes (5x7, 8x10, 11x14, A3, A4)", "Offer both color and black/white versions", "Create frame mockups showing art in room settings", "Write listing with wall art and minimalist keywords", "Publish as individual prints and bundled sets"]
+    launchChecklist: ["Create a cohesive set of 5-10 line art designs", "Export in multiple sizes (5x7, 8x10, 11x14, A3, A4)", "Offer both color and black/white versions", "Create frame mockups showing art in room settings", "Write listing with wall art and minimalist keywords", "Publish as individual prints and bundled sets"],
+    creationTool: "chatgpt",
+    creationPrompt: "I want to create a 6-piece minimalist line art printable wall art set. Generate detailed SVG-style drawing instructions and composition guides that I can recreate in Illustrator or Figma.\n\nStyle:\n- Minimalist continuous line art\n- Black line on white background\n- Scandinavian aesthetic\n\nColour palette:\n- Black (#000000) on white (#FFFFFF)\n\nWhat to create:\n- 6 pieces: abstract female figure, face outline, hands, body curve, plant line drawing, abstract organic shape\n\nInstructions required:\n- For each piece, describe exactly where the line starts, the flow of the line, and how it curves across the canvas\n- Include composition placement (centred, scale, margins)\n- Line weight guidance (2–3pt equivalent)\n\nTechnical setup:\n- Canvas size A4 and A3 ratios\n- Export at 300 DPI\n\nOutput everything as step-by-step instructions I can follow to recreate each design precisely."
   },
   {
     id: "art-002",
@@ -214,7 +216,9 @@ export const digitalDownloadIdeas: DigitalDownloadIdea[] = [
     difficulty: "beginner",
     demandRating: 4,
     trending: false,
-    launchChecklist: ["Design 5-10 quote prints with unique typography", "Use original or public domain quotes only", "Export in standard print sizes", "Create room setting mockups", "Optimize listing with quote poster keywords", "Offer as singles and themed bundles"]
+    launchChecklist: ["Design 5-10 quote prints with unique typography", "Use original or public domain quotes only", "Export in standard print sizes", "Create room setting mockups", "Optimize listing with quote poster keywords", "Offer as singles and themed bundles"],
+    creationTool: "claude",
+    creationPrompt: "I want to create an 8-piece inspirational quote poster printable set. Generate all content and layout specifications so I can build this in Canva.\n\nStyle:\n- Minimalist typography-based prints\n- Clean modern aesthetic\n\nColour palette:\n- Black (#000000), white (#FFFFFF), soft beige (#F5F5F0), muted grey (#8A8A8A)\n\nWhat to create:\n- 8 short quotes (6–10 words each)\n\nInstructions required:\n- Provide all 8 quotes\n- For each, define layout structure (headline vs supporting text)\n- Font pairing suggestions (serif + sans-serif)\n- Alignment (centre aligned)\n- Margin spacing\n\nTechnical setup:\n- A4, A3, and 4:5 ratio\n\nOutput must be ready to copy into Canva and follow exactly."
   },
   {
     id: "art-003",
@@ -228,7 +232,9 @@ export const digitalDownloadIdeas: DigitalDownloadIdea[] = [
     difficulty: "intermediate",
     demandRating: 5,
     trending: true,
-    launchChecklist: ["Create a cohesive set of 4-8 themed prints", "Use child-friendly color palettes", "Export in nursery-standard sizes", "Design matching sets that work as a gallery wall", "Create nursery room mockups", "List with nursery art and kids decor keywords"]
+    launchChecklist: ["Create a cohesive set of 4-8 themed prints", "Use child-friendly color palettes", "Export in nursery-standard sizes", "Design matching sets that work as a gallery wall", "Create nursery room mockups", "List with nursery art and kids decor keywords"],
+    creationTool: "claude",
+    creationPrompt: "I want to create a 6-piece nursery and kids room printable wall art set. Generate a full design brief for Canva creation.\n\nStyle:\n- Soft, calming, playful\n\nColour palette:\n- Sage (#C7D9C4), blush (#F4C2C2), cream (#FFF8F0), dusty blue (#A7C7E7)\n\nWhat to create:\n- 6 prints: alphabet print, animal-themed print, and 4 positive phrase prints\n\nInstructions required:\n- Layout guidance for each print\n- Font suggestions (rounded, child-friendly)\n- Placement of text and illustration areas\n\nTechnical setup:\n- A4 and A3 sizes\n\nOutput must include step-by-step Canva layout instructions."
   },
   {
     id: "art-004",
@@ -242,7 +248,9 @@ export const digitalDownloadIdeas: DigitalDownloadIdea[] = [
     difficulty: "intermediate",
     demandRating: 4,
     trending: true,
-    launchChecklist: ["Design all 12 zodiac signs in a consistent style", "Include constellation art and key traits", "Export in multiple sizes", "Create celestial-themed mockups", "List each sign individually and as a full set", "Target astrology and zodiac gift keywords"]
+    launchChecklist: ["Design all 12 zodiac signs in a consistent style", "Include constellation art and key traits", "Export in multiple sizes", "Create celestial-themed mockups", "List each sign individually and as a full set", "Target astrology and zodiac gift keywords"],
+    creationTool: "chatgpt",
+    creationPrompt: "I want to create a 12-piece zodiac printable wall art set. Generate SVG-style instructions and layout specs for Illustrator or Canva.\n\nStyle:\n- Minimalist astrology design\n\nColour palette:\n- Black (#000000), white (#FFFFFF), subtle gold (#C9A646)\n\nWhat to create:\n- 12 zodiac signs with symbol, constellation, and text\n\nInstructions required:\n- Describe symbol line art shapes\n- Constellation layout (dots and connecting lines)\n- Text placement for name and dates\n\nTechnical setup:\n- A4 size, centred layout\n\nOutput must be detailed enough to recreate each design."
   },
   {
     id: "art-005",
@@ -256,7 +264,9 @@ export const digitalDownloadIdeas: DigitalDownloadIdea[] = [
     difficulty: "beginner",
     demandRating: 3,
     trending: false,
-    launchChecklist: ["Create themed sets (herbs, coffee, wine, baking)", "Use warm inviting color palettes", "Export in kitchen-appropriate sizes", "Mock up in kitchen settings", "Write listing with kitchen decor keywords", "Bundle by theme for higher value"]
+    launchChecklist: ["Create themed sets (herbs, coffee, wine, baking)", "Use warm inviting color palettes", "Export in kitchen-appropriate sizes", "Mock up in kitchen settings", "Write listing with kitchen decor keywords", "Bundle by theme for higher value"],
+    creationTool: "claude",
+    creationPrompt: "I want to create a 6-piece kitchen wall art printable set. Generate full design instructions for Canva.\n\nStyle:\n- Modern farmhouse minimalist\n\nColour palette:\n- Cream (#FFF8F0), black (#000000), warm brown (#8B5E3C)\n\nWhat to create:\n- 6 kitchen-themed phrase prints\n\nInstructions required:\n- Provide 6 phrases\n- Layout instructions (script + sans-serif fonts)\n- Text positioning and spacing\n\nTechnical setup:\n- A4 and A3\n\nOutput must be ready to recreate in Canva."
   },
   {
     id: "art-006",
@@ -270,7 +280,9 @@ export const digitalDownloadIdeas: DigitalDownloadIdea[] = [
     difficulty: "beginner",
     demandRating: 4,
     trending: false,
-    launchChecklist: ["Design editable Canva templates with name placeholder", "Include clear editing instructions for buyers", "Create multiple font and color options", "Show examples with popular names in mockups", "List with personalized and custom name art keywords", "Publish on Etsy as instant download"]
+    launchChecklist: ["Design editable Canva templates with name placeholder", "Include clear editing instructions for buyers", "Create multiple font and color options", "Show examples with popular names in mockups", "List with personalized and custom name art keywords", "Publish on Etsy as instant download"],
+    creationTool: "claude",
+    creationPrompt: "I want to create a personalised name printable wall art template. Generate full layout and system instructions.\n\nStyle:\n- Elegant minimalist\n\nColour palette:\n- Black, white, optional accent colour\n\nWhat to create:\n- 3 layout variations for name prints\n\nInstructions required:\n- Text hierarchy (large name, small subtitle)\n- Font suggestions\n- Layout spacing\n\nTechnical setup:\n- A4 vertical and horizontal\n\nOutput must allow easy customisation."
   },
   {
     id: "art-007",
@@ -284,7 +296,9 @@ export const digitalDownloadIdeas: DigitalDownloadIdea[] = [
     difficulty: "intermediate",
     demandRating: 4,
     trending: true,
-    launchChecklist: ["Create 4-6 prints per season bundle", "Use seasonally appropriate color palettes", "Export in multiple standard sizes", "Create room mockups per season", "Time listings to go live before each season starts", "Offer individual seasons and a full year bundle"]
+    launchChecklist: ["Create 4-6 prints per season bundle", "Use seasonally appropriate color palettes", "Export in multiple standard sizes", "Create room mockups per season", "Time listings to go live before each season starts", "Offer individual seasons and a full year bundle"],
+    creationTool: "claude",
+    creationPrompt: "I want to create an 8-piece seasonal printable wall art bundle. Generate a full design brief.\n\nStyle:\n- Soft seasonal aesthetic\n\nColour palette:\n- Spring, summer, autumn, winter palettes (define each)\n\nWhat to create:\n- 2 prints per season\n\nInstructions required:\n- Provide themes and phrases\n- Layout instructions\n\nTechnical setup:\n- A4 size\n\nOutput must be structured for Canva."
   },
   {
     id: "art-008",
@@ -298,7 +312,9 @@ export const digitalDownloadIdeas: DigitalDownloadIdea[] = [
     difficulty: "intermediate",
     demandRating: 3,
     trending: false,
-    launchChecklist: ["Design sets of 3-5 complementary geometric prints", "Use a refined limited color palette", "Export in large format sizes for impact", "Create minimalist room mockups", "List with abstract art and modern decor keywords", "Sell as sets and individual prints"]
+    launchChecklist: ["Design sets of 3-5 complementary geometric prints", "Use a refined limited color palette", "Export in large format sizes for impact", "Create minimalist room mockups", "List with abstract art and modern decor keywords", "Sell as sets and individual prints"],
+    creationTool: "chatgpt",
+    creationPrompt: "I want to create a 6-piece abstract geometric wall art set. Generate SVG-style composition instructions.\n\nStyle:\n- Modern abstract\n\nColour palette:\n- Terracotta (#C97C5D), beige (#E8D8C3), black (#000000), olive (#7A8F6B)\n\nWhat to create:\n- 6 geometric compositions using circles, arches, rectangles\n\nInstructions required:\n- Shape placement and layering\n- Colour assignments\n\nTechnical setup:\n- A4 and A3\n\nOutput must be step-by-step for Illustrator or Figma."
   },
   {
     id: "art-009",
@@ -312,7 +328,9 @@ export const digitalDownloadIdeas: DigitalDownloadIdea[] = [
     difficulty: "intermediate",
     demandRating: 4,
     trending: false,
-    launchChecklist: ["Create or restore botanical illustrations", "Use vintage color palettes and textures", "Export in multiple print sizes", "Mock up in rustic and traditional room settings", "List with botanical print and vintage art keywords", "Bundle by plant type (herbs, flowers, ferns)"]
+    launchChecklist: ["Create or restore botanical illustrations", "Use vintage color palettes and textures", "Export in multiple print sizes", "Mock up in rustic and traditional room settings", "List with botanical print and vintage art keywords", "Bundle by plant type (herbs, flowers, ferns)"],
+    creationTool: "chatgpt",
+    creationPrompt: "I want to create a 6-piece vintage botanical printable set. Generate detailed illustration briefs.\n\nStyle:\n- Vintage botanical\n\nColour palette:\n- Green (#6B8E23), sepia (#704214), cream (#F5F5DC)\n\nWhat to create:\n- 6 plant illustrations (fern, eucalyptus, wildflowers, etc.)\n\nInstructions required:\n- Plant structure and composition\n- Background texture suggestions\n\nTechnical setup:\n- A4\n\nOutput must guide Procreate or Canva creation."
   },
   {
     id: "art-010",
@@ -326,7 +344,9 @@ export const digitalDownloadIdeas: DigitalDownloadIdea[] = [
     difficulty: "intermediate",
     demandRating: 3,
     trending: false,
-    launchChecklist: ["Research and illustrate iconic skylines for 10+ popular cities", "Use a consistent minimal style across all cities", "Export in standard print sizes", "Create clean mockups with city names", "List individual cities and bundle options", "Target city name + wall art keywords"]
+    launchChecklist: ["Research and illustrate iconic skylines for 10+ popular cities", "Use a consistent minimal style across all cities", "Export in standard print sizes", "Create clean mockups with city names", "List individual cities and bundle options", "Target city name + wall art keywords"],
+    creationTool: "chatgpt",
+    creationPrompt: "I want to create a 6-piece city skyline minimalist printable set. Generate SVG-style instructions.\n\nStyle:\n- Minimalist skyline silhouettes\n\nColour palette:\n- Black on white\n\nWhat to create:\n- 6 city skylines (London, Paris, New York, Tokyo, Sydney, Dubai)\n\nInstructions required:\n- Skyline structure and building shapes\n- Horizontal composition\n- City name typography placement\n\nTechnical setup:\n- A4 horizontal\n\nOutput must be detailed for Illustrator or Figma."
   },
   {
     id: "social-001",
