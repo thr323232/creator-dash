@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   DndContext, PointerSensor, useSensor, useSensors,
   useDroppable, useDraggable, type DragEndEvent,
 } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
-import { digitalDownloadIdeas, type DigitalDownloadIdea, type Category } from "../data/digitalDownloadIdeas";
+import { digitalDownloadIdeas, type DigitalDownloadIdea } from "../data/digitalDownloadIdeas";
 import { CATEGORY_DOT, CATEGORY_ACCENT, getDifficulty, getDemandRating } from "../data/ideaUtils";
 import { CATEGORIES, STAGES, useTracker, type Stage, type TrackerEntry } from "../data/tracker";
 import { useCustomIdeas, type CustomIdeaRecord } from "../data/customIdeas";
@@ -178,63 +178,6 @@ async function callClaude(userPrompt: string, apiKey: string): Promise<CustomIde
 }
 
 // ---------------------------------------------------------------------------
-// Custom dropdown select (replaces native <select>)
-// ---------------------------------------------------------------------------
-
-function CustomSelect({ value, options, onChange, icon }: {
-  value: string;
-  options: { value: string; label: string }[];
-  onChange: (v: string) => void;
-  icon?: string;
-}) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    function handleClick(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-    }
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, [open]);
-
-  const selected = options.find((o) => o.value === value);
-
-  return (
-    <div ref={ref} className="relative shrink-0">
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className={`h-11 flex items-center gap-2 px-4 rounded-xl border text-sm font-medium transition-colors whitespace-nowrap ${
-          open || value !== options[0].value
-            ? "bg-purple-600/20 border-purple-500 text-purple-200"
-            : "bg-[#0d0118] border-purple-800 text-purple-400 hover:border-purple-600 hover:text-purple-200"
-        }`}
-      >
-        {icon && <span className="text-xs opacity-60">{icon}</span>}
-        <span>{selected?.label ?? value}</span>
-        <span className={`text-xs transition-transform duration-200 ${open ? "rotate-180" : ""}`}>▾</span>
-      </button>
-      {open && (
-        <div className="absolute top-[calc(100%+6px)] left-0 z-20 min-w-full bg-[#160028] border border-purple-700 rounded-xl shadow-xl shadow-black/50 overflow-hidden">
-          {options.map((opt) => (
-            <button
-              key={opt.value}
-              onClick={() => { onChange(opt.value); setOpen(false); }}
-              className={`w-full text-left px-4 py-2.5 text-sm transition-colors hover:bg-white/5 ${
-                opt.value === value ? "text-amber-400 font-semibold" : "text-purple-200"
-              }`}
-            >
-              {opt.label}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ---------------------------------------------------------------------------
 // Browse card (inline grid card for the Browse section)
 // ---------------------------------------------------------------------------
 
@@ -318,12 +261,7 @@ export default function Dashboard() {
   const [expandedStages, setExpandedStages] = useState<Set<Stage>>(new Set());
 
   // Browse section state
-  const [browseQuery, setBrowseQuery]           = useState("");
-  const [browseCategory, setBrowseCategory]     = useState<Category | "All">("All");
-  const [browseDifficulty, setBrowseDifficulty] = useState("All");
-  const [browseSort, setBrowseSort]             = useState<"default" | "demand" | "price-asc" | "price-desc">("default");
-  const [browseMyList, setBrowseMyList]         = useState(false);
-  const [collapsedCats, setCollapsedCats]       = useState<Set<string>>(new Set(CATEGORIES));
+  const [collapsedCats, setCollapsedCats] = useState<Set<string>>(new Set(CATEGORIES));
 
   // Restore file input
   const restoreInputRef = useRef<HTMLInputElement>(null);
@@ -440,35 +378,6 @@ export default function Dashboard() {
     return { emoji: "🎉", message: `${totalSales} unit${totalSales > 1 ? "s" : ""} sold — keep adding and marketing new ideas!` };
   }, [totalTracked, saved, creating, listed, earning, totalSales]);
 
-  // Browse section: filtered + sorted ideas
-  const browseFiltered = useMemo(() => {
-    const results = allIdeas.filter((idea) => {
-      if (browseCategory !== "All" && idea.category !== browseCategory) return false;
-      if (browseDifficulty !== "All" && getDifficulty(idea) !== browseDifficulty) return false;
-      if (browseMyList && !tracker[idea.id]) return false;
-      if (browseQuery) {
-        const q = browseQuery.toLowerCase();
-        return (
-          idea.name.toLowerCase().includes(q) ||
-          idea.description.toLowerCase().includes(q) ||
-          idea.niches.some((n) => n.toLowerCase().includes(q))
-        );
-      }
-      return true;
-    });
-    if (browseSort === "demand")      return [...results].sort((a, b) => getDemandRating(b) - getDemandRating(a));
-    if (browseSort === "price-asc")   return [...results].sort((a, b) => a.pricingRange.min - b.pricingRange.min);
-    if (browseSort === "price-desc")  return [...results].sort((a, b) => b.pricingRange.min - a.pricingRange.min);
-    return results;
-  }, [allIdeas, browseQuery, browseCategory, browseDifficulty, browseSort, browseMyList, tracker]);
-
-  const browseGrouped = useMemo(() => {
-    if (browseSort !== "default") return null;
-    return CATEGORIES
-      .map((cat) => ({ category: cat, ideas: browseFiltered.filter((i) => i.category === cat) }))
-      .filter((g) => g.ideas.length > 0);
-  }, [browseFiltered, browseSort]);
-
   function toggleBrowseCat(cat: string) {
     setCollapsedCats((prev) => {
       const next = new Set(prev);
@@ -480,21 +389,6 @@ export default function Dashboard() {
   function scrollToBrowse() {
     document.getElementById("section-browse")?.scrollIntoView({ behavior: "smooth" });
   }
-
-  function clearBrowseFilters() {
-    setBrowseQuery("");
-    setBrowseCategory("All");
-    setBrowseDifficulty("All");
-    setBrowseSort("default");
-    setBrowseMyList(false);
-  }
-
-  const browseFiltersActive =
-    browseQuery !== "" ||
-    browseCategory !== "All" ||
-    browseDifficulty !== "All" ||
-    browseSort !== "default" ||
-    browseMyList;
 
   function saveApiKey() {
     localStorage.setItem("anthropic-api-key", apiKeyInput);
@@ -778,97 +672,16 @@ export default function Dashboard() {
         {/* ------------------------------------------------------------------ */}
         {/* Browse & Add Ideas                                                 */}
         {/* ------------------------------------------------------------------ */}
-        <div id="section-browse" className="flex flex-col gap-6">
+        <div id="section-browse" className="flex flex-col gap-3">
           <div>
             <h2 className="text-base font-bold text-purple-100">Browse & Add Ideas</h2>
-            <p className="text-purple-500 text-xs mt-0.5">{browseFiltered.length} idea{browseFiltered.length !== 1 ? "s" : ""} — click to open, or add directly to your pipeline</p>
+            <p className="text-purple-500 text-xs mt-0.5">Click a category to browse ideas</p>
           </div>
 
-          {/* Filter toolbar card */}
-          <div className="bg-[#160028] border border-purple-800 rounded-2xl overflow-visible">
-            {/* Row 1: search + dropdowns */}
-            <div className="flex items-center gap-2 p-3">
-              <div className="relative flex-1 min-w-0">
-                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-purple-500 text-sm pointer-events-none">🔍</span>
-                <input
-                  type="text"
-                  placeholder="Search by name, description or niche..."
-                  value={browseQuery}
-                  onChange={(e) => setBrowseQuery(e.target.value)}
-                  className="w-full h-11 bg-[#0d0118] border border-purple-800 rounded-xl pl-9 pr-4 text-sm text-white placeholder-purple-600 focus:outline-none focus:border-purple-500 transition-colors"
-                />
-              </div>
-              <CustomSelect
-                value={browseDifficulty}
-                icon="≡"
-                options={[
-                  { value: "All", label: "Difficulty" },
-                  { value: "beginner", label: "Beginner" },
-                  { value: "intermediate", label: "Intermediate" },
-                  { value: "advanced", label: "Advanced" },
-                ]}
-                onChange={setBrowseDifficulty}
-              />
-              <CustomSelect
-                value={browseSort}
-                icon="↕"
-                options={[
-                  { value: "default", label: "Sort" },
-                  { value: "demand", label: "Demand ↓" },
-                  { value: "price-asc", label: "Price ↑" },
-                  { value: "price-desc", label: "Price ↓" },
-                ]}
-                onChange={(v) => setBrowseSort(v as typeof browseSort)}
-              />
-              <button
-                onClick={() => setBrowseMyList((v) => !v)}
-                className={`h-11 shrink-0 flex items-center gap-1.5 px-4 rounded-xl border text-sm font-medium transition-colors whitespace-nowrap ${
-                  browseMyList
-                    ? "bg-amber-500/20 border-amber-500 text-amber-300"
-                    : "bg-[#0d0118] border-purple-800 text-purple-400 hover:border-purple-600 hover:text-purple-200"
-                }`}
-              >
-                <span className="text-xs">{browseMyList ? "★" : "☆"}</span>
-                My List{totalTracked > 0 ? ` (${totalTracked})` : ""}
-              </button>
-            </div>
-            {/* Row 2: category pills */}
-            <div className="border-t border-purple-900 px-3 py-2.5 flex gap-2 overflow-x-auto scrollbar-none">
-              {(["All", ...CATEGORIES] as (Category | "All")[]).map((c) => (
-                <button
-                  key={c}
-                  onClick={() => setBrowseCategory(c)}
-                  className={`shrink-0 flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border font-medium transition-all duration-150 ${
-                    browseCategory === c
-                      ? "bg-amber-500 border-amber-400 text-white shadow-sm shadow-amber-900/40"
-                      : "bg-[#0d0118] border-purple-800 text-purple-400 hover:border-purple-600 hover:text-white"
-                  }`}
-                >
-                  {c !== "All" && (
-                    <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${CATEGORY_DOT[c] ?? "bg-gray-500"}`} />
-                  )}
-                  {c}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Result count + clear */}
-          <div className="flex items-center gap-2 text-xs text-purple-500">
-            <span>{browseFiltered.length} idea{browseFiltered.length !== 1 ? "s" : ""}</span>
-            {browseFiltersActive && (
-              <>
-                <span>·</span>
-                <button onClick={clearBrowseFilters} className="text-purple-400 hover:text-white transition-colors">
-                  ✕ Clear filters
-                </button>
-              </>
-            )}
-          </div>
-
-          {/* Idea grid */}
-          {browseGrouped ? (
-            browseGrouped.map(({ category, ideas }) => (
+          {CATEGORIES.map((category) => {
+            const ideas = allIdeas.filter((i) => i.category === category);
+            if (ideas.length === 0) return null;
+            return (
               <div key={category} className="flex flex-col gap-3">
                 <button
                   onClick={() => toggleBrowseCat(category)}
@@ -893,24 +706,8 @@ export default function Dashboard() {
                   </div>
                 )}
               </div>
-            ))
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {browseFiltered.map((idea) => (
-                <BrowseCard
-                  key={idea.id}
-                  idea={idea}
-                  entry={tracker[idea.id]}
-                  onOpen={() => setDetailContext({ idea, stage: tracker[idea.id]?.stage })}
-                  onAdd={() => setStage(idea.id, "saved")}
-                />
-              ))}
-            </div>
-          )}
-
-          {browseFiltered.length === 0 && (
-            <p className="text-purple-600 text-sm text-center py-10">No ideas match those filters.</p>
-          )}
+            );
+          })}
         </div>
 
         {/* ------------------------------------------------------------------ */}
