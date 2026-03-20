@@ -28,5 +28,8 @@ export function useCustomIdeas() {
   const addCustomIdea = (record: CustomIdeaRecord) =>
     setRecords((prev) => [...prev, record]);
 
-  return { records, addCustomIdea };
+  const removeCustomIdea = (id: string) =>
+    setRecords((prev) => prev.filter((r) => r.idea.id !== id));
+
+  return { records, addCustomIdea, removeCustomIdea };
 }

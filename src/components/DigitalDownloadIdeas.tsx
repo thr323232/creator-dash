@@ -128,6 +128,7 @@ export function IdeaDetail({
   onStageChange,
   onSalesChange,
   onClose,
+  onDelete,
   scrollTo,
   workflowOverride,
   marketingOverride,
@@ -137,6 +138,7 @@ export function IdeaDetail({
   onStageChange: (stage: Stage | null) => void;
   onSalesChange: (sales: number) => void;
   onClose: () => void;
+  onDelete?: () => void;
   scrollTo?: string;
   workflowOverride?: { steps: string[] };
   marketingOverride?: MarketingPrompts;
@@ -253,14 +255,24 @@ export function IdeaDetail({
               </div>
             )}
 
-            {stage && (
-              <button
-                onClick={() => onStageChange(null)}
-                className="text-xs text-purple-600 hover:text-purple-400 text-right transition-colors"
-              >
-                Remove from my list
-              </button>
-            )}
+            <div className="flex items-center justify-between">
+              {stage ? (
+                <button
+                  onClick={() => onStageChange(null)}
+                  className="text-xs text-purple-600 hover:text-purple-400 transition-colors"
+                >
+                  Remove from my list
+                </button>
+              ) : <span />}
+              {onDelete && (
+                <button
+                  onClick={onDelete}
+                  className="text-xs text-red-600 hover:text-red-400 transition-colors"
+                >
+                  Delete idea
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Description */}

@@ -1,4 +1,10 @@
 import { useMemo, useState } from "react";
+import { BarChart, Bar, XAxis, YAxis, Cell, ResponsiveContainer, Tooltip, PieChart, Pie } from "recharts";
+import {
+  DndContext, PointerSensor, useSensor, useSensors,
+  useDroppable, useDraggable, type DragEndEvent,
+} from "@dnd-kit/core";
+import { CSS } from "@dnd-kit/utilities";
 import { digitalDownloadIdeas, type DigitalDownloadIdea } from "../data/digitalDownloadIdeas";
 import { CATEGORY_DOT } from "../data/ideaUtils";
 import { STAGES, useTracker, type Stage } from "../data/tracker";
@@ -44,6 +50,38 @@ const scrollMap: Partial<Record<Stage, string>> = {
 };
 
 const COLLAPSE_AT = 3;
+
+// ---------------------------------------------------------------------------
+// Drag-and-drop helpers
+// ---------------------------------------------------------------------------
+
+function DroppableColumn({ stageKey, isOver, children }: { stageKey: Stage; isOver: boolean; children: React.ReactNode }) {
+  const { setNodeRef } = useDroppable({ id: stageKey });
+  return (
+    <div
+      ref={setNodeRef}
+      className={`${stageBg[stageKey]} border ${stageRingColor[stageKey]} rounded-xl flex flex-col min-h-[160px] transition-all ${isOver ? "ring-2 ring-purple-400/60 scale-[1.01]" : ""}`}
+    >
+      {children}
+    </div>
+  );
+}
+
+function DraggableCard({ id, children }: { id: string; children: React.ReactNode }) {
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({ id });
+  const style = transform ? { transform: CSS.Translate.toString(transform) } : undefined;
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className={`touch-none ${isDragging ? "opacity-50 z-50 relative" : ""}`}
+    >
+      {children}
+    </div>
+  );
+}
 
 // ---------------------------------------------------------------------------
 // Claude generation
@@ -145,7 +183,7 @@ async function callClaude(userPrompt: string, apiKey: string): Promise<CustomIde
 
 export default function Dashboard() {
   const { tracker, setStage, setSales } = useTracker();
-  const { records, addCustomIdea }      = useCustomIdeas();
+  const { records, addCustomIdea, removeCustomIdea } = useCustomIdeas();
 
   // Detail modal
   const [detailContext, setDetailContext] = useState<{
@@ -168,6 +206,20 @@ export default function Dashboard() {
 
   // Pipeline expand
   const [expandedStages, setExpandedStages] = useState<Set<Stage>>(new Set());
+
+  // Drag-and-drop
+  const [overId, setOverId] = useState<Stage | null>(null);
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }));
+
+  function handleDragEnd(event: DragEndEvent) {
+    setOverId(null);
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const newStage = over.id as Stage;
+    if (STAGES.some((s) => s.key === newStage)) {
+      setStage(active.id as string, newStage);
+    }
+  }
 
   // Merge static + custom ideas
   const allIdeas = useMemo(
@@ -205,6 +257,17 @@ export default function Dashboard() {
     }
     return counts;
   }, [trackerEntries]);
+
+  const categoryData = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const [id] of trackerEntries) {
+      const idea = ideaById[id];
+      if (idea) counts[idea.category] = (counts[idea.category] ?? 0) + 1;
+    }
+    return Object.entries(counts)
+      .sort((a, b) => b[1] - a[1])
+      .map(([name, value]) => ({ name: name.replace(" & ", " & ").split(" ").slice(0, 2).join(" "), value }));
+  }, [trackerEntries, ideaById]);
 
   const ideasByStage = useMemo(() => {
     const groups: Record<Stage, DigitalDownloadIdea[]> = {
@@ -318,6 +381,31 @@ export default function Dashboard() {
     });
   }
 
+  function exportCSV() {
+    const rows = [["Idea", "Category", "Stage", "Units Sold", "Est. Revenue (£)"]];
+    for (const [id, entry] of trackerEntries) {
+      const idea = ideaById[id];
+      if (!idea) continue;
+      const sales = entry.sales ?? 0;
+      const revenue = Math.round(sales * (idea.pricingRange.min + idea.pricingRange.max) / 2);
+      rows.push([idea.name, idea.category, entry.stage, String(sales), String(revenue)]);
+    }
+    const csv = rows.map((r) => r.map((c) => `"${c.replace(/"/g, '""')}"`).join(",")).join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "creator-dash-pipeline.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function handleDeleteIdea(id: string) {
+    removeCustomIdea(id);
+    setStage(id, null);
+    setDetailContext(null);
+  }
+
   const earningIdeas = ideasByStage["earning"];
   const detailIdea   = detailContext?.idea ?? null;
   const scrollTo     = detailContext?.stage ? scrollMap[detailContext.stage] : undefined;
@@ -347,6 +435,80 @@ export default function Dashboard() {
           <p className="text-purple-200 text-sm">{nudge.message}</p>
         </div>
 
+        {/* Analytics */}
+        {totalTracked === 0 ? (
+          <div className="bg-[#160028] border border-purple-900 rounded-2xl px-6 py-10 flex flex-col items-center gap-5 text-center">
+            <div className="text-5xl">🚀</div>
+            <div>
+              <h2 className="text-white font-bold text-lg">Build your pipeline</h2>
+              <p className="text-purple-400 text-sm mt-1 max-w-xs mx-auto">Browse 100 digital download ideas, pick one that excites you, and start tracking it here. Your first sale starts with your first idea.</p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3 text-sm text-purple-300">
+              <div className="flex items-center gap-2"><span className="w-6 h-6 rounded-full bg-purple-700 flex items-center justify-center text-xs font-bold text-white">1</span>Browse an idea</div>
+              <span className="hidden sm:block text-purple-700">→</span>
+              <div className="flex items-center gap-2"><span className="w-6 h-6 rounded-full bg-amber-500/30 flex items-center justify-center text-xs font-bold text-amber-300">2</span>Create your product</div>
+              <span className="hidden sm:block text-purple-700">→</span>
+              <div className="flex items-center gap-2"><span className="w-6 h-6 rounded-full bg-green-500/30 flex items-center justify-center text-xs font-bold text-green-300">3</span>Start earning</div>
+            </div>
+            <button
+              onClick={() => openAdd()}
+              className="flex items-center gap-1.5 text-sm font-semibold text-white bg-purple-600 hover:bg-purple-500 px-5 py-2.5 rounded-lg transition-colors"
+            >
+              + Add your first idea
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Pipeline bar chart */}
+            <div className="bg-[#160028] border border-purple-900 rounded-xl p-4 flex flex-col gap-3">
+              <p className="text-purple-400 text-xs font-semibold uppercase tracking-wider">Pipeline Stages</p>
+              <ResponsiveContainer width="100%" height={120}>
+                <BarChart data={STAGES.map((s) => ({ name: s.label, count: stageCounts[s.key] ?? 0 }))} barCategoryGap="30%">
+                  <XAxis dataKey="name" tick={{ fill: "#a78bfa", fontSize: 11 }} axisLine={false} tickLine={false} />
+                  <YAxis hide allowDecimals={false} />
+                  <Tooltip contentStyle={{ background: "#160028", border: "1px solid #4c1d95", borderRadius: 8, color: "#e9d5ff", fontSize: 12 }} cursor={{ fill: "rgba(139,92,246,0.08)" }} />
+                  <Bar dataKey="count" radius={[4, 4, 0, 0]}>
+                    <Cell fill="#7c3aed" />
+                    <Cell fill="#d97706" />
+                    <Cell fill="#2563eb" />
+                    <Cell fill="#16a34a" />
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+            {/* Category donut */}
+            <div className="bg-[#160028] border border-purple-900 rounded-xl p-4 flex flex-col gap-3">
+              <p className="text-purple-400 text-xs font-semibold uppercase tracking-wider">By Category</p>
+              {categoryData.length === 0 ? (
+                <p className="text-purple-700 text-xs text-center py-6">No data yet</p>
+              ) : (
+                <div className="flex items-center gap-3">
+                  <ResponsiveContainer width={100} height={100}>
+                    <PieChart>
+                      <Pie data={categoryData} cx="50%" cy="50%" innerRadius={28} outerRadius={45} dataKey="value" stroke="none">
+                        {categoryData.map((_, i) => (
+                          <Cell key={i} fill={["#7c3aed","#d97706","#2563eb","#16a34a","#db2777","#0891b2","#ea580c","#65a30d","#9333ea","#0284c7"][i % 10]} />
+                        ))}
+                      </Pie>
+                      <Tooltip contentStyle={{ background: "#160028", border: "1px solid #4c1d95", borderRadius: 8, color: "#e9d5ff", fontSize: 11 }} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                  <div className="flex flex-col gap-1 flex-1 min-w-0">
+                    {categoryData.slice(0, 4).map((d, i) => (
+                      <div key={d.name} className="flex items-center gap-1.5 min-w-0">
+                        <span className="w-2 h-2 rounded-full shrink-0" style={{ background: ["#7c3aed","#d97706","#2563eb","#16a34a","#db2777","#0891b2","#ea580c","#65a30d","#9333ea","#0284c7"][i] }} />
+                        <span className="text-purple-300 text-xs truncate">{d.name}</span>
+                        <span className="text-purple-600 text-xs ml-auto shrink-0">{d.value}</span>
+                      </div>
+                    ))}
+                    {categoryData.length > 4 && <p className="text-purple-700 text-xs">+{categoryData.length - 4} more</p>}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Pipeline */}
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
@@ -361,70 +523,90 @@ export default function Dashboard() {
                 ))}
               </div>
             </div>
-            <button
-              onClick={() => openAdd()}
-              className="flex items-center gap-1.5 text-sm font-semibold text-purple-300 hover:text-white border border-purple-700 hover:border-purple-500 px-3 py-1.5 rounded-lg transition-colors"
-            >
-              <span className="text-base leading-none">+</span> Add idea
-            </button>
+            <div className="flex items-center gap-2">
+              {totalTracked > 0 && (
+                <button
+                  onClick={exportCSV}
+                  className="flex items-center gap-1.5 text-sm font-semibold text-purple-500 hover:text-purple-300 border border-purple-800 hover:border-purple-600 px-3 py-1.5 rounded-lg transition-colors"
+                  title="Export pipeline as CSV"
+                >
+                  ↓ CSV
+                </button>
+              )}
+              <button
+                onClick={() => openAdd()}
+                className="flex items-center gap-1.5 text-sm font-semibold text-purple-300 hover:text-white border border-purple-700 hover:border-purple-500 px-3 py-1.5 rounded-lg transition-colors"
+              >
+                <span className="text-base leading-none">+</span> Add idea
+              </button>
+            </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {STAGES.map((s) => {
-              const ideas      = ideasByStage[s.key];
-              const isExpanded = expandedStages.has(s.key);
-              const visible    = isExpanded || ideas.length <= COLLAPSE_AT ? ideas : ideas.slice(0, COLLAPSE_AT);
-              const hidden     = ideas.length - COLLAPSE_AT;
-              return (
-                <div key={s.key} className={`${stageBg[s.key]} border ${stageRingColor[s.key]} rounded-xl flex flex-col min-h-[160px]`}>
-                  <div className={`px-3 py-2.5 border-b ${stageRingColor[s.key]} flex items-center gap-2`}>
-                    <span className={`text-sm font-bold ${s.color}`}>{s.label}</span>
-                    <span className={`text-xs font-semibold px-1.5 py-0.5 rounded-full border ${s.color} ${s.bg} ${s.border}`}>{ideas.length}</span>
-                  </div>
-                  <div className="flex flex-col flex-1 divide-y divide-white/5">
-                    {ideas.length === 0 ? (
-                      <button onClick={() => openAdd(s.key)} className="text-purple-700 hover:text-purple-400 text-xs px-3 py-4 text-center transition-colors w-full">
-                        + Add idea
+          <DndContext
+            sensors={sensors}
+            onDragOver={(e) => setOverId(e.over ? (e.over.id as Stage) : null)}
+            onDragEnd={handleDragEnd}
+            onDragCancel={() => setOverId(null)}
+          >
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {STAGES.map((s) => {
+                const ideas      = ideasByStage[s.key];
+                const isExpanded = expandedStages.has(s.key);
+                const visible    = isExpanded || ideas.length <= COLLAPSE_AT ? ideas : ideas.slice(0, COLLAPSE_AT);
+                const hidden     = ideas.length - COLLAPSE_AT;
+                return (
+                  <DroppableColumn key={s.key} stageKey={s.key} isOver={overId === s.key}>
+                    <div className={`px-3 py-2.5 border-b ${stageRingColor[s.key]} flex items-center gap-2`}>
+                      <span className={`text-sm font-bold ${s.color}`}>{s.label}</span>
+                      <span className={`text-xs font-semibold px-1.5 py-0.5 rounded-full border ${s.color} ${s.bg} ${s.border}`}>{ideas.length}</span>
+                    </div>
+                    <div className="flex flex-col flex-1 divide-y divide-white/5">
+                      {ideas.length === 0 ? (
+                        <button onClick={() => openAdd(s.key)} className="text-purple-700 hover:text-purple-400 text-xs px-3 py-4 text-center transition-colors w-full">
+                          + Add idea
+                        </button>
+                      ) : (
+                        visible.map((idea) => {
+                          const sales       = salesMap[idea.id] ?? 0;
+                          const ideaRevenue = Math.round(sales * (idea.pricingRange.min + idea.pricingRange.max) / 2);
+                          const dot         = CATEGORY_DOT[idea.category] ?? "bg-gray-500";
+                          return (
+                            <DraggableCard key={idea.id} id={idea.id}>
+                              <button onClick={() => setDetailContext({ idea, stage: s.key })} className="w-full text-left px-3 py-2.5 hover:bg-white/5 transition-colors">
+                                <div className="flex items-start gap-2">
+                                  <span className={`mt-[5px] shrink-0 w-2 h-2 rounded-full ${dot}`} />
+                                  <div className="flex flex-col gap-0.5 min-w-0">
+                                    <span className="text-white text-xs font-medium leading-snug line-clamp-2">{idea.name}</span>
+                                    {s.key === "creating" && (
+                                      <>
+                                        <span className="text-amber-500/80 text-xs">{idea.estimatedCreationTime}</span>
+                                        <span className="text-purple-700 text-xs">{idea.launchChecklist.length} steps</span>
+                                      </>
+                                    )}
+                                    {s.key === "listed" && sales === 0 && <span className="text-blue-400/70 text-xs">log sales →</span>}
+                                    {s.key === "earning" && (
+                                      <span className="text-green-400 text-xs font-semibold">
+                                        {sales > 0 ? `${sales} sold · £${ideaRevenue} est.` : "log sales →"}
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                              </button>
+                            </DraggableCard>
+                          );
+                        })
+                      )}
+                    </div>
+                    {hidden > 0 && (
+                      <button onClick={() => toggleExpand(s.key)} className={`w-full text-center text-xs text-purple-500 hover:text-purple-300 py-2 border-t ${stageRingColor[s.key]} transition-colors`}>
+                        {isExpanded ? "Show less ↑" : `+ ${hidden} more`}
                       </button>
-                    ) : (
-                      visible.map((idea) => {
-                        const sales      = salesMap[idea.id] ?? 0;
-                        const ideaRevenue = Math.round(sales * (idea.pricingRange.min + idea.pricingRange.max) / 2);
-                        const dot        = CATEGORY_DOT[idea.category] ?? "bg-gray-500";
-                        return (
-                          <button key={idea.id} onClick={() => setDetailContext({ idea, stage: s.key })} className="w-full text-left px-3 py-2.5 hover:bg-white/5 transition-colors">
-                            <div className="flex items-start gap-2">
-                              <span className={`mt-[5px] shrink-0 w-2 h-2 rounded-full ${dot}`} />
-                              <div className="flex flex-col gap-0.5 min-w-0">
-                                <span className="text-white text-xs font-medium leading-snug line-clamp-2">{idea.name}</span>
-                                {s.key === "creating" && (
-                                  <>
-                                    <span className="text-amber-500/80 text-xs">{idea.estimatedCreationTime}</span>
-                                    <span className="text-purple-700 text-xs">{idea.launchChecklist.length} steps</span>
-                                  </>
-                                )}
-                                {s.key === "listed" && sales === 0 && <span className="text-blue-400/70 text-xs">log sales →</span>}
-                                {s.key === "earning" && (
-                                  <span className="text-green-400 text-xs font-semibold">
-                                    {sales > 0 ? `${sales} sold · £${ideaRevenue} est.` : "log sales →"}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          </button>
-                        );
-                      })
                     )}
-                  </div>
-                  {hidden > 0 && (
-                    <button onClick={() => toggleExpand(s.key)} className={`w-full text-center text-xs text-purple-500 hover:text-purple-300 py-2 border-t ${stageRingColor[s.key]} transition-colors`}>
-                      {isExpanded ? "Show less ↑" : `+ ${hidden} more`}
-                    </button>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+                  </DroppableColumn>
+                );
+              })}
+            </div>
+          </DndContext>
         </div>
 
         {/* Sales Tracker */}
@@ -679,6 +861,7 @@ export default function Dashboard() {
           }}
           onSalesChange={(sales) => setSales(detailIdea.id, sales)}
           onClose={() => setDetailContext(null)}
+          onDelete={customRecord ? () => handleDeleteIdea(detailIdea.id) : undefined}
         />
       )}
     </div>
