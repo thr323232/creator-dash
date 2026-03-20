@@ -4,11 +4,11 @@ import {
   useDroppable, useDraggable, type DragEndEvent,
 } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
-import { digitalDownloadIdeas, type DigitalDownloadIdea } from "../data/digitalDownloadIdeas";
-import { CATEGORY_DOT } from "../data/ideaUtils";
-import { STAGES, useTracker, type Stage } from "../data/tracker";
+import { digitalDownloadIdeas, type DigitalDownloadIdea, type Category } from "../data/digitalDownloadIdeas";
+import { CATEGORY_DOT, CATEGORY_ACCENT, getDifficulty, getDemandRating } from "../data/ideaUtils";
+import { CATEGORIES, STAGES, useTracker, type Stage, type TrackerEntry } from "../data/tracker";
 import { useCustomIdeas, type CustomIdeaRecord } from "../data/customIdeas";
-import { IdeaDetail } from "./DigitalDownloadIdeas";
+import { IdeaDetail, DemandStars, difficultyColor } from "./DigitalDownloadIdeas";
 import { exportBackup, importBackup, daysSinceBackup } from "../data/backup";
 
 // ---------------------------------------------------------------------------
@@ -178,6 +178,59 @@ async function callClaude(userPrompt: string, apiKey: string): Promise<CustomIde
 }
 
 // ---------------------------------------------------------------------------
+// Browse card (inline grid card for the Browse section)
+// ---------------------------------------------------------------------------
+
+function BrowseCard({
+  idea, entry, onOpen, onAdd,
+}: {
+  idea: DigitalDownloadIdea;
+  entry: TrackerEntry | undefined;
+  onOpen: () => void;
+  onAdd: () => void;
+}) {
+  const accent = CATEGORY_ACCENT[idea.category] ?? "border-t-gray-700";
+  const diff   = getDifficulty(idea);
+  return (
+    <div className={`bg-[#160028] border border-purple-900 border-t-4 ${accent} rounded-xl p-4 flex flex-col gap-3 hover:border-purple-700 transition-colors`}>
+      <button onClick={onOpen} className="text-left flex flex-col gap-2 flex-1 min-w-0">
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="text-white font-bold text-sm leading-snug line-clamp-2">{idea.name}</h3>
+          {entry && (
+            <span className={`shrink-0 text-xs px-2 py-0.5 rounded-full border font-medium ${
+              STAGES.find((s) => s.key === entry.stage)?.color ?? ""
+            } ${STAGES.find((s) => s.key === entry.stage)?.bg ?? ""} ${STAGES.find((s) => s.key === entry.stage)?.border ?? ""}`}>
+              {STAGES.find((s) => s.key === entry.stage)?.label}
+            </span>
+          )}
+        </div>
+        <p className="text-purple-300 text-xs leading-relaxed line-clamp-2">{idea.description}</p>
+        <div className="flex items-center justify-between">
+          <span className={`text-xs px-2 py-0.5 rounded-full border font-medium ${difficultyColor[diff]}`}>{diff}</span>
+          <span className="text-green-400 font-bold text-xs">£{idea.pricingRange.min}–£{idea.pricingRange.max}</span>
+        </div>
+        <DemandStars rating={getDemandRating(idea)} />
+      </button>
+      {!entry ? (
+        <button
+          onClick={(e) => { e.stopPropagation(); onAdd(); }}
+          className="w-full py-1.5 rounded-lg text-xs font-semibold text-green-400 border border-green-500/40 hover:border-green-400 hover:bg-green-500/10 transition-colors"
+        >
+          + Add to pipeline
+        </button>
+      ) : (
+        <button
+          onClick={onOpen}
+          className="w-full py-1.5 rounded-lg text-xs font-semibold text-purple-400 border border-purple-800 hover:border-purple-600 hover:text-purple-200 transition-colors"
+        >
+          Open →
+        </button>
+      )}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Dashboard
 // ---------------------------------------------------------------------------
 
@@ -190,27 +243,26 @@ export default function Dashboard() {
     idea: DigitalDownloadIdea; stage?: Stage;
   } | null>(null);
 
-  // Quick-Add overlay
-  const [showAdd, setShowAdd]     = useState(false);
-  const [addTab, setAddTab]       = useState<"browse" | "generate">("browse");
-  const [addStage, setAddStage]   = useState<Stage>("saved");
-  const [addQuery, setAddQuery]   = useState("");
-
-  // Generate tab state
-  const [apiKey, setApiKey]         = useState<string>(() => localStorage.getItem("anthropic-api-key") ?? "");
+  // Generate with AI state
+  const [apiKey, setApiKey]           = useState<string>(() => localStorage.getItem("anthropic-api-key") ?? "");
   const [apiKeyInput, setApiKeyInput] = useState("");
-  const [genPrompt, setGenPrompt]   = useState("");
-  const [genLoading, setGenLoading] = useState(false);
-  const [genError, setGenError]     = useState<string | null>(null);
-  const [genResult, setGenResult]   = useState<CustomIdeaRecord | null>(null);
+  const [genPrompt, setGenPrompt]     = useState("");
+  const [genLoading, setGenLoading]   = useState(false);
+  const [genError, setGenError]       = useState<string | null>(null);
+  const [genResult, setGenResult]     = useState<CustomIdeaRecord | null>(null);
 
   // Pipeline expand
   const [expandedStages, setExpandedStages] = useState<Set<Stage>>(new Set());
 
-  // Backup reminder
-  const backupDays = daysSinceBackup();
-  const showBackupBanner = backupDays === null || backupDays >= 7;
-  const [bannerDismissed, setBannerDismissed] = useState(false);
+  // Browse section state
+  const [browseQuery, setBrowseQuery]           = useState("");
+  const [browseCategory, setBrowseCategory]     = useState<Category | "All">("All");
+  const [browseDifficulty, setBrowseDifficulty] = useState("All");
+  const [browseSort, setBrowseSort]             = useState<"default" | "demand" | "price-asc" | "price-desc">("default");
+  const [browseMyList, setBrowseMyList]         = useState(false);
+  const [collapsedCats, setCollapsedCats]       = useState<Set<string>>(new Set());
+
+  // Restore file input
   const restoreInputRef = useRef<HTMLInputElement>(null);
 
   async function handleRestore(e: React.ChangeEvent<HTMLInputElement>) {
@@ -325,32 +377,45 @@ export default function Dashboard() {
     return { emoji: "🎉", message: `${totalSales} unit${totalSales > 1 ? "s" : ""} sold — keep adding and marketing new ideas!` };
   }, [totalTracked, saved, creating, listed, earning, totalSales]);
 
-  // Browse tab: untracked ideas matching query
-  const untrackedIdeas = useMemo(() => {
-    const trackedIds = new Set(trackerEntries.map(([id]) => id));
-    const q = addQuery.toLowerCase();
-    return allIdeas
-      .filter((i) =>
-        !trackedIds.has(i.id) &&
-        (q === "" || i.name.toLowerCase().includes(q) || i.category.toLowerCase().includes(q))
-      )
-      .slice(0, 20);
-  }, [trackerEntries, allIdeas, addQuery]);
+  // Browse section: filtered + sorted ideas
+  const browseFiltered = useMemo(() => {
+    const results = allIdeas.filter((idea) => {
+      if (browseCategory !== "All" && idea.category !== browseCategory) return false;
+      if (browseDifficulty !== "All" && getDifficulty(idea) !== browseDifficulty) return false;
+      if (browseMyList && !tracker[idea.id]) return false;
+      if (browseQuery) {
+        const q = browseQuery.toLowerCase();
+        return (
+          idea.name.toLowerCase().includes(q) ||
+          idea.description.toLowerCase().includes(q) ||
+          idea.niches.some((n) => n.toLowerCase().includes(q))
+        );
+      }
+      return true;
+    });
+    if (browseSort === "demand")      return [...results].sort((a, b) => getDemandRating(b) - getDemandRating(a));
+    if (browseSort === "price-asc")   return [...results].sort((a, b) => a.pricingRange.min - b.pricingRange.min);
+    if (browseSort === "price-desc")  return [...results].sort((a, b) => b.pricingRange.min - a.pricingRange.min);
+    return results;
+  }, [allIdeas, browseQuery, browseCategory, browseDifficulty, browseSort, browseMyList, tracker]);
 
-  function openAdd(defaultStage?: Stage) {
-    setAddStage(defaultStage ?? "saved");
-    setAddQuery("");
-    setGenPrompt("");
-    setGenResult(null);
-    setGenError(null);
-    setShowAdd(true);
+  const browseGrouped = useMemo(() => {
+    if (browseSort !== "default") return null;
+    return CATEGORIES
+      .map((cat) => ({ category: cat, ideas: browseFiltered.filter((i) => i.category === cat) }))
+      .filter((g) => g.ideas.length > 0);
+  }, [browseFiltered, browseSort]);
+
+  function toggleBrowseCat(cat: string) {
+    setCollapsedCats((prev) => {
+      const next = new Set(prev);
+      if (next.has(cat)) { next.delete(cat); } else { next.add(cat); }
+      return next;
+    });
   }
 
-  function closeAdd() {
-    setShowAdd(false);
-    setGenResult(null);
-    setGenError(null);
-    setGenLoading(false);
+  function scrollToBrowse() {
+    document.getElementById("section-browse")?.scrollIntoView({ behavior: "smooth" });
   }
 
   function saveApiKey() {
@@ -379,8 +444,11 @@ export default function Dashboard() {
   function handleAddGenerated() {
     if (!genResult) return;
     addCustomIdea(genResult);
-    setStage(genResult.idea.id, addStage);
-    closeAdd();
+    setStage(genResult.idea.id, "saved");
+    setGenResult(null);
+    setGenPrompt("");
+    setGenError(null);
+    document.getElementById("section-pipeline")?.scrollIntoView({ behavior: "smooth" });
   }
 
   function toggleExpand(stage: Stage) {
@@ -450,25 +518,6 @@ export default function Dashboard() {
           <StatCard label="Est. Revenue" value={`£${totalEstRevenue}`} accent="text-green-300" sub={`${totalSales} units sold`} accentBorder="border-t-green-300" />
         </div>
 
-        {/* Backup reminder banner */}
-        {showBackupBanner && !bannerDismissed && (
-          <div className="bg-[#160028] border border-amber-800/50 rounded-xl px-5 py-3 flex items-center gap-3">
-            <span className="text-lg shrink-0">📦</span>
-            <p className="text-amber-300/80 text-sm flex-1">
-              {backupDays === null
-                ? "No backup yet — download one to keep your data safe."
-                : `Last backup ${backupDays} day${backupDays !== 1 ? "s" : ""} ago — consider downloading a fresh one.`}
-            </p>
-            <button
-              onClick={() => exportBackup()}
-              className="shrink-0 text-xs font-semibold text-amber-300 border border-amber-700 hover:border-amber-500 hover:text-amber-200 px-3 py-1.5 rounded-lg transition-colors"
-            >
-              Download backup
-            </button>
-            <button onClick={() => setBannerDismissed(true)} className="shrink-0 text-purple-600 hover:text-purple-400 text-lg leading-none transition-colors">×</button>
-          </div>
-        )}
-
         {/* Nudge */}
         <div className="bg-[#160028] border border-purple-800 rounded-xl px-5 py-3 flex items-center gap-3">
           <span className="text-xl shrink-0">{nudge.emoji}</span>
@@ -526,7 +575,7 @@ export default function Dashboard() {
         )}
 
         {/* Pipeline */}
-        <div className="flex flex-col gap-4">
+        <div id="section-pipeline" className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-base font-bold text-purple-100">Pipeline</h2>
@@ -539,45 +588,12 @@ export default function Dashboard() {
                 ))}
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              {/* Hidden file input for restore */}
-              <input
-                ref={restoreInputRef}
-                type="file"
-                accept=".json"
-                className="hidden"
-                onChange={handleRestore}
-              />
-              <button
-                onClick={() => exportBackup()}
-                className="flex items-center gap-1.5 text-sm font-semibold text-purple-500 hover:text-purple-300 border border-purple-800 hover:border-purple-600 px-3 py-1.5 rounded-lg transition-colors"
-                title="Download a full backup of your data"
-              >
-                ↓ Backup
-              </button>
-              <button
-                onClick={() => restoreInputRef.current?.click()}
-                className="flex items-center gap-1.5 text-sm font-semibold text-purple-500 hover:text-purple-300 border border-purple-800 hover:border-purple-600 px-3 py-1.5 rounded-lg transition-colors"
-                title="Restore from a backup file"
-              >
-                ↑ Restore
-              </button>
-              {totalTracked > 0 && (
-                <button
-                  onClick={exportCSV}
-                  className="flex items-center gap-1.5 text-sm font-semibold text-purple-500 hover:text-purple-300 border border-purple-800 hover:border-purple-600 px-3 py-1.5 rounded-lg transition-colors"
-                  title="Export pipeline as CSV"
-                >
-                  ↓ CSV
-                </button>
-              )}
-              <button
-                onClick={() => openAdd()}
-                className="flex items-center gap-1.5 text-sm font-semibold text-purple-300 hover:text-white border border-purple-700 hover:border-purple-500 px-3 py-1.5 rounded-lg transition-colors"
-              >
-                <span className="text-base leading-none">+</span> Add idea
-              </button>
-            </div>
+            <button
+              onClick={scrollToBrowse}
+              className="flex items-center gap-1.5 text-sm font-semibold text-purple-300 hover:text-white border border-purple-700 hover:border-purple-500 px-3 py-1.5 rounded-lg transition-colors"
+            >
+              <span className="text-base leading-none">+</span> Add idea
+            </button>
           </div>
 
           <DndContext
@@ -601,7 +617,7 @@ export default function Dashboard() {
                     </div>
                     <div className="flex flex-col flex-1 divide-y divide-white/5">
                       {ideas.length === 0 ? (
-                        <button onClick={() => openAdd(s.key)} className="text-purple-700 hover:text-purple-400 text-xs px-3 py-4 text-center transition-colors w-full">
+                        <button onClick={scrollToBrowse} className="text-purple-700 hover:text-purple-400 text-xs px-3 py-4 text-center transition-colors w-full">
                           + Add idea
                         </button>
                       ) : (
@@ -681,197 +697,256 @@ export default function Dashboard() {
           </DndContext>
         </div>
 
-      </div>
+        {/* ------------------------------------------------------------------ */}
+        {/* Browse & Add Ideas                                                 */}
+        {/* ------------------------------------------------------------------ */}
+        <div id="section-browse" className="flex flex-col gap-6">
+          <div>
+            <h2 className="text-base font-bold text-purple-100">Browse & Add Ideas</h2>
+            <p className="text-purple-500 text-xs mt-0.5">{browseFiltered.length} idea{browseFiltered.length !== 1 ? "s" : ""} — click to open, or add directly to your pipeline</p>
+          </div>
 
-      {/* ------------------------------------------------------------------ */}
-      {/* Quick-Add overlay                                                    */}
-      {/* ------------------------------------------------------------------ */}
-      {showAdd && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4" onClick={closeAdd}>
-          <div className="bg-[#0d0118] border border-purple-800 rounded-2xl w-full max-w-md flex flex-col max-h-[85vh]" onClick={(e) => e.stopPropagation()}>
-
-            {/* Header */}
-            <div className="flex items-center justify-between px-5 pt-5 pb-3 shrink-0">
-              <h3 className="text-white font-bold text-base">Add an idea to your pipeline</h3>
-              <button onClick={closeAdd} className="text-purple-500 hover:text-white transition-colors text-lg leading-none">×</button>
-            </div>
-
-            {/* Tab switcher */}
-            <div className="flex gap-1 px-5 pb-3 shrink-0">
-              {(["browse", "generate"] as const).map((tab) => (
+          {/* Filters */}
+          <div className="flex flex-col gap-3">
+            <input
+              type="text"
+              placeholder="Search by name, description, or niche..."
+              value={browseQuery}
+              onChange={(e) => setBrowseQuery(e.target.value)}
+              className="w-full bg-[#160028] border border-purple-800 rounded-xl px-4 py-3 text-sm text-white placeholder-purple-500 focus:outline-none focus:border-amber-500"
+            />
+            <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+              {(["All", ...CATEGORIES] as (Category | "All")[]).map((c) => (
                 <button
-                  key={tab}
-                  onClick={() => setAddTab(tab)}
-                  className={`flex-1 text-xs font-semibold py-1.5 rounded-lg border transition-colors ${
-                    addTab === tab
-                      ? "bg-purple-600/20 border-purple-500 text-purple-300"
-                      : "border-purple-900 text-purple-600 hover:border-purple-700"
+                  key={c}
+                  onClick={() => setBrowseCategory(c)}
+                  className={`shrink-0 text-sm px-4 py-2 rounded-full border font-medium transition-all duration-150 ${
+                    browseCategory === c
+                      ? "bg-amber-500 border-amber-400 text-white shadow-md shadow-amber-900/40"
+                      : "bg-[#160028] border-purple-800 text-purple-300 hover:border-purple-600 hover:text-white"
                   }`}
                 >
-                  {tab === "browse" ? "Browse existing" : "✨ Generate with AI"}
+                  {c}
                 </button>
               ))}
             </div>
-
-            {/* Stage selector — shared */}
-            <div className="flex gap-2 px-5 pb-3 shrink-0 flex-wrap">
-              {STAGES.map((s) => (
-                <button
-                  key={s.key}
-                  onClick={() => setAddStage(s.key)}
-                  className={`text-xs font-semibold px-3 py-1.5 rounded-full border transition-colors ${
-                    addStage === s.key ? `${s.color} ${s.bg} ${s.border}` : "text-purple-500 border-purple-800 hover:border-purple-600"
-                  }`}
-                >
-                  {s.label}
-                </button>
-              ))}
+            <div className="flex flex-wrap gap-2 items-center">
+              <select
+                value={browseDifficulty}
+                onChange={(e) => setBrowseDifficulty(e.target.value)}
+                className="bg-[#160028] border border-purple-800 text-sm text-white rounded-xl px-3 py-2.5 min-h-[44px] focus:outline-none focus:border-amber-500 flex-1 min-w-[140px]"
+              >
+                <option value="All">All Difficulties</option>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+              </select>
+              <select
+                value={browseSort}
+                onChange={(e) => setBrowseSort(e.target.value as typeof browseSort)}
+                className="bg-[#160028] border border-purple-800 text-sm text-white rounded-xl px-3 py-2.5 min-h-[44px] focus:outline-none focus:border-amber-500 flex-1 min-w-[150px]"
+              >
+                <option value="default">Default Order</option>
+                <option value="demand">Demand: High first</option>
+                <option value="price-asc">Price: Low first</option>
+                <option value="price-desc">Price: High first</option>
+              </select>
+              <button
+                onClick={() => setBrowseMyList((v) => !v)}
+                className={`text-sm px-5 py-2.5 min-h-[44px] rounded-xl border font-medium transition-all duration-150 ${
+                  browseMyList
+                    ? "bg-amber-500 border-amber-400 text-white shadow-md shadow-amber-900/40"
+                    : "bg-[#160028] border-purple-800 text-purple-300 hover:border-purple-600 hover:text-white"
+                }`}
+              >
+                My List{totalTracked > 0 ? ` (${totalTracked})` : ""}
+              </button>
             </div>
+          </div>
 
-            {/* ---- BROWSE TAB ---- */}
-            {addTab === "browse" && (
-              <>
-                <div className="px-5 pb-3 shrink-0">
-                  <input
-                    autoFocus type="text" value={addQuery}
-                    onChange={(e) => setAddQuery(e.target.value)}
-                    placeholder="Search by name or category…"
-                    className="w-full bg-[#160028] border border-purple-800 rounded-lg px-4 py-2.5 text-sm text-white placeholder-purple-600 focus:outline-none focus:border-purple-500"
-                  />
-                </div>
-                <div className="overflow-y-auto flex-1 border-t border-purple-900 divide-y divide-purple-900/50">
-                  {untrackedIdeas.length === 0 ? (
-                    <p className="text-purple-600 text-sm text-center py-8">
-                      {addQuery ? "No ideas match that search." : "All ideas are already in your pipeline!"}
-                    </p>
-                  ) : (
-                    untrackedIdeas.map((idea) => {
-                      const dot = CATEGORY_DOT[idea.category] ?? "bg-gray-500";
-                      return (
-                        <div key={idea.id} className="flex items-center gap-3 px-5 py-3 hover:bg-white/5 transition-colors">
-                          <span className={`shrink-0 w-2 h-2 rounded-full ${dot}`} />
-                          <div className="flex-1 min-w-0">
-                            <p className="text-white text-sm font-medium leading-snug truncate">{idea.name}</p>
-                            <p className="text-purple-500 text-xs">{idea.category}</p>
-                          </div>
-                          <button
-                            onClick={() => setStage(idea.id, addStage)}
-                            className="shrink-0 text-xs font-semibold text-green-400 border border-green-500/40 hover:border-green-400 hover:bg-green-500/10 px-3 py-1 rounded-full transition-colors"
-                          >
-                            Add
-                          </button>
-                        </div>
-                      );
-                    })
-                  )}
-                </div>
-              </>
-            )}
-
-            {/* ---- GENERATE TAB ---- */}
-            {addTab === "generate" && (
-              <div className="flex flex-col gap-4 px-5 pb-5 overflow-y-auto flex-1">
-
-                {/* API key setup */}
-                {!apiKey ? (
-                  <div className="flex flex-col gap-2">
-                    <p className="text-purple-400 text-xs">Enter your Anthropic API key to generate ideas with Claude. It's saved locally in your browser only.</p>
-                    <div className="flex gap-2">
-                      <input
-                        type="password"
-                        value={apiKeyInput}
-                        onChange={(e) => setApiKeyInput(e.target.value)}
-                        placeholder="sk-ant-…"
-                        className="flex-1 bg-[#160028] border border-purple-800 rounded-lg px-3 py-2 text-sm text-white placeholder-purple-700 focus:outline-none focus:border-purple-500"
+          {/* Idea grid */}
+          {browseGrouped ? (
+            browseGrouped.map(({ category, ideas }) => (
+              <div key={category} className="flex flex-col gap-3">
+                <button
+                  onClick={() => toggleBrowseCat(category)}
+                  className="flex items-center gap-2 text-left group"
+                >
+                  <span className={`w-2.5 h-2.5 rounded-full shrink-0 ${CATEGORY_DOT[category] ?? "bg-gray-500"}`} />
+                  <span className="text-purple-200 text-sm font-semibold group-hover:text-white transition-colors">{category}</span>
+                  <span className="text-purple-700 text-xs">({ideas.length})</span>
+                  <span className="text-purple-700 text-xs ml-auto">{collapsedCats.has(category) ? "▸" : "▾"}</span>
+                </button>
+                {!collapsedCats.has(category) && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {ideas.map((idea) => (
+                      <BrowseCard
+                        key={idea.id}
+                        idea={idea}
+                        entry={tracker[idea.id]}
+                        onOpen={() => setDetailContext({ idea, stage: tracker[idea.id]?.stage })}
+                        onAdd={() => setStage(idea.id, "saved")}
                       />
-                      <button
-                        onClick={saveApiKey}
-                        disabled={!apiKeyInput.trim()}
-                        className="text-xs font-semibold px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 disabled:opacity-40 transition-colors text-white"
-                      >
-                        Save
-                      </button>
-                    </div>
+                    ))}
                   </div>
-                ) : (
-                  <>
-                    {/* Prompt input */}
-                    <div className="flex flex-col gap-2">
-                      <label className="text-purple-400 text-xs font-medium">Describe your idea</label>
-                      <textarea
-                        autoFocus
-                        rows={3}
-                        value={genPrompt}
-                        onChange={(e) => setGenPrompt(e.target.value)}
-                        placeholder="e.g. a budget tracker for freelancers, a wedding seating chart template, a kids' daily routine chart…"
-                        className="w-full bg-[#160028] border border-purple-800 rounded-lg px-4 py-3 text-sm text-white placeholder-purple-600 focus:outline-none focus:border-purple-500 resize-none"
-                      />
-                    </div>
-
-                    {/* Generate button */}
-                    <div className="flex items-center gap-3">
-                      <button
-                        onClick={handleGenerate}
-                        disabled={genLoading || !genPrompt.trim()}
-                        className="flex-1 py-2.5 rounded-lg bg-violet-600 hover:bg-violet-500 disabled:opacity-40 text-white text-sm font-semibold transition-colors"
-                      >
-                        {genLoading ? "Generating…" : "Generate with Claude"}
-                      </button>
-                      <button
-                        onClick={() => { setApiKey(""); localStorage.removeItem("anthropic-api-key"); }}
-                        className="text-xs text-purple-700 hover:text-purple-400 transition-colors"
-                      >
-                        Change key
-                      </button>
-                    </div>
-
-                    {/* Loading */}
-                    {genLoading && (
-                      <p className="text-purple-500 text-xs text-center animate-pulse">Claude is thinking…</p>
-                    )}
-
-                    {/* Error */}
-                    {genError && (
-                      <div className="bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-3">
-                        <p className="text-red-400 text-sm">{genError}</p>
-                      </div>
-                    )}
-
-                    {/* Result preview */}
-                    {genResult && (
-                      <div className="flex flex-col gap-3">
-                        <div className="bg-[#160028] border border-purple-700 rounded-xl p-4 flex flex-col gap-2">
-                          <div className="flex items-start gap-2">
-                            <span className={`mt-1 shrink-0 w-2 h-2 rounded-full ${CATEGORY_DOT[genResult.idea.category] ?? "bg-gray-500"}`} />
-                            <div>
-                              <p className="text-white font-bold text-sm">{genResult.idea.name}</p>
-                              <p className="text-purple-500 text-xs">{genResult.idea.category}</p>
-                            </div>
-                          </div>
-                          <p className="text-purple-300 text-xs leading-relaxed">{genResult.idea.description}</p>
-                          <div className="flex gap-3 text-xs text-purple-500">
-                            <span>£{genResult.idea.pricingRange.min}–£{genResult.idea.pricingRange.max}</span>
-                            <span>·</span>
-                            <span>{genResult.idea.estimatedCreationTime}</span>
-                            <span>·</span>
-                            <span className="capitalize">{genResult.idea.difficulty}</span>
-                          </div>
-                        </div>
-                        <button
-                          onClick={handleAddGenerated}
-                          className="w-full py-2.5 rounded-lg bg-green-600 hover:bg-green-500 text-white text-sm font-semibold transition-colors"
-                        >
-                          Add to pipeline as {addStage.charAt(0).toUpperCase() + addStage.slice(1)}
-                        </button>
-                      </div>
-                    )}
-                  </>
                 )}
               </div>
+            ))
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {browseFiltered.map((idea) => (
+                <BrowseCard
+                  key={idea.id}
+                  idea={idea}
+                  entry={tracker[idea.id]}
+                  onOpen={() => setDetailContext({ idea, stage: tracker[idea.id]?.stage })}
+                  onAdd={() => setStage(idea.id, "saved")}
+                />
+              ))}
+            </div>
+          )}
+
+          {browseFiltered.length === 0 && (
+            <p className="text-purple-600 text-sm text-center py-10">No ideas match those filters.</p>
+          )}
+        </div>
+
+        {/* ------------------------------------------------------------------ */}
+        {/* Generate with AI                                                    */}
+        {/* ------------------------------------------------------------------ */}
+        <div className="flex flex-col gap-4">
+          <div>
+            <h2 className="text-base font-bold text-purple-100">✨ Generate with AI</h2>
+            <p className="text-purple-500 text-xs mt-0.5">Describe your idea and Claude will build out a full product concept</p>
+          </div>
+
+          <div className="bg-[#160028] border border-purple-800 rounded-xl p-5 flex flex-col gap-4">
+            {!apiKey ? (
+              <div className="flex flex-col gap-2">
+                <p className="text-purple-400 text-sm">Enter your Anthropic API key to generate ideas with Claude. Saved locally in your browser only.</p>
+                <div className="flex gap-2">
+                  <input
+                    type="password"
+                    value={apiKeyInput}
+                    onChange={(e) => setApiKeyInput(e.target.value)}
+                    placeholder="sk-ant-…"
+                    className="flex-1 bg-[#0d0118] border border-purple-800 rounded-lg px-3 py-2.5 text-sm text-white placeholder-purple-700 focus:outline-none focus:border-purple-500"
+                  />
+                  <button
+                    onClick={saveApiKey}
+                    disabled={!apiKeyInput.trim()}
+                    className="text-sm font-semibold px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 disabled:opacity-40 transition-colors text-white"
+                  >
+                    Save key
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center justify-between">
+                    <label className="text-purple-400 text-xs font-medium">Describe your idea</label>
+                    <button
+                      onClick={() => { setApiKey(""); localStorage.removeItem("anthropic-api-key"); }}
+                      className="text-xs text-purple-700 hover:text-purple-400 transition-colors"
+                    >
+                      Change key
+                    </button>
+                  </div>
+                  <textarea
+                    rows={3}
+                    value={genPrompt}
+                    onChange={(e) => setGenPrompt(e.target.value)}
+                    placeholder="e.g. a budget tracker for freelancers, a wedding seating chart template, a kids' daily routine chart…"
+                    className="w-full bg-[#0d0118] border border-purple-800 rounded-lg px-4 py-3 text-sm text-white placeholder-purple-600 focus:outline-none focus:border-purple-500 resize-none"
+                  />
+                </div>
+                <button
+                  onClick={handleGenerate}
+                  disabled={genLoading || !genPrompt.trim()}
+                  className="py-2.5 rounded-lg bg-violet-600 hover:bg-violet-500 disabled:opacity-40 text-white text-sm font-semibold transition-colors"
+                >
+                  {genLoading ? "Generating…" : "Generate with Claude"}
+                </button>
+                {genLoading && <p className="text-purple-500 text-xs text-center animate-pulse">Claude is thinking…</p>}
+                {genError && (
+                  <div className="bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-3">
+                    <p className="text-red-400 text-sm">{genError}</p>
+                  </div>
+                )}
+                {genResult && (
+                  <div className="flex flex-col gap-3">
+                    <div className="bg-[#0d0118] border border-purple-700 rounded-xl p-4 flex flex-col gap-2">
+                      <div className="flex items-start gap-2">
+                        <span className={`mt-1 shrink-0 w-2 h-2 rounded-full ${CATEGORY_DOT[genResult.idea.category] ?? "bg-gray-500"}`} />
+                        <div>
+                          <p className="text-white font-bold text-sm">{genResult.idea.name}</p>
+                          <p className="text-purple-500 text-xs">{genResult.idea.category}</p>
+                        </div>
+                      </div>
+                      <p className="text-purple-300 text-xs leading-relaxed">{genResult.idea.description}</p>
+                      <div className="flex gap-3 text-xs text-purple-500">
+                        <span>£{genResult.idea.pricingRange.min}–£{genResult.idea.pricingRange.max}</span>
+                        <span>·</span>
+                        <span>{genResult.idea.estimatedCreationTime}</span>
+                        <span>·</span>
+                        <span className="capitalize">{genResult.idea.difficulty}</span>
+                      </div>
+                    </div>
+                    <button
+                      onClick={handleAddGenerated}
+                      className="w-full py-2.5 rounded-lg bg-green-600 hover:bg-green-500 text-white text-sm font-semibold transition-colors"
+                    >
+                      Add to pipeline (Saved)
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
-      )}
+
+        {/* ------------------------------------------------------------------ */}
+        {/* Data & Backup                                                        */}
+        {/* ------------------------------------------------------------------ */}
+        <div className="flex flex-col gap-4 pb-10">
+          <div>
+            <h2 className="text-base font-bold text-purple-100">Data & Backup</h2>
+            <p className="text-purple-500 text-xs mt-0.5">
+              {(() => {
+                const d = daysSinceBackup();
+                if (d === null) return "No backup yet — download one to keep your data safe.";
+                if (d === 0) return "Backed up today.";
+                return `Last backup ${d} day${d !== 1 ? "s" : ""} ago.`;
+              })()}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <input ref={restoreInputRef} type="file" accept=".json" className="hidden" onChange={handleRestore} />
+            <button
+              onClick={() => exportBackup()}
+              className="flex items-center gap-1.5 text-sm font-semibold text-purple-300 hover:text-white border border-purple-700 hover:border-purple-500 px-4 py-2.5 rounded-lg transition-colors"
+            >
+              ↓ Download Backup
+            </button>
+            <button
+              onClick={() => restoreInputRef.current?.click()}
+              className="flex items-center gap-1.5 text-sm font-semibold text-purple-500 hover:text-purple-300 border border-purple-800 hover:border-purple-600 px-4 py-2.5 rounded-lg transition-colors"
+            >
+              ↑ Restore from Backup
+            </button>
+            {totalTracked > 0 && (
+              <button
+                onClick={exportCSV}
+                className="flex items-center gap-1.5 text-sm font-semibold text-purple-500 hover:text-purple-300 border border-purple-800 hover:border-purple-600 px-4 py-2.5 rounded-lg transition-colors"
+              >
+                ↓ Export CSV
+              </button>
+            )}
+          </div>
+        </div>
+
+      </div>
 
       {/* ------------------------------------------------------------------ */}
       {/* Idea detail modal                                                    */}

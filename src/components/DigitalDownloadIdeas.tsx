@@ -7,12 +7,6 @@ import { CATEGORIES, STAGES, useTracker, type Stage, type TrackerEntry } from ".
 
 const DIFFICULTIES = ["beginner", "intermediate", "advanced"] as const;
 
-const difficultyColor: Record<string, string> = {
-  beginner: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-  intermediate: "bg-amber-500/20 text-amber-400 border-amber-500/30",
-  advanced: "bg-red-500/20 text-red-400 border-red-500/30",
-};
-
 type PlatformKey = "etsy" | "tiktok" | "instagram" | "pinterest";
 
 const PLATFORM_CONFIG: {
@@ -59,7 +53,7 @@ const PLATFORM_CONFIG: {
   },
 ];
 
-function StagePill({ stage }: { stage: Stage }) {
+export function StagePill({ stage }: { stage: Stage }) {
   const s = STAGES.find((s) => s.key === stage)!;
   return (
     <span className={`text-xs px-2 py-0.5 rounded-full border font-medium ${s.color} ${s.bg} ${s.border}`}>
@@ -78,7 +72,13 @@ export function DemandStars({ rating }: { rating: number }) {
   );
 }
 
-function IdeaCard({
+export const difficultyColor: Record<string, string> = {
+  beginner: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+  intermediate: "bg-amber-500/20 text-amber-400 border-amber-500/30",
+  advanced: "bg-red-500/20 text-red-400 border-red-500/30",
+};
+
+export function IdeaCard({
   idea,
   entry,
   onClick,
