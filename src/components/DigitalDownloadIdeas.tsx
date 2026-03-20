@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { digitalDownloadIdeas, type DigitalDownloadIdea, type Category } from "../data/digitalDownloadIdeas";
 import { workflowGuides } from "../data/workflowGuides";
-import { marketingPrompts } from "../data/marketingPrompts";
+import { marketingPrompts, type MarketingPrompts } from "../data/marketingPrompts";
 import { getDifficulty, getDemandRating, CATEGORY_ACCENT, CATEGORY_DOT } from "../data/ideaUtils";
 import { CATEGORIES, STAGES, useTracker, type Stage, type TrackerEntry } from "../data/tracker";
 
@@ -129,6 +129,8 @@ export function IdeaDetail({
   onSalesChange,
   onClose,
   scrollTo,
+  workflowOverride,
+  marketingOverride,
 }: {
   idea: DigitalDownloadIdea;
   entry: TrackerEntry | undefined;
@@ -136,9 +138,11 @@ export function IdeaDetail({
   onSalesChange: (sales: number) => void;
   onClose: () => void;
   scrollTo?: string;
+  workflowOverride?: { steps: string[] };
+  marketingOverride?: MarketingPrompts;
 }) {
-  const workflow = workflowGuides[idea.id];
-  const marketing = marketingPrompts[idea.id];
+  const workflow = workflowOverride ?? workflowGuides[idea.id];
+  const marketing = marketingOverride ?? marketingPrompts[idea.id];
   const [checkedSteps, setCheckedSteps] = useState<Set<number>>(new Set());
   const [openPlatform, setOpenPlatform] = useState<string | null>("etsy");
   const [copied, setCopied] = useState<string | null>(null);
