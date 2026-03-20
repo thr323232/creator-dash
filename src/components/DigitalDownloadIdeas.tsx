@@ -122,7 +122,7 @@ function PlaceholderBox({ message }: { message: string }) {
   );
 }
 
-function IdeaDetail({
+export function IdeaDetail({
   idea,
   entry,
   onStageChange,
