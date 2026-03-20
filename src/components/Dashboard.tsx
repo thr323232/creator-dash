@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   DndContext, PointerSensor, useSensor, useSensors,
   useDroppable, useDraggable, type DragEndEvent,
@@ -178,6 +178,63 @@ async function callClaude(userPrompt: string, apiKey: string): Promise<CustomIde
 }
 
 // ---------------------------------------------------------------------------
+// Custom dropdown select (replaces native <select>)
+// ---------------------------------------------------------------------------
+
+function CustomSelect({ value, options, onChange, icon }: {
+  value: string;
+  options: { value: string; label: string }[];
+  onChange: (v: string) => void;
+  icon?: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [open]);
+
+  const selected = options.find((o) => o.value === value);
+
+  return (
+    <div ref={ref} className="relative shrink-0">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className={`h-11 flex items-center gap-2 px-4 rounded-xl border text-sm font-medium transition-colors whitespace-nowrap ${
+          open || value !== options[0].value
+            ? "bg-purple-600/20 border-purple-500 text-purple-200"
+            : "bg-[#0d0118] border-purple-800 text-purple-400 hover:border-purple-600 hover:text-purple-200"
+        }`}
+      >
+        {icon && <span className="text-xs opacity-60">{icon}</span>}
+        <span>{selected?.label ?? value}</span>
+        <span className={`text-xs transition-transform duration-200 ${open ? "rotate-180" : ""}`}>▾</span>
+      </button>
+      {open && (
+        <div className="absolute top-[calc(100%+6px)] left-0 z-20 min-w-full bg-[#160028] border border-purple-700 rounded-xl shadow-xl shadow-black/50 overflow-hidden">
+          {options.map((opt) => (
+            <button
+              key={opt.value}
+              onClick={() => { onChange(opt.value); setOpen(false); }}
+              className={`w-full text-left px-4 py-2.5 text-sm transition-colors hover:bg-white/5 ${
+                opt.value === value ? "text-amber-400 font-semibold" : "text-purple-200"
+              }`}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Browse card (inline grid card for the Browse section)
 // ---------------------------------------------------------------------------
 
@@ -198,7 +255,7 @@ function BrowseCard({
   const accent = CATEGORY_ACCENT[idea.category] ?? "border-t-gray-700";
   const diff   = getDifficulty(idea);
   return (
-    <div className={`bg-[#160028] border border-purple-900 border-t-4 ${accent} rounded-xl p-4 flex flex-col gap-3 hover:border-purple-700 transition-colors`}>
+    <div className={`bg-[#160028] border border-purple-900 border-t-4 ${accent} rounded-xl p-4 flex flex-col gap-3 hover:border-purple-700 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-purple-950/50 transition-all duration-200`}>
       <button onClick={onOpen} className="text-left flex flex-col gap-2 flex-1 min-w-0">
         <div className="flex items-start justify-between gap-2">
           <h3 className="text-white font-bold text-sm leading-snug line-clamp-2">{idea.name}</h3>
@@ -220,14 +277,14 @@ function BrowseCard({
       {!entry ? (
         <button
           onClick={(e) => { e.stopPropagation(); onAdd(); }}
-          className="w-full py-1.5 rounded-lg text-xs font-semibold text-green-400 border border-green-500/40 hover:border-green-400 hover:bg-green-500/10 transition-colors"
+          className="w-full py-2 rounded-lg text-xs font-semibold text-green-400 border border-green-500/40 hover:border-green-400 hover:bg-green-500/10 transition-colors"
         >
           + Add to pipeline
         </button>
       ) : (
         <button
           onClick={onOpen}
-          className="w-full py-1.5 rounded-lg text-xs font-semibold text-purple-400 border border-purple-800 hover:border-purple-600 hover:text-purple-200 transition-colors"
+          className="w-full py-2 rounded-lg text-xs font-semibold text-purple-400 border border-purple-800 hover:border-purple-600 hover:text-purple-200 transition-colors"
         >
           Open →
         </button>
@@ -423,6 +480,21 @@ export default function Dashboard() {
   function scrollToBrowse() {
     document.getElementById("section-browse")?.scrollIntoView({ behavior: "smooth" });
   }
+
+  function clearBrowseFilters() {
+    setBrowseQuery("");
+    setBrowseCategory("All");
+    setBrowseDifficulty("All");
+    setBrowseSort("default");
+    setBrowseMyList(false);
+  }
+
+  const browseFiltersActive =
+    browseQuery !== "" ||
+    browseCategory !== "All" ||
+    browseDifficulty !== "All" ||
+    browseSort !== "default" ||
+    browseMyList;
 
   function saveApiKey() {
     localStorage.setItem("anthropic-api-key", apiKeyInput);
@@ -712,62 +784,86 @@ export default function Dashboard() {
             <p className="text-purple-500 text-xs mt-0.5">{browseFiltered.length} idea{browseFiltered.length !== 1 ? "s" : ""} — click to open, or add directly to your pipeline</p>
           </div>
 
-          {/* Filters */}
-          <div className="flex flex-col gap-3">
-            <input
-              type="text"
-              placeholder="Search by name, description, or niche..."
-              value={browseQuery}
-              onChange={(e) => setBrowseQuery(e.target.value)}
-              className="w-full bg-[#160028] border border-purple-800 rounded-xl px-4 py-3 text-sm text-white placeholder-purple-500 focus:outline-none focus:border-amber-500"
-            />
-            <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+          {/* Filter toolbar card */}
+          <div className="bg-[#160028] border border-purple-800 rounded-2xl overflow-visible">
+            {/* Row 1: search + dropdowns */}
+            <div className="flex items-center gap-2 p-3">
+              <div className="relative flex-1 min-w-0">
+                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-purple-500 text-sm pointer-events-none">🔍</span>
+                <input
+                  type="text"
+                  placeholder="Search by name, description or niche..."
+                  value={browseQuery}
+                  onChange={(e) => setBrowseQuery(e.target.value)}
+                  className="w-full h-11 bg-[#0d0118] border border-purple-800 rounded-xl pl-9 pr-4 text-sm text-white placeholder-purple-600 focus:outline-none focus:border-purple-500 transition-colors"
+                />
+              </div>
+              <CustomSelect
+                value={browseDifficulty}
+                icon="≡"
+                options={[
+                  { value: "All", label: "Difficulty" },
+                  { value: "beginner", label: "Beginner" },
+                  { value: "intermediate", label: "Intermediate" },
+                  { value: "advanced", label: "Advanced" },
+                ]}
+                onChange={setBrowseDifficulty}
+              />
+              <CustomSelect
+                value={browseSort}
+                icon="↕"
+                options={[
+                  { value: "default", label: "Sort" },
+                  { value: "demand", label: "Demand ↓" },
+                  { value: "price-asc", label: "Price ↑" },
+                  { value: "price-desc", label: "Price ↓" },
+                ]}
+                onChange={(v) => setBrowseSort(v as typeof browseSort)}
+              />
+              <button
+                onClick={() => setBrowseMyList((v) => !v)}
+                className={`h-11 shrink-0 flex items-center gap-1.5 px-4 rounded-xl border text-sm font-medium transition-colors whitespace-nowrap ${
+                  browseMyList
+                    ? "bg-amber-500/20 border-amber-500 text-amber-300"
+                    : "bg-[#0d0118] border-purple-800 text-purple-400 hover:border-purple-600 hover:text-purple-200"
+                }`}
+              >
+                <span className="text-xs">{browseMyList ? "★" : "☆"}</span>
+                My List{totalTracked > 0 ? ` (${totalTracked})` : ""}
+              </button>
+            </div>
+            {/* Row 2: category pills */}
+            <div className="border-t border-purple-900 px-3 py-2.5 flex gap-2 overflow-x-auto scrollbar-none">
               {(["All", ...CATEGORIES] as (Category | "All")[]).map((c) => (
                 <button
                   key={c}
                   onClick={() => setBrowseCategory(c)}
-                  className={`shrink-0 text-sm px-4 py-2 rounded-full border font-medium transition-all duration-150 ${
+                  className={`shrink-0 flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border font-medium transition-all duration-150 ${
                     browseCategory === c
-                      ? "bg-amber-500 border-amber-400 text-white shadow-md shadow-amber-900/40"
-                      : "bg-[#160028] border-purple-800 text-purple-300 hover:border-purple-600 hover:text-white"
+                      ? "bg-amber-500 border-amber-400 text-white shadow-sm shadow-amber-900/40"
+                      : "bg-[#0d0118] border-purple-800 text-purple-400 hover:border-purple-600 hover:text-white"
                   }`}
                 >
+                  {c !== "All" && (
+                    <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${CATEGORY_DOT[c] ?? "bg-gray-500"}`} />
+                  )}
                   {c}
                 </button>
               ))}
             </div>
-            <div className="flex flex-wrap gap-2 items-center">
-              <select
-                value={browseDifficulty}
-                onChange={(e) => setBrowseDifficulty(e.target.value)}
-                className="bg-[#160028] border border-purple-800 text-sm text-white rounded-xl px-3 py-2.5 min-h-[44px] focus:outline-none focus:border-amber-500 flex-1 min-w-[140px]"
-              >
-                <option value="All">All Difficulties</option>
-                <option value="beginner">Beginner</option>
-                <option value="intermediate">Intermediate</option>
-                <option value="advanced">Advanced</option>
-              </select>
-              <select
-                value={browseSort}
-                onChange={(e) => setBrowseSort(e.target.value as typeof browseSort)}
-                className="bg-[#160028] border border-purple-800 text-sm text-white rounded-xl px-3 py-2.5 min-h-[44px] focus:outline-none focus:border-amber-500 flex-1 min-w-[150px]"
-              >
-                <option value="default">Default Order</option>
-                <option value="demand">Demand: High first</option>
-                <option value="price-asc">Price: Low first</option>
-                <option value="price-desc">Price: High first</option>
-              </select>
-              <button
-                onClick={() => setBrowseMyList((v) => !v)}
-                className={`text-sm px-5 py-2.5 min-h-[44px] rounded-xl border font-medium transition-all duration-150 ${
-                  browseMyList
-                    ? "bg-amber-500 border-amber-400 text-white shadow-md shadow-amber-900/40"
-                    : "bg-[#160028] border-purple-800 text-purple-300 hover:border-purple-600 hover:text-white"
-                }`}
-              >
-                My List{totalTracked > 0 ? ` (${totalTracked})` : ""}
-              </button>
-            </div>
+          </div>
+
+          {/* Result count + clear */}
+          <div className="flex items-center gap-2 text-xs text-purple-500">
+            <span>{browseFiltered.length} idea{browseFiltered.length !== 1 ? "s" : ""}</span>
+            {browseFiltersActive && (
+              <>
+                <span>·</span>
+                <button onClick={clearBrowseFilters} className="text-purple-400 hover:text-white transition-colors">
+                  ✕ Clear filters
+                </button>
+              </>
+            )}
           </div>
 
           {/* Idea grid */}
@@ -776,12 +872,12 @@ export default function Dashboard() {
               <div key={category} className="flex flex-col gap-3">
                 <button
                   onClick={() => toggleBrowseCat(category)}
-                  className="flex items-center gap-2 text-left group"
+                  className="w-full flex items-center gap-3 px-4 py-3 bg-[#160028]/60 hover:bg-[#160028] border border-purple-900 rounded-xl transition-colors group"
                 >
                   <span className={`w-2.5 h-2.5 rounded-full shrink-0 ${CATEGORY_DOT[category] ?? "bg-gray-500"}`} />
-                  <span className="text-purple-200 text-sm font-semibold group-hover:text-white transition-colors">{category}</span>
-                  <span className="text-purple-700 text-xs">({ideas.length})</span>
-                  <span className="text-purple-700 text-xs ml-auto">{collapsedCats.has(category) ? "▸" : "▾"}</span>
+                  <span className="text-purple-200 text-sm font-semibold group-hover:text-white transition-colors flex-1 text-left">{category}</span>
+                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-purple-900/60 text-purple-400">{ideas.length}</span>
+                  <span className={`text-purple-500 text-xs transition-transform duration-200 ${collapsedCats.has(category) ? "" : "rotate-90"}`}>▶</span>
                 </button>
                 {!collapsedCats.has(category) && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
