@@ -4,7 +4,7 @@ import Dashboard from "./components/Dashboard";
 
 type Tab = "browse" | "dashboard";
 
-function App() {
+function App({ onSignOut }: { onSignOut: () => void }) {
   const [tab, setTab] = useState<Tab>("browse");
 
   return (
@@ -29,6 +29,13 @@ function App() {
                 {t === "browse" ? "Browse" : "Dashboard"}
               </button>
             ))}
+            <button
+              onClick={onSignOut}
+              className="ml-2 px-3 py-1.5 rounded-lg text-xs font-medium text-purple-600 hover:text-purple-400 transition-colors border border-purple-900 hover:border-purple-700"
+              title="Sign out"
+            >
+              Sign out
+            </button>
           </nav>
         </div>
       </header>
