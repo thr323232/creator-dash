@@ -17,7 +17,6 @@ const stageBorderLeft: Record<Stage, string> = {
   earning:  "border-l-green-500",
 };
 
-// Stage order for quick-advance
 const STAGE_KEYS: Stage[] = ["saved", "creating", "listed", "earning"];
 
 function StatCard({ label, value, accent, sub }: { label: string; value: string | number; accent: string; sub?: string }) {
@@ -53,7 +52,6 @@ function StageSection({
 
   return (
     <div className="flex flex-col gap-2">
-      {/* Stage subheading */}
       <button
         onClick={() => setCollapsed((v) => !v)}
         className={`flex items-center gap-3 group w-full text-left border-l-4 ${stageBorderLeft[stage.key]} pl-3 py-1`}
@@ -67,7 +65,6 @@ function StageSection({
         </span>
       </button>
 
-      {/* Compact rows */}
       {!collapsed && (
         <div className="flex flex-col divide-y divide-purple-900/60 rounded-xl border border-purple-900 bg-[#160028] overflow-hidden">
           {ideas.map((idea) => (
@@ -76,7 +73,6 @@ function StageSection({
               onClick={() => onOpenDetail(idea)}
               className="px-4 py-3 flex flex-col gap-2 cursor-pointer hover:bg-[#1e003a] transition-colors"
             >
-              {/* Main row */}
               <div className="flex items-center gap-3 min-w-0">
                 <div className="flex-1 min-w-0">
                   <span className="text-white font-semibold text-sm">{idea.name}</span>
@@ -92,7 +88,6 @@ function StageSection({
                 <div className="shrink-0">
                   <DemandStars rating={getDemandRating(idea)} />
                 </div>
-                {/* Quick stage advance */}
                 {nextStage && (
                   <button
                     onClick={(e) => { e.stopPropagation(); onStageAdvance(idea.id, nextStage); }}
@@ -103,7 +98,6 @@ function StageSection({
                   </button>
                 )}
               </div>
-              {/* Earning sales input */}
               {stage.key === "earning" && (
                 <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
                   <label className="text-xs text-purple-500 shrink-0">Units sold</label>
@@ -179,8 +173,11 @@ export default function Dashboard() {
 
   const inProgress = (stageCounts["creating"] ?? 0) + (stageCounts["listed"] ?? 0);
   const earning = stageCounts["earning"] ?? 0;
+  const saved = stageCounts["saved"] ?? 0;
+  const creating = stageCounts["creating"] ?? 0;
+  const listed = stageCounts["listed"] ?? 0;
 
-  // Ideas per stage for My List
+  // Ideas per stage
   const ideasByStage = useMemo(() => {
     const groups: Record<Stage, typeof digitalDownloadIdeas> = {
       saved: [], creating: [], listed: [], earning: [],
@@ -191,6 +188,30 @@ export default function Dashboard() {
     }
     return groups;
   }, [trackerEntries, ideaById]);
+
+  // Hot right now — trending ideas not yet tracked, top 4 by demand
+  const hotIdeas = useMemo(() => {
+    const trackedIds = new Set(trackerEntries.map(([id]) => id));
+    return digitalDownloadIdeas
+      .filter((i) => i.trending && !trackedIds.has(i.id))
+      .sort((a, b) => b.demandRating - a.demandRating)
+      .slice(0, 4);
+  }, [trackerEntries]);
+
+  // Contextual next-action nudge
+  const nudge = useMemo((): { emoji: string; message: string } => {
+    if (totalTracked === 0)
+      return { emoji: "👆", message: "Start by saving an idea in Browse — come back here to track your progress." };
+    if (saved > 0 && creating === 0)
+      return { emoji: "✏️", message: `You have ${saved} saved idea${saved > 1 ? "s" : ""} — open one and start creating!` };
+    if (creating > 0 && listed === 0)
+      return { emoji: "🛒", message: `You have ${creating} idea${creating > 1 ? "s" : ""} in progress — finish one and list it on Etsy.` };
+    if (listed > 0 && earning === 0)
+      return { emoji: "📣", message: `You have ${listed} listing${listed > 1 ? "s" : ""} — start marketing to get your first sale.` };
+    if (earning > 0 && totalSales === 0)
+      return { emoji: "🚀", message: "You're listed! Share your Etsy link on TikTok or Instagram to get your first sale." };
+    return { emoji: "🎉", message: `You've sold ${totalSales} unit${totalSales > 1 ? "s" : ""} — keep adding and marketing new ideas!` };
+  }, [totalTracked, saved, creating, listed, earning, totalSales]);
 
   // Category opportunity grid
   const categoryOpportunity = useMemo(() => {
@@ -208,21 +229,12 @@ export default function Dashboard() {
       const tracked = trackerEntries.filter(([id]) => ideaById[id]?.category === cat);
       const stages: Record<Stage, number> = { saved: 0, creating: 0, listed: 0, earning: 0 };
       for (const [, e] of tracked) stages[e.stage]++;
-      return {
-        category: cat,
-        total: ideas.length,
-        avgDemand,
-        avgPrice,
-        trendingCount,
-        dominantDifficulty,
-        trackedCount: tracked.length,
-        stages,
-      };
+      return { category: cat, total: ideas.length, avgDemand, avgPrice, trendingCount, dominantDifficulty, trackedCount: tracked.length, stages };
     }).sort((a, b) => b.trackedCount - a.trackedCount || b.avgDemand - a.avgDemand);
   }, [trackerEntries, ideaById]);
 
   const stageLabels: Record<Stage, string> = { saved: "Saved", creating: "Creating", listed: "Listed", earning: "Earning" };
-  const stageColors: Record<Stage, string> = { saved: "text-purple-300", creating: "text-amber-400", listed: "text-blue-400", earning: "text-green-400" };
+  const stageColors: Record<Stage, string>  = { saved: "text-purple-300", creating: "text-amber-400", listed: "text-blue-400", earning: "text-green-400" };
 
   return (
     <div className="min-h-screen bg-[#0d0118] text-white">
@@ -236,11 +248,46 @@ export default function Dashboard() {
 
         {/* Stat cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <StatCard label="Tracked"      value={totalTracked}               accent="text-white"      sub="ideas in your list" />
-          <StatCard label="In Progress"  value={inProgress}                 accent="text-amber-400" sub="creating or listed" />
-          <StatCard label="Earning"      value={earning}                    accent="text-green-400" sub="active listings" />
+          <StatCard label="Tracked"      value={totalTracked}                accent="text-white"      sub="ideas in your list" />
+          <StatCard label="In Progress"  value={inProgress}                  accent="text-amber-400"  sub="creating or listed" />
+          <StatCard label="Earning"      value={earning}                     accent="text-green-400"  sub="active listings" />
           <StatCard label="Est. Revenue" value={`£${Math.round(estRevenue)}`} accent="text-green-300" sub={`${totalSales} units sold`} />
         </div>
+
+        {/* Next-action nudge */}
+        <div className="bg-[#160028] border border-purple-800 rounded-xl px-5 py-3 flex items-center gap-3">
+          <span className="text-xl shrink-0">{nudge.emoji}</span>
+          <p className="text-purple-200 text-sm">{nudge.message}</p>
+        </div>
+
+        {/* Hot Right Now */}
+        {hotIdeas.length > 0 && (
+          <div className="flex flex-col gap-3">
+            <div>
+              <h2 className="text-base font-bold text-purple-100">Hot Right Now</h2>
+              <p className="text-purple-500 text-xs mt-0.5">Trending ideas you haven't saved yet — click to explore</p>
+            </div>
+            <div className="flex gap-3 overflow-x-auto pb-1">
+              {hotIdeas.map((idea) => {
+                const accent = CATEGORY_ACCENT[idea.category] ?? "border-t-gray-700";
+                return (
+                  <div
+                    key={idea.id}
+                    onClick={() => setDetailIdea(idea)}
+                    className={`shrink-0 w-48 bg-[#160028] border border-t-4 ${accent} border-purple-900 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:bg-[#1e003a] transition-colors`}
+                  >
+                    <p className="text-white font-semibold text-sm line-clamp-2 leading-snug">{idea.name}</p>
+                    <p className="text-purple-400 text-xs">{idea.category}</p>
+                    <div className="flex items-center gap-2 mt-auto">
+                      <DemandStars rating={getDemandRating(idea)} />
+                      <span className="text-green-400 font-bold text-xs ml-auto">£{idea.pricingRange.min}–£{idea.pricingRange.max}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* My List */}
         <div className="flex flex-col gap-4">
@@ -281,8 +328,8 @@ export default function Dashboard() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {categoryOpportunity.map(({ category, total, avgDemand, avgPrice, trendingCount, dominantDifficulty, trackedCount, stages }) => {
-              const accent  = CATEGORY_ACCENT[category] ?? "border-t-gray-700";
-              const bar     = CATEGORY_BAR[category]   ?? "bg-gray-600";
+              const accent = CATEGORY_ACCENT[category] ?? "border-t-gray-700";
+              const bar    = CATEGORY_BAR[category]   ?? "bg-gray-600";
               const isActive = trackedCount > 0;
               const coveragePct = (trackedCount / total) * 100;
               const activeStages = (Object.entries(stages) as [Stage, number][]).filter(([, n]) => n > 0);
@@ -293,7 +340,6 @@ export default function Dashboard() {
                     isActive ? "bg-[#1e003a] border-amber-500/30" : "bg-[#160028] border-purple-900"
                   }`}
                 >
-                  {/* Category name + tracked badge */}
                   <div className="flex items-start justify-between gap-2">
                     <p className="text-white font-bold text-sm leading-snug">{category}</p>
                     {isActive && (
@@ -302,8 +348,6 @@ export default function Dashboard() {
                       </span>
                     )}
                   </div>
-
-                  {/* Demand + price + difficulty */}
                   <div className="flex items-center gap-2 flex-wrap">
                     <DemandStars rating={Math.round(avgDemand)} />
                     <span className="text-purple-500 text-xs">·</span>
@@ -312,8 +356,6 @@ export default function Dashboard() {
                       {dominantDifficulty}
                     </span>
                   </div>
-
-                  {/* Coverage bar + trending */}
                   <div className="flex items-center gap-3">
                     <div className="flex-1 h-1.5 bg-[#2a0050] rounded-full overflow-hidden">
                       <div
@@ -326,8 +368,6 @@ export default function Dashboard() {
                       <span className="text-orange-400 text-xs font-medium shrink-0">🔥 {trendingCount}</span>
                     )}
                   </div>
-
-                  {/* Stage breakdown */}
                   {isActive && activeStages.length > 0 && (
                     <div className="flex flex-wrap gap-2">
                       {activeStages.map(([stage, n]) => (
@@ -350,7 +390,10 @@ export default function Dashboard() {
         <IdeaDetail
           idea={detailIdea}
           entry={tracker[detailIdea.id]}
-          onStageChange={(stage) => { if (stage) setStage(detailIdea.id, stage); }}
+          onStageChange={(stage) => {
+            setStage(detailIdea.id, stage);
+            if (stage === null) setDetailIdea(null);
+          }}
           onSalesChange={(sales) => setSales(detailIdea.id, sales)}
           onClose={() => setDetailIdea(null)}
         />
