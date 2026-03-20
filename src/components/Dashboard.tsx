@@ -117,7 +117,7 @@ export default function Dashboard() {
   function toggleExpand(stage: Stage) {
     setExpandedStages((prev) => {
       const next = new Set(prev);
-      next.has(stage) ? next.delete(stage) : next.add(stage);
+      if (next.has(stage)) next.delete(stage); else next.add(stage);
       return next;
     });
   }
