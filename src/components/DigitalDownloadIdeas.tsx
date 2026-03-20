@@ -128,12 +128,14 @@ export function IdeaDetail({
   onStageChange,
   onSalesChange,
   onClose,
+  scrollTo,
 }: {
   idea: DigitalDownloadIdea;
   entry: TrackerEntry | undefined;
   onStageChange: (stage: Stage | null) => void;
   onSalesChange: (sales: number) => void;
   onClose: () => void;
+  scrollTo?: string;
 }) {
   const workflow = workflowGuides[idea.id];
   const marketing = marketingPrompts[idea.id];
@@ -145,6 +147,12 @@ export function IdeaDetail({
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = ""; };
   }, []);
+
+  useEffect(() => {
+    if (!scrollTo) return;
+    const el = document.getElementById(scrollTo);
+    if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 150);
+  }, [scrollTo]);
 
   const copyText = (text: string, key: string) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -201,7 +209,7 @@ export function IdeaDetail({
         <div className="px-4 py-5 flex flex-col gap-6">
 
           {/* Progress tracker */}
-          <div className="flex flex-col gap-2">
+          <div id="section-progress" className="flex flex-col gap-2">
             <p className="text-purple-400 text-xs font-semibold uppercase tracking-wider">My Progress</p>
             <div className="grid grid-cols-4 gap-2">
               {STAGES.map((s) => {
@@ -282,7 +290,7 @@ export function IdeaDetail({
 
           {/* Launch Checklist */}
           {checklist.length > 0 && (
-            <div className="flex flex-col gap-3">
+            <div id="section-checklist" className="flex flex-col gap-3">
               <div className="flex items-center gap-3 py-1">
                 <span className="text-xs font-bold uppercase tracking-widest text-purple-400">Launch Checklist</span>
                 <div className="flex-1 h-px bg-[#2a0050]" />
@@ -385,7 +393,7 @@ export function IdeaDetail({
           )}
 
           {/* Market It */}
-          <div className="flex flex-col gap-3">
+          <div id="section-market" className="flex flex-col gap-3">
             <div className="flex items-center gap-3 py-1">
               <span className="text-xs font-bold uppercase tracking-widest text-purple-400">Market It</span>
               <div className="flex-1 h-px bg-[#2a0050]" />
