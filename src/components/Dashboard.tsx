@@ -1,11 +1,20 @@
 import { useMemo, useState } from "react";
 import { digitalDownloadIdeas } from "../data/digitalDownloadIdeas";
+import { CATEGORY_DOT } from "../data/ideaUtils";
 import { STAGES, useTracker, type Stage } from "../data/tracker";
 import { IdeaDetail } from "./DigitalDownloadIdeas";
 
-function StatCard({ label, value, accent, sub }: { label: string; value: string | number; accent: string; sub?: string }) {
+function StatCard({
+  label, value, accent, sub, accentBorder = "border-t-transparent",
+}: {
+  label: string;
+  value: string | number;
+  accent: string;
+  sub?: string;
+  accentBorder?: string;
+}) {
   return (
-    <div className="bg-[#160028] border border-purple-900 rounded-xl p-5 flex flex-col gap-1">
+    <div className={`bg-[#160028] border border-t-4 ${accentBorder} border-purple-900 rounded-xl p-5 flex flex-col gap-1`}>
       <span className={`text-3xl font-bold ${accent}`}>{value}</span>
       <span className="text-purple-300 text-sm font-medium">{label}</span>
       {sub && <span className="text-purple-600 text-xs">{sub}</span>}
@@ -30,6 +39,7 @@ const stageBg: Record<Stage, string> = {
 export default function Dashboard() {
   const { tracker, setStage, setSales } = useTracker();
   const [detailIdea, setDetailIdea] = useState<(typeof digitalDownloadIdeas)[number] | null>(null);
+  const [expandedStages, setExpandedStages] = useState<Set<Stage>>(new Set());
 
   const trackerEntries = useMemo(() => Object.entries(tracker), [tracker]);
   const totalTracked = trackerEntries.length;
@@ -86,6 +96,7 @@ export default function Dashboard() {
   const saved = stageCounts["saved"] ?? 0;
   const creating = stageCounts["creating"] ?? 0;
   const listed = stageCounts["listed"] ?? 0;
+  const totalEstRevenue = Math.round(estRevenue);
 
   const nudge = useMemo((): { emoji: string; message: string } => {
     if (totalTracked === 0)
@@ -102,7 +113,16 @@ export default function Dashboard() {
   }, [totalTracked, saved, creating, listed, earning, totalSales]);
 
   const earningIdeas = ideasByStage["earning"];
-  const totalEstRevenue = Math.round(estRevenue);
+
+  function toggleExpand(stage: Stage) {
+    setExpandedStages((prev) => {
+      const next = new Set(prev);
+      next.has(stage) ? next.delete(stage) : next.add(stage);
+      return next;
+    });
+  }
+
+  const COLLAPSE_AT = 3;
 
   return (
     <div className="min-h-screen bg-[#0d0118] text-white">
@@ -116,10 +136,10 @@ export default function Dashboard() {
 
         {/* Stat cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <StatCard label="Tracked"      value={totalTracked}                 accent="text-white"      sub="ideas in pipeline" />
-          <StatCard label="In Progress"  value={inProgress}                   accent="text-amber-400"  sub="creating or listed" />
-          <StatCard label="Earning"      value={earning}                      accent="text-green-400"  sub="active listings" />
-          <StatCard label="Est. Revenue" value={`£${totalEstRevenue}`}        accent="text-green-300"  sub={`${totalSales} units sold`} />
+          <StatCard label="Tracked"      value={totalTracked}          accent="text-white"      sub="ideas in pipeline"  accentBorder="border-t-purple-500" />
+          <StatCard label="In Progress"  value={inProgress}            accent="text-amber-400"  sub="creating or listed" accentBorder="border-t-amber-500" />
+          <StatCard label="Earning"      value={earning}               accent="text-green-400"  sub="active listings"    accentBorder="border-t-green-500" />
+          <StatCard label="Est. Revenue" value={`£${totalEstRevenue}`} accent="text-green-300"  sub={`${totalSales} units sold`} accentBorder="border-t-green-300" />
         </div>
 
         {/* Nudge */}
@@ -132,12 +152,27 @@ export default function Dashboard() {
         <div className="flex flex-col gap-4">
           <div>
             <h2 className="text-base font-bold text-purple-100">Pipeline</h2>
-            <p className="text-purple-500 text-xs mt-0.5">Click any idea to open its workflow and update progress</p>
+            {/* Flow label — desktop only */}
+            <div className="hidden sm:flex items-center gap-1 mt-1 text-xs text-purple-600 font-medium">
+              {STAGES.map((s, i) => (
+                <span key={s.key} className="flex items-center gap-1">
+                  <span className={s.color}>{s.label}</span>
+                  {i < STAGES.length - 1 && <span className="text-purple-800">→</span>}
+                </span>
+              ))}
+            </div>
+            <p className="sm:hidden text-purple-500 text-xs mt-0.5">Click any idea to open its workflow</p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {STAGES.map((s) => {
               const ideas = ideasByStage[s.key];
+              const isExpanded = expandedStages.has(s.key);
+              const visibleIdeas = isExpanded || ideas.length <= COLLAPSE_AT
+                ? ideas
+                : ideas.slice(0, COLLAPSE_AT);
+              const hiddenCount = ideas.length - COLLAPSE_AT;
+
               return (
                 <div
                   key={s.key}
@@ -156,44 +191,61 @@ export default function Dashboard() {
                     {ideas.length === 0 ? (
                       <p className="text-purple-800 text-xs px-3 py-4 text-center">Nothing here yet</p>
                     ) : (
-                      ideas.map((idea) => {
+                      visibleIdeas.map((idea) => {
                         const sales = salesMap[idea.id] ?? 0;
                         const avgPrice = (idea.pricingRange.min + idea.pricingRange.max) / 2;
                         const ideaRevenue = Math.round(sales * avgPrice);
+                        const dot = CATEGORY_DOT[idea.category] ?? "bg-gray-500";
                         return (
                           <button
                             key={idea.id}
                             onClick={() => setDetailIdea(idea)}
-                            className="w-full text-left px-3 py-2.5 hover:bg-white/5 transition-colors flex flex-col gap-1"
+                            className="w-full text-left px-3 py-2.5 hover:bg-white/5 transition-colors"
                           >
-                            <span className="text-white text-xs font-medium leading-snug line-clamp-2">
-                              {idea.name}
-                            </span>
-                            {s.key === "creating" && (
-                              <span className="text-amber-500/80 text-xs">
-                                {idea.launchChecklist.length} checklist items
-                              </span>
-                            )}
-                            {s.key === "listed" && sales === 0 && (
-                              <span className="text-blue-400/70 text-xs">log sales →</span>
-                            )}
-                            {s.key === "earning" && (
-                              <span className="text-green-400 text-xs font-semibold">
-                                {sales > 0 ? `${sales} sold · £${ideaRevenue} est.` : "log sales →"}
-                              </span>
-                            )}
+                            <div className="flex items-start gap-2">
+                              <span className={`mt-[5px] shrink-0 w-2 h-2 rounded-full ${dot}`} />
+                              <div className="flex flex-col gap-0.5 min-w-0">
+                                <span className="text-white text-xs font-medium leading-snug line-clamp-2">
+                                  {idea.name}
+                                </span>
+                                {s.key === "creating" && (
+                                  <>
+                                    <span className="text-amber-500/80 text-xs">{idea.estimatedCreationTime}</span>
+                                    <span className="text-purple-700 text-xs">{idea.launchChecklist.length} steps</span>
+                                  </>
+                                )}
+                                {s.key === "listed" && sales === 0 && (
+                                  <span className="text-blue-400/70 text-xs">log sales →</span>
+                                )}
+                                {s.key === "earning" && (
+                                  <span className="text-green-400 text-xs font-semibold">
+                                    {sales > 0 ? `${sales} sold · £${ideaRevenue} est.` : "log sales →"}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
                           </button>
                         );
                       })
                     )}
                   </div>
+
+                  {/* Show more / less toggle */}
+                  {hiddenCount > 0 && (
+                    <button
+                      onClick={() => toggleExpand(s.key)}
+                      className={`w-full text-center text-xs text-purple-500 hover:text-purple-300 py-2 border-t ${stageRingColor[s.key]} transition-colors`}
+                    >
+                      {isExpanded ? "Show less ↑" : `+ ${hiddenCount} more`}
+                    </button>
+                  )}
                 </div>
               );
             })}
           </div>
         </div>
 
-        {/* Sales Tracker — only when earning ideas exist */}
+        {/* Sales Tracker */}
         {earningIdeas.length > 0 && (
           <div className="flex flex-col gap-4">
             <div>
@@ -202,18 +254,17 @@ export default function Dashboard() {
             </div>
 
             <div className="bg-[#160028] border border-purple-900 rounded-xl overflow-hidden">
-              {/* Table header */}
               <div className="grid grid-cols-[1fr_auto_auto] gap-4 px-5 py-2.5 border-b border-purple-900 text-xs text-purple-500 font-semibold uppercase tracking-wide">
                 <span>Listing</span>
                 <span className="text-right">Units sold</span>
                 <span className="text-right w-24">Est. revenue</span>
               </div>
 
-              {/* Rows */}
               {earningIdeas.map((idea) => {
                 const sales = salesMap[idea.id] ?? 0;
                 const avgPrice = (idea.pricingRange.min + idea.pricingRange.max) / 2;
                 const revenue = Math.round(sales * avgPrice);
+                const dot = CATEGORY_DOT[idea.category] ?? "bg-gray-500";
                 return (
                   <div
                     key={idea.id}
@@ -221,9 +272,10 @@ export default function Dashboard() {
                   >
                     <button
                       onClick={() => setDetailIdea(idea)}
-                      className="text-white text-sm font-medium text-left hover:text-purple-300 transition-colors truncate"
+                      className="flex items-center gap-2 text-white text-sm font-medium text-left hover:text-purple-300 transition-colors min-w-0"
                     >
-                      {idea.name}
+                      <span className={`shrink-0 w-2 h-2 rounded-full ${dot}`} />
+                      <span className="truncate">{idea.name}</span>
                     </button>
                     <input
                       type="number"
@@ -244,7 +296,6 @@ export default function Dashboard() {
                 );
               })}
 
-              {/* Total row */}
               <div className="grid grid-cols-[1fr_auto_auto] gap-4 px-5 py-3 bg-[#0d0118] items-center">
                 <span className="text-purple-400 text-sm font-semibold">Total</span>
                 <span className="text-white text-sm font-bold text-right">{totalSales} units</span>
