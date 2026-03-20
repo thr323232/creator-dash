@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import type { Category } from "./digitalDownloadIdeas";
-import { supabase } from "../lib/supabase";
 
 export const CATEGORIES: Category[] = [
   "Planners & Organizers",
@@ -48,42 +47,9 @@ export function useTracker() {
   const [tracker, setTracker] = useState<TrackerData>(() =>
     parseTracker(localStorage.getItem(STORAGE_KEY))
   );
-  // skip the initial sync on mount so we don't overwrite cloud with empty local
-  const initialised = useRef(false);
 
-  // On mount: fetch cloud data and merge (cloud wins if user_data exists)
   useEffect(() => {
-    supabase.auth.getUser().then(async ({ data: { user } }) => {
-      if (!user) { initialised.current = true; return; }
-      const { data } = await supabase
-        .from("user_data")
-        .select("tracker")
-        .eq("user_id", user.id)
-        .single();
-      if (data?.tracker && Object.keys(data.tracker as object).length > 0) {
-        const cloud = data.tracker as TrackerData;
-        setTracker(cloud);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(cloud));
-      }
-      initialised.current = true;
-    });
-  }, []);
-
-  // Sync to localStorage + debounced cloud upsert on every change
-  const syncTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  useEffect(() => {
-    if (!initialised.current) return;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(tracker));
-
-    if (syncTimer.current) clearTimeout(syncTimer.current);
-    syncTimer.current = setTimeout(async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-      await supabase.from("user_data").upsert(
-        { user_id: user.id, tracker, updated_at: new Date().toISOString() },
-        { onConflict: "user_id" }
-      );
-    }, 1500);
   }, [tracker]);
 
   const setStage = (id: string, stage: Stage | null) => {

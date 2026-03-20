@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   DndContext, PointerSensor, useSensor, useSensors,
   useDroppable, useDraggable, type DragEndEvent,
@@ -9,6 +9,7 @@ import { CATEGORY_DOT } from "../data/ideaUtils";
 import { STAGES, useTracker, type Stage } from "../data/tracker";
 import { useCustomIdeas, type CustomIdeaRecord } from "../data/customIdeas";
 import { IdeaDetail } from "./DigitalDownloadIdeas";
+import { exportBackup, importBackup, daysSinceBackup } from "../data/backup";
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -205,6 +206,27 @@ export default function Dashboard() {
 
   // Pipeline expand
   const [expandedStages, setExpandedStages] = useState<Set<Stage>>(new Set());
+
+  // Backup reminder
+  const backupDays = daysSinceBackup();
+  const showBackupBanner = backupDays === null || backupDays >= 7;
+  const [bannerDismissed, setBannerDismissed] = useState(false);
+  const restoreInputRef = useRef<HTMLInputElement>(null);
+
+  async function handleRestore(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!window.confirm("This will replace all your current data. Continue?")) {
+      e.target.value = "";
+      return;
+    }
+    try {
+      await importBackup(file);
+    } catch {
+      alert("Could not read backup file. Make sure it's a valid Creator Dash backup.");
+      e.target.value = "";
+    }
+  }
 
   // Drag-and-drop
   const [overId, setOverId] = useState<Stage | null>(null);
@@ -428,6 +450,25 @@ export default function Dashboard() {
           <StatCard label="Est. Revenue" value={`£${totalEstRevenue}`} accent="text-green-300" sub={`${totalSales} units sold`} accentBorder="border-t-green-300" />
         </div>
 
+        {/* Backup reminder banner */}
+        {showBackupBanner && !bannerDismissed && (
+          <div className="bg-[#160028] border border-amber-800/50 rounded-xl px-5 py-3 flex items-center gap-3">
+            <span className="text-lg shrink-0">📦</span>
+            <p className="text-amber-300/80 text-sm flex-1">
+              {backupDays === null
+                ? "No backup yet — download one to keep your data safe."
+                : `Last backup ${backupDays} day${backupDays !== 1 ? "s" : ""} ago — consider downloading a fresh one.`}
+            </p>
+            <button
+              onClick={() => exportBackup()}
+              className="shrink-0 text-xs font-semibold text-amber-300 border border-amber-700 hover:border-amber-500 hover:text-amber-200 px-3 py-1.5 rounded-lg transition-colors"
+            >
+              Download backup
+            </button>
+            <button onClick={() => setBannerDismissed(true)} className="shrink-0 text-purple-600 hover:text-purple-400 text-lg leading-none transition-colors">×</button>
+          </div>
+        )}
+
         {/* Nudge */}
         <div className="bg-[#160028] border border-purple-800 rounded-xl px-5 py-3 flex items-center gap-3">
           <span className="text-xl shrink-0">{nudge.emoji}</span>
@@ -499,6 +540,28 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="flex items-center gap-2">
+              {/* Hidden file input for restore */}
+              <input
+                ref={restoreInputRef}
+                type="file"
+                accept=".json"
+                className="hidden"
+                onChange={handleRestore}
+              />
+              <button
+                onClick={() => exportBackup()}
+                className="flex items-center gap-1.5 text-sm font-semibold text-purple-500 hover:text-purple-300 border border-purple-800 hover:border-purple-600 px-3 py-1.5 rounded-lg transition-colors"
+                title="Download a full backup of your data"
+              >
+                ↓ Backup
+              </button>
+              <button
+                onClick={() => restoreInputRef.current?.click()}
+                className="flex items-center gap-1.5 text-sm font-semibold text-purple-500 hover:text-purple-300 border border-purple-800 hover:border-purple-600 px-3 py-1.5 rounded-lg transition-colors"
+                title="Restore from a backup file"
+              >
+                ↑ Restore
+              </button>
               {totalTracked > 0 && (
                 <button
                   onClick={exportCSV}
