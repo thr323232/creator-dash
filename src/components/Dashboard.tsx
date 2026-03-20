@@ -8,7 +8,7 @@ import { digitalDownloadIdeas, type DigitalDownloadIdea, type Category } from ".
 import { CATEGORY_DOT, CATEGORY_ACCENT, getDifficulty, getDemandRating } from "../data/ideaUtils";
 import { CATEGORIES, STAGES, useTracker, type Stage, type TrackerEntry } from "../data/tracker";
 import { useCustomIdeas, type CustomIdeaRecord } from "../data/customIdeas";
-import { IdeaDetail, DemandStars, difficultyColor } from "./DigitalDownloadIdeas";
+import { IdeaDetail, DemandStars } from "./DigitalDownloadIdeas";
 import { exportBackup, importBackup, daysSinceBackup } from "../data/backup";
 
 // ---------------------------------------------------------------------------
@@ -180,6 +180,12 @@ async function callClaude(userPrompt: string, apiKey: string): Promise<CustomIde
 // ---------------------------------------------------------------------------
 // Browse card (inline grid card for the Browse section)
 // ---------------------------------------------------------------------------
+
+const difficultyColor: Record<string, string> = {
+  beginner:     "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+  intermediate: "bg-amber-500/20 text-amber-400 border-amber-500/30",
+  advanced:     "bg-red-500/20 text-red-400 border-red-500/30",
+};
 
 function BrowseCard({
   idea, entry, onOpen, onAdd,

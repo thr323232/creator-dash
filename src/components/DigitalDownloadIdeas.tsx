@@ -72,7 +72,7 @@ export function DemandStars({ rating }: { rating: number }) {
   );
 }
 
-export const difficultyColor: Record<string, string> = {
+const difficultyColor: Record<string, string> = {
   beginner: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
   intermediate: "bg-amber-500/20 text-amber-400 border-amber-500/30",
   advanced: "bg-red-500/20 text-red-400 border-red-500/30",
