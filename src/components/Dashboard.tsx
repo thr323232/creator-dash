@@ -266,7 +266,7 @@ export default function Dashboard() {
   const [browseDifficulty, setBrowseDifficulty] = useState("All");
   const [browseSort, setBrowseSort]             = useState<"default" | "demand" | "price-asc" | "price-desc">("default");
   const [browseMyList, setBrowseMyList]         = useState(false);
-  const [collapsedCats, setCollapsedCats]       = useState<Set<string>>(new Set());
+  const [collapsedCats, setCollapsedCats]       = useState<Set<string>>(new Set(CATEGORIES));
 
   // Restore file input
   const restoreInputRef = useRef<HTMLInputElement>(null);
