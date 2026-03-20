@@ -23,7 +23,7 @@ export const STAGES: { key: Stage; label: string; color: string; bg: string; bor
   { key: "earning",  label: "Earning",  color: "text-green-300", bg: "bg-green-500/20", border: "border-green-500/40" },
 ];
 
-export type TrackerEntry = { stage: Stage; sales?: number };
+export type TrackerEntry = { stage: Stage; sales?: number; movedAt?: number };
 export type TrackerData = Record<string, TrackerEntry>;
 
 export const STORAGE_KEY = "creator-dash-tracker";
@@ -58,7 +58,7 @@ export function useTracker() {
       if (stage === null) {
         delete next[id];
       } else {
-        next[id] = { ...next[id], stage };
+        next[id] = { ...next[id], stage, movedAt: Date.now() };
       }
       return next;
     });

@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react";
-import { BarChart, Bar, XAxis, YAxis, Cell, ResponsiveContainer, Tooltip, PieChart, Pie } from "recharts";
 import {
   DndContext, PointerSensor, useSensor, useSensors,
   useDroppable, useDraggable, type DragEndEvent,
@@ -258,17 +257,6 @@ export default function Dashboard() {
     return counts;
   }, [trackerEntries]);
 
-  const categoryData = useMemo(() => {
-    const counts: Record<string, number> = {};
-    for (const [id] of trackerEntries) {
-      const idea = ideaById[id];
-      if (idea) counts[idea.category] = (counts[idea.category] ?? 0) + 1;
-    }
-    return Object.entries(counts)
-      .sort((a, b) => b[1] - a[1])
-      .map(([name, value]) => ({ name: name.replace(" & ", " & ").split(" ").slice(0, 2).join(" "), value }));
-  }, [trackerEntries, ideaById]);
-
   const ideasByStage = useMemo(() => {
     const groups: Record<Stage, DigitalDownloadIdea[]> = {
       saved: [], creating: [], listed: [], earning: [],
@@ -381,6 +369,17 @@ export default function Dashboard() {
     });
   }
 
+  const NEXT_STAGE: Partial<Record<Stage, Stage>> = {
+    saved: "creating",
+    creating: "listed",
+    listed: "earning",
+  };
+
+  function daysInStage(movedAt?: number): number | null {
+    if (!movedAt) return null;
+    return Math.floor((Date.now() - movedAt) / 86_400_000);
+  }
+
   function exportCSV() {
     const rows = [["Idea", "Category", "Stage", "Units Sold", "Est. Revenue (£)"]];
     for (const [id, entry] of trackerEntries) {
@@ -435,76 +434,52 @@ export default function Dashboard() {
           <p className="text-purple-200 text-sm">{nudge.message}</p>
         </div>
 
-        {/* Analytics */}
-        {totalTracked === 0 ? (
-          <div className="bg-[#160028] border border-purple-900 rounded-2xl px-6 py-10 flex flex-col items-center gap-5 text-center">
-            <div className="text-5xl">🚀</div>
+        {/* Sales Tracker — above pipeline */}
+        {earningIdeas.length > 0 && (
+          <div className="flex flex-col gap-4">
             <div>
-              <h2 className="text-white font-bold text-lg">Build your pipeline</h2>
-              <p className="text-purple-400 text-sm mt-1 max-w-xs mx-auto">Browse 100 digital download ideas, pick one that excites you, and start tracking it here. Your first sale starts with your first idea.</p>
+              <h2 className="text-base font-bold text-purple-100">Sales Tracker</h2>
+              <p className="text-purple-500 text-xs mt-0.5">Log units sold per listing to track your estimated revenue</p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-3 text-sm text-purple-300">
-              <div className="flex items-center gap-2"><span className="w-6 h-6 rounded-full bg-purple-700 flex items-center justify-center text-xs font-bold text-white">1</span>Browse an idea</div>
-              <span className="hidden sm:block text-purple-700">→</span>
-              <div className="flex items-center gap-2"><span className="w-6 h-6 rounded-full bg-amber-500/30 flex items-center justify-center text-xs font-bold text-amber-300">2</span>Create your product</div>
-              <span className="hidden sm:block text-purple-700">→</span>
-              <div className="flex items-center gap-2"><span className="w-6 h-6 rounded-full bg-green-500/30 flex items-center justify-center text-xs font-bold text-green-300">3</span>Start earning</div>
-            </div>
-            <button
-              onClick={() => openAdd()}
-              className="flex items-center gap-1.5 text-sm font-semibold text-white bg-purple-600 hover:bg-purple-500 px-5 py-2.5 rounded-lg transition-colors"
-            >
-              + Add your first idea
-            </button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Pipeline bar chart */}
-            <div className="bg-[#160028] border border-purple-900 rounded-xl p-4 flex flex-col gap-3">
-              <p className="text-purple-400 text-xs font-semibold uppercase tracking-wider">Pipeline Stages</p>
-              <ResponsiveContainer width="100%" height={120}>
-                <BarChart data={STAGES.map((s) => ({ name: s.label, count: stageCounts[s.key] ?? 0 }))} barCategoryGap="30%">
-                  <XAxis dataKey="name" tick={{ fill: "#a78bfa", fontSize: 11 }} axisLine={false} tickLine={false} />
-                  <YAxis hide allowDecimals={false} />
-                  <Tooltip contentStyle={{ background: "#160028", border: "1px solid #4c1d95", borderRadius: 8, color: "#e9d5ff", fontSize: 12 }} cursor={{ fill: "rgba(139,92,246,0.08)" }} />
-                  <Bar dataKey="count" radius={[4, 4, 0, 0]}>
-                    <Cell fill="#7c3aed" />
-                    <Cell fill="#d97706" />
-                    <Cell fill="#2563eb" />
-                    <Cell fill="#16a34a" />
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-            {/* Category donut */}
-            <div className="bg-[#160028] border border-purple-900 rounded-xl p-4 flex flex-col gap-3">
-              <p className="text-purple-400 text-xs font-semibold uppercase tracking-wider">By Category</p>
-              {categoryData.length === 0 ? (
-                <p className="text-purple-700 text-xs text-center py-6">No data yet</p>
-              ) : (
-                <div className="flex items-center gap-3">
-                  <ResponsiveContainer width={100} height={100}>
-                    <PieChart>
-                      <Pie data={categoryData} cx="50%" cy="50%" innerRadius={28} outerRadius={45} dataKey="value" stroke="none">
-                        {categoryData.map((_, i) => (
-                          <Cell key={i} fill={["#7c3aed","#d97706","#2563eb","#16a34a","#db2777","#0891b2","#ea580c","#65a30d","#9333ea","#0284c7"][i % 10]} />
-                        ))}
-                      </Pie>
-                      <Tooltip contentStyle={{ background: "#160028", border: "1px solid #4c1d95", borderRadius: 8, color: "#e9d5ff", fontSize: 11 }} />
-                    </PieChart>
-                  </ResponsiveContainer>
-                  <div className="flex flex-col gap-1 flex-1 min-w-0">
-                    {categoryData.slice(0, 4).map((d, i) => (
-                      <div key={d.name} className="flex items-center gap-1.5 min-w-0">
-                        <span className="w-2 h-2 rounded-full shrink-0" style={{ background: ["#7c3aed","#d97706","#2563eb","#16a34a","#db2777","#0891b2","#ea580c","#65a30d","#9333ea","#0284c7"][i] }} />
-                        <span className="text-purple-300 text-xs truncate">{d.name}</span>
-                        <span className="text-purple-600 text-xs ml-auto shrink-0">{d.value}</span>
-                      </div>
-                    ))}
-                    {categoryData.length > 4 && <p className="text-purple-700 text-xs">+{categoryData.length - 4} more</p>}
+            <div className="bg-[#160028] border border-purple-900 rounded-xl overflow-hidden">
+              <div className="grid grid-cols-[1fr_auto_auto] gap-4 px-5 py-2.5 border-b border-purple-900 text-xs text-purple-500 font-semibold uppercase tracking-wide">
+                <span>Listing</span>
+                <span className="text-right">Units sold</span>
+                <span className="text-right w-20">Est. revenue</span>
+              </div>
+              {earningIdeas.map((idea) => {
+                const sales   = salesMap[idea.id] ?? 0;
+                const revenue = Math.round(sales * (idea.pricingRange.min + idea.pricingRange.max) / 2);
+                const dot     = CATEGORY_DOT[idea.category] ?? "bg-gray-500";
+                return (
+                  <div key={idea.id} className="grid grid-cols-[1fr_auto_auto] gap-4 px-5 py-3 border-b border-purple-900/50 items-center last:border-0">
+                    <button onClick={() => setDetailContext({ idea, stage: "earning" })} className="flex items-center gap-2 text-white text-sm font-medium text-left hover:text-purple-300 transition-colors min-w-0">
+                      <span className={`shrink-0 w-2 h-2 rounded-full ${dot}`} />
+                      <span className="truncate">{idea.name}</span>
+                    </button>
+                    {/* Stepper */}
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => setSales(idea.id, Math.max(0, sales - 1))}
+                        className="w-7 h-7 flex items-center justify-center rounded-md border border-purple-800 text-purple-400 hover:text-white hover:border-purple-600 text-sm font-bold transition-colors"
+                      >−</button>
+                      <span className="w-8 text-center text-white text-sm font-semibold tabular-nums">{sales}</span>
+                      <button
+                        onClick={() => setSales(idea.id, sales + 1)}
+                        className="w-7 h-7 flex items-center justify-center rounded-md border border-purple-800 text-purple-400 hover:text-white hover:border-purple-600 text-sm font-bold transition-colors"
+                      >+</button>
+                    </div>
+                    <span className={`text-sm font-bold text-right w-20 ${sales > 0 ? "text-green-400" : "text-purple-700"}`}>
+                      {sales > 0 ? `£${revenue}` : "—"}
+                    </span>
                   </div>
-                </div>
-              )}
+                );
+              })}
+              <div className="grid grid-cols-[1fr_auto_auto] gap-4 px-5 py-3 bg-[#0d0118] items-center">
+                <span className="text-purple-400 text-sm font-semibold">Total</span>
+                <span className="text-white text-sm font-bold text-right pr-1">{totalSales} units</span>
+                <span className="text-green-300 text-sm font-bold text-right w-20">£{totalEstRevenue}</span>
+              </div>
             </div>
           </div>
         )}
@@ -554,6 +529,7 @@ export default function Dashboard() {
                 const isExpanded = expandedStages.has(s.key);
                 const visible    = isExpanded || ideas.length <= COLLAPSE_AT ? ideas : ideas.slice(0, COLLAPSE_AT);
                 const hidden     = ideas.length - COLLAPSE_AT;
+                const nextStage  = NEXT_STAGE[s.key];
                 return (
                   <DroppableColumn key={s.key} stageKey={s.key} isOver={overId === s.key}>
                     <div className={`px-3 py-2.5 border-b ${stageRingColor[s.key]} flex items-center gap-2`}>
@@ -570,28 +546,61 @@ export default function Dashboard() {
                           const sales       = salesMap[idea.id] ?? 0;
                           const ideaRevenue = Math.round(sales * (idea.pricingRange.min + idea.pricingRange.max) / 2);
                           const dot         = CATEGORY_DOT[idea.category] ?? "bg-gray-500";
+                          const entry       = tracker[idea.id];
+                          const days        = daysInStage(entry?.movedAt);
                           return (
                             <DraggableCard key={idea.id} id={idea.id}>
-                              <button onClick={() => setDetailContext({ idea, stage: s.key })} className="w-full text-left px-3 py-2.5 hover:bg-white/5 transition-colors">
-                                <div className="flex items-start gap-2">
-                                  <span className={`mt-[5px] shrink-0 w-2 h-2 rounded-full ${dot}`} />
-                                  <div className="flex flex-col gap-0.5 min-w-0">
-                                    <span className="text-white text-xs font-medium leading-snug line-clamp-2">{idea.name}</span>
-                                    {s.key === "creating" && (
-                                      <>
-                                        <span className="text-amber-500/80 text-xs">{idea.estimatedCreationTime}</span>
-                                        <span className="text-purple-700 text-xs">{idea.launchChecklist.length} steps</span>
-                                      </>
-                                    )}
-                                    {s.key === "listed" && sales === 0 && <span className="text-blue-400/70 text-xs">log sales →</span>}
-                                    {s.key === "earning" && (
-                                      <span className="text-green-400 text-xs font-semibold">
-                                        {sales > 0 ? `${sales} sold · £${ideaRevenue} est.` : "log sales →"}
-                                      </span>
-                                    )}
+                              <div className="flex items-stretch">
+                                <button
+                                  onClick={() => setDetailContext({ idea, stage: s.key })}
+                                  className="flex-1 text-left px-3 py-2.5 hover:bg-white/5 transition-colors min-w-0"
+                                >
+                                  <div className="flex items-start gap-2">
+                                    <span className={`mt-[5px] shrink-0 w-2 h-2 rounded-full ${dot}`} />
+                                    <div className="flex flex-col gap-0.5 min-w-0">
+                                      <span className="text-white text-xs font-medium leading-snug line-clamp-2">{idea.name}</span>
+                                      {s.key === "saved" && (
+                                        <span className="text-purple-700 text-xs">Open checklist →</span>
+                                      )}
+                                      {s.key === "creating" && (
+                                        <>
+                                          <span className="text-amber-500/80 text-xs">{idea.estimatedCreationTime}</span>
+                                          <span className="text-purple-700 text-xs">{idea.launchChecklist.length} steps</span>
+                                        </>
+                                      )}
+                                      {s.key === "listed" && (
+                                        <span className="text-blue-400/70 text-xs">Start marketing →</span>
+                                      )}
+                                      {s.key === "earning" && (
+                                        <span className="text-green-400 text-xs font-semibold">
+                                          {sales > 0 ? `${sales} sold · £${ideaRevenue} est.` : "log sales →"}
+                                        </span>
+                                      )}
+                                      {days !== null && days >= 3 && (
+                                        <span className="text-purple-800 text-xs">{days}d in stage</span>
+                                      )}
+                                    </div>
                                   </div>
-                                </div>
-                              </button>
+                                </button>
+                                {/* Quick action button */}
+                                {nextStage ? (
+                                  <button
+                                    onClick={(e) => { e.stopPropagation(); setStage(idea.id, nextStage); }}
+                                    title={`Move to ${nextStage}`}
+                                    className={`shrink-0 flex items-center justify-center w-8 text-purple-700 hover:text-purple-300 hover:bg-white/5 transition-colors border-l border-white/5 text-sm`}
+                                  >
+                                    →
+                                  </button>
+                                ) : (
+                                  <button
+                                    onClick={(e) => { e.stopPropagation(); setSales(idea.id, sales + 1); }}
+                                    title="Log 1 sale"
+                                    className="shrink-0 flex items-center justify-center w-8 text-green-700 hover:text-green-400 hover:bg-white/5 transition-colors border-l border-white/5 text-sm font-bold"
+                                  >
+                                    +
+                                  </button>
+                                )}
+                              </div>
                             </DraggableCard>
                           );
                         })
@@ -608,50 +617,6 @@ export default function Dashboard() {
             </div>
           </DndContext>
         </div>
-
-        {/* Sales Tracker */}
-        {earningIdeas.length > 0 && (
-          <div className="flex flex-col gap-4">
-            <div>
-              <h2 className="text-base font-bold text-purple-100">Sales Tracker</h2>
-              <p className="text-purple-500 text-xs mt-0.5">Log units sold per listing to track your estimated revenue</p>
-            </div>
-            <div className="bg-[#160028] border border-purple-900 rounded-xl overflow-hidden">
-              <div className="grid grid-cols-[1fr_auto_auto] gap-4 px-5 py-2.5 border-b border-purple-900 text-xs text-purple-500 font-semibold uppercase tracking-wide">
-                <span>Listing</span>
-                <span className="text-right">Units sold</span>
-                <span className="text-right w-24">Est. revenue</span>
-              </div>
-              {earningIdeas.map((idea) => {
-                const sales   = salesMap[idea.id] ?? 0;
-                const revenue = Math.round(sales * (idea.pricingRange.min + idea.pricingRange.max) / 2);
-                const dot     = CATEGORY_DOT[idea.category] ?? "bg-gray-500";
-                return (
-                  <div key={idea.id} className="grid grid-cols-[1fr_auto_auto] gap-4 px-5 py-3 border-b border-purple-900/50 items-center last:border-0">
-                    <button onClick={() => setDetailContext({ idea, stage: "earning" })} className="flex items-center gap-2 text-white text-sm font-medium text-left hover:text-purple-300 transition-colors min-w-0">
-                      <span className={`shrink-0 w-2 h-2 rounded-full ${dot}`} />
-                      <span className="truncate">{idea.name}</span>
-                    </button>
-                    <input
-                      type="number" min={0} step={1}
-                      value={salesMap[idea.id] ?? ""} placeholder="0"
-                      onChange={(e) => { const n = parseInt(e.target.value, 10); setSales(idea.id, isNaN(n) ? 0 : Math.max(0, n)); }}
-                      className="w-20 bg-[#0d0118] border border-purple-800 rounded-lg px-3 py-1.5 text-sm text-white placeholder-purple-700 text-right focus:outline-none focus:border-green-500"
-                    />
-                    <span className={`text-sm font-bold text-right w-24 ${sales > 0 ? "text-green-400" : "text-purple-700"}`}>
-                      {sales > 0 ? `£${revenue}` : "—"}
-                    </span>
-                  </div>
-                );
-              })}
-              <div className="grid grid-cols-[1fr_auto_auto] gap-4 px-5 py-3 bg-[#0d0118] items-center">
-                <span className="text-purple-400 text-sm font-semibold">Total</span>
-                <span className="text-white text-sm font-bold text-right">{totalSales} units</span>
-                <span className="text-green-300 text-sm font-bold text-right w-24">£{totalEstRevenue}</span>
-              </div>
-            </div>
-          </div>
-        )}
 
       </div>
 
